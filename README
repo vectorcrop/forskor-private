@@ -1,0 +1,29 @@
+// Product model = {
+// {
+// \_id: 638df5fd0ffc1042d849be34,
+// Name: 'Dosa',
+// ParentCat: 'Break Fast',
+// Type: 'veg',
+// Offer: '89',
+// Price: 100,
+// Description: 'Full'
+// },
+// }
+
+// Sweet Alert
+Swal.fire({
+    toast: true,
+    icon: 'success',
+    customClass: 'my',
+    title: response.message,
+    animation: true,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 3000,
+    iconColor:"#fff",
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })

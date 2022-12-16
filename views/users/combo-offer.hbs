@@ -1,0 +1,134 @@
+
+
+                                               
+ <br>
+    <div class="page-content-wrapper ">
+      <div class="container-lg">
+      
+          <div class="image-gallery-carousel owl-carousel">
+
+            <!-- Single Image Gallery-->
+            <div class="single-image-gallery">
+              <div class="card">
+                <div class="card-body1 align-items-center">
+                  <center>
+                <div class="card-content mt-2">
+               <h6 class="mb-2">Burger</h6></center>
+                </div>
+                </div>
+                </div>
+                   <!-- Single Image Gallery-->
+            <div class="single-image-gallery">
+              <div class="card">
+                <div class="card-body1 align-items-center">
+                  <center>
+                <div class="card-content mt-2">
+               <h6 class="mb-2">Noodles</h6></center>
+                </div>
+                </div>
+                </div>
+                   <!-- Single Image Gallery-->
+            <div class="single-image-gallery">
+              <div class="card">
+                <div class="card-body1 align-items-center">
+                  <center>
+                <div class="card-content mt-2">
+               <h6 class="mb-2">Sanwitch</h6></center>
+                </div>
+                </div>
+                </div>
+                   <!-- Single Image Gallery-->
+            <div class="single-image-gallery">
+              <div class="card">
+                <div class="card-body1 align-items-center">
+                  <center>
+                <div class="card-content mt-2">
+               <h6 class="mb-2">Chicken</h6></center>
+                </div>
+                </div>
+                </div>
+                   <!-- Single Image Gallery-->
+            <div class="single-image-gallery">
+              <div class="card">
+                <div class="card-body1 align-items-center">
+                  <center>
+                <div class="card-content mt-2">
+               <h6 class="mb-2">Broasted</h6></center>
+                </div>
+                </div>
+                </div>
+            </div>
+          </div>
+   
+      
+
+         <!-- Pagination-->
+      <div class="shop-pagination mt-4 mb-4">
+        <div class="container-lg">
+          <div class="card">
+            <div class="card-body p-2">
+              <div class="d-flex align-items-center justify-content-between"><small class="ms-1">Showing 6 of 31</small>
+                <form action="#">
+                  <select class="pe-4 form-select form-select-sm" id="defaultSelectSm" name="defaultSelectSm" aria-label="Default select example">
+                    <option value="1" selected>Non-Veg </option>
+                    <option value="2">Veg</option>
+                  </select>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="container-lg">
+        <div class="row g-3 justify-content-center">
+
+          <!-- Single Blog Card-->
+           {{#each combos}}
+          <div class="col-12 col-md-8 col-lg-7 col-xl-6">
+            <div class="card shadow-sm blog-list-card">
+              <div class="d-flex align-items-center">
+                <div class="card-blog-img position-relative" style="background-image: url('/images/combo-images/{{this._id}}.png')"><span class="badge bg-warning text-dark position-absolute card-badge">10% off</span></div>
+                <div class="card-blog-content"><span class="badge bg-danger rounded-pill mb-2 d-inline-block">25 Nov</span><a class="blog-title d-block mb-3 text-dark" href="#">{{this.Name}}</a>
+                  <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
+                  <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
+                    Add to Bag
+                    </button></div>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+      
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function addToCart(productId) {
+        $.ajax({
+            url: "/add-to-cart/" + productId,
+            method: "get",
+            success: (response) => {
+                if (response.status) {
+                    let count = $("#cart-count").html();
+                    count = parseInt(count) + 1;
+                    $("#cart-count").html(count);
+                }
+            },
+        });
+    }
+</script>

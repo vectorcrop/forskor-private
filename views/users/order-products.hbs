@@ -1,0 +1,136 @@
+
+<div class="page-content-wrapper py-0">
+  <div class="container" style="margin-top: 70px;">
+    <div class="card invoice-card shadow-sm">
+      <div class="card-body">
+        <!-- Success Toast-->
+      
+        <!-- Download Invoice-->
+        {{!-- <div class="download-invoice text-end mb-3"><a class="btn btn-sm btn-primary me-2" href="#"><i
+              class="fa fa-file-pdf-o me-2"></i>PDF</a><a class="btn btn-sm btn-light" href="#"><i
+              class="fa fa-print me-2"></i>Print</a></div> --}}
+
+        <!-- Invoice Info-->
+        <div class="row">
+          <div class="invoice-info text-start col">
+            <h6>Name: <b>{{order.deliveryDetails.name}}</b></h6>
+            <h6>Date: <b>{{order.date}}</b></h6>
+          </div>
+          <div class="invoice-info text-end col">
+            <h6>Invoice No. <b>{{order.orderId}}</b></h6>
+            <h6>Order Status: <b><span class="text-capitalize">{{order.status}}</b></span></h6>
+            <h6>Total Price:</h6> <h4><b><span class="text-capitalize">₹{{order.totalOrderPrice}}</b></span></h4>
+
+          </div>
+        </div>
+    </div>
+
+              </div>
+<br>
+
+        {{#ifeqarray order.status "placed,confirmed"}}
+        <!-- Invoice Order Items-->
+        <div class="top-products-area">
+          <div class="container">
+            <div class="row g-3">
+              {{#each products}}
+
+              <!-- Single Top Product Card-->
+              <div class="col-6 col-sm-4 col-lg-3">
+                <div class="card single-product-card">
+                  <div class="card-body p-3">
+                    <!-- Product Thumbnail--><a class="product-thumbnail d-block" href=""><img
+                        src="/images/product-images/{{this.product._id}}.png" alt="">
+                      <!-- Badge--></a>
+                    <!-- Product Title--><a class="product-title d-block text-truncate"
+                      href="#">{{this.product.Name}} - <span
+                        class="text-capitalize">{{this.status}}</span></a>
+                    <!-- Product Price-->
+                    <h6 class="">₹{{this.price}}x{{this.quantity}} = ₹{{this.totalPrice}}</h6>
+                    {{#ifeqarray this.status "placed,confirmed"}}
+                    {{!-- cancel --}}
+                    <a id="{{this.orderId}}/{{this.product._id}}" class="btn btn-danger btn-sm w-100"
+                      onclick="cancel(this.id)"
+                      >Cancel Item?</a>
+                    {{else}}
+                    <button class="btn btn-danger btn-sm w-100" disabled>Order Cancelled</button>
+                    {{/ifeqarray}}
+
+                  </div>
+                </div>
+              </div>
+
+              {{/each}}
+              
+            </div>
+          </div>
+        </div>
+        {{/ifeqarray}}
+
+        {{#ifneqarray order.status "placed,confirmed"}}
+        <!-- Invoice Table-->
+        <div class="invoice-table">
+          <div class="table-responsive">
+            <table class="table table-bordered caption-top">
+              <caption>List of products</caption>
+              <thead class="table-light">
+                <tr>
+                  <th>SlNo.</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                  <th>Status</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each products}}
+                <tr>
+                  <td>{{incremented @index}}</td>
+                  <td>{{this.product.Name}}</td>
+                  <td>₹{{this.price}}</td>
+                  <td>{{this.quantity}}</td>
+                  <td>{{this.status}}</td>
+                  <td>₹{{this.totalPrice}}</td>
+                </tr>
+                {{/each}}
+              </tbody>
+              <tfoot class="table-light">
+                <tr>
+                  <td class="text-end" colspan="5"><b>Total Product Price:</b></td>
+                  <td class="text-end">₹{{order.totalPrice}}</td>
+                </tr>
+                <tr>
+                  <td class="text-end" colspan="5"><b>Total Price Reduction:</b></td>
+                  <td class="text-end">₹{{order.totalReductionPrice}}</td>
+                </tr>
+                <tr>
+                  <td class="text-end" colspan="5"><b>Total Order Price:</b></td>
+                  <td class="text-end">₹{{order.totalOrderPrice}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <p class="mb-0">Notice: This is auto generated invoice.</p>
+        {{/ifneqarray}}
+  </div>
+</div>
+
+{{!-- swal --}}
+<script>
+   function cancel(id){
+      console.log(id);
+  Swal.fire({
+    title: "Cancel Item?",
+    showCancelButton: true,
+    showConfirmButton:true,
+    confirmButtonText: "Confirm",
+  }).then((result)=>{
+    if(result.isConfirmed){
+      window.location.href=`/cancel-order-item/`+id;
+    }
+   
+  })
+    }
+</script>

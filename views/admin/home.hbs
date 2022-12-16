@@ -1,0 +1,196 @@
+<style>
+  .bg-primary {
+    background-color: #1787b8 !important;
+  }
+</style>
+
+<br><br><br>
+<div class="py-4">
+  <div class="container-lg">
+
+    <!-- Card 06 -->
+    <a href="/admin/placed-orders">
+      <div class="card bg-white">
+        <div class="card-body p-5">
+          <i class="fa fa-shopping-cart fa-5x" style="color: black;" ></i>
+          <div class="download-invoice text-end"><a class="btn btn-lg btn-success w-25"
+              href="/admin/placed-orders">{{placedOrdersCount}}</a></div>
+          <h2 class="text-white"><a href="/admin/placed-orders">
+              <font color="black">Latest Order</font>
+            </a></h2>
+        </div>
+      </div>
+    </a>
+    <br>
+
+
+    <div class="card">
+      <div class="card-body text-center mb-4">
+        <h3 class="text-start text-primary mb-2">Main</h3>
+        <hr class="mb-3">
+        <div class="row g-1">
+          {{!-- <div class="col-3">
+            <div class="feature-card text-center">
+              <a href="">
+                <div class="card shadow mx-auto"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                    fill="black" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                      d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                  </svg>
+
+                </div>
+                <p class="mb-0">
+                  <font color="black"><b>Placed Orders <span class="ms-1 badge badge-lg bg-success">
+                        {{placedOrdersCount}}</span></b></font>
+                </p>
+              </a>
+            </div>
+          </div> --}}
+          <div class="col-md-2 mb-1">
+            <div class="feature-card text-center">
+              <a href="/admin/all-orders">
+                <button type="button" class="btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>All Orders</button>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-2 mb-1">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-products">
+                <button type="button" class="admin-btn  btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label" ><i class="fa fa-sliders"></i></span>Manage Items</button>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-3 mb-1">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-maincat">
+                  <button type="button" class="admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-bookmark"></i></span>Manage Non-veg/veg</button>
+             
+              </a>
+            </div>
+          </div>
+          <div class="col-md-2 mb-1">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-category">
+                  <button type="button" class="admin-btn  btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-bookmark"></i></span>Manage Category</button>
+             
+              </a>
+            </div>
+          </div>
+          <div class="col-md-3 mb-1">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-sub-category">
+                  <button type="button" class=" admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-list-alt"></i></span>Manage Sub-Category</button>
+             
+              </a>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!----------OFFERS------->
+
+<div class="py-4">
+  <div class="container-lg">
+    <div class="card">
+      <div class="card-body text-center mb-3">
+        <h3 class="text-start text-primary mb-2">Offers</h3>
+        <hr class="mb-4">
+        <div class="row g-2">
+
+          <div class="col-md-2">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-offers">
+                <button type="button" class="admin-btn  btn btn-labeled btn-outline-dark">
+                  <span class="btn-label"><i class="fa fa-fire"></i></span>Manage Offer</button>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-combo">
+                <button type="button" class=" admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-fire"></i></span>Manage Combo Offer</button>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!----------Site Settings------->
+
+<div class="py-4">
+  <div class="container-lg">
+    <div class="card">
+      <div class="card-body text-center mb-3">
+        <h3 class="text-start text-primary mb-2">Site Settings</h3>
+        <hr class="mb-4">
+        <div class="row g-1">
+
+          <div class="col-md-2">
+            <div class="feature-card mx-auto text-center">
+              <a href="/admin/all-banner">
+                <button type="button" class="admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-sticky-note-o"></i></span>Manage Banner</button>
+              </a>
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!----------------- AUTH ----------------------->
+<div class="py-4">
+  <div class="container-lg">
+    <div class="card">
+      <div class="card-body text-center mb-3">
+        <h3 class="text-start text-primary mb-2">Auth</h3>
+        <hr class="mb-4">
+        <div class="row g-1">
+
+          <div class="col-md-2 ">
+            <div class="feature-card mx-auto text-center mt-3">
+              <a href="/admin/all-users">
+               <button type="button" class="admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-users"></i></span>Manage Users</button>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="feature-card mx-auto text-center mt-3">
+              <a href="/admin/all-admins">
+               <button type="button" class="admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-users"></i></span>Manage Admins</button>
+              </a>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

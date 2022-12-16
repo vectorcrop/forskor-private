@@ -1,0 +1,138 @@
+<!-- Login Wrapper Area-->
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">
+        <div class="text-center px-4"><img class="login-intro-img" src="img/icons/login.svg" width="200px" /></div>
+        <!-- Register Form-->
+        <div class="register-form mt-4 px-4">
+          <h6 class="mb-3 text-center">Log in to continue to Forskor.</h6>
+          {{#if signInErr}}
+          <div class="alert custom-alert-2 alert-danger alert-dismissible fade show" role="alert">
+            <svg width="20" height="20" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z">
+              </path>
+              <path fill-rule="evenodd"
+                d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z">
+              </path>
+            </svg>
+            {{signInErr}}!
+            <button class="btn btn-close btn-close-white position-relative p-1 ms-auto" type="button"
+              data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {{/if}}
+
+          <!-- OTP SUCCESS Toast-->
+          {{#if otpSuc}}
+
+          <div class="toast toast-autohide custom-toast-1 toast-success home-page-toast" role="alert"
+            aria-live="assertive" aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true">
+            <div class="toast-body">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi bi-check2-circle" viewBox="0 0 16 16">
+                <path
+                  d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z">
+                </path>
+                <path
+                  d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z">
+                </path>
+              </svg>
+              <div class="toast-text ms-3 me-2">
+                <p class="mb-1 text-white">{{otpSuc}}<br />
+              </div>
+              <button class="btn btn-close btn-close-white position-relative p-1 ms-auto" type="button"
+                data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+          {{/if}}
+
+          {{#ifeq signInType "PASSWORD"}}
+          <div id="otp-login" style="display: none;">
+            {{else}}
+            <div id="otp-login" style="display: block;">
+              {{/ifeq }}
+              <form action="/verify-otp" method="POST">
+                <div class="input-group mb-3">
+                  <input class="form-control" id="otp" type="text" name="phone" placeholder="Phone"
+                    style="margin-right: 8px;" {{#if phone}} value={{phone}} {{/if}} />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" onclick="sendOTP()">Send
+                      OTP</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input class="form-control" type="text" name="code" placeholder="Enter Verify Code" />
+                </div>
+
+                <button class="btn btn-primary w-100 mb-3" type="submit">Verify OTP</button>
+              <button class="btn btn-primary w-100" type="button" onclick="switchLogin()">Login With Password</button>
+
+              </form>
+            </div>
+
+            {{#ifeq signInType "PASSWORD"}}
+            <div id="passwd-login" style="display: block;">
+              {{else}}
+              <div id="passwd-login" style="display: none;">
+                {{/ifeq }}
+
+                <form action="/signin" method="POST">
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="email" placeholder="Email" {{#if email}}
+                      value={{email}} {{/if}} />
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Enter Password" />
+                  </div>
+
+                  <button class="btn btn-primary w-100 mb-3" type="submit">Sign In</button>
+              <button class="btn btn-primary w-100" type="button" onclick="switchLogin()">Login With OTP</button>
+                  
+                </form>
+              </div>
+              
+
+            </div>
+
+            <!-- Login Meta-->
+            <div class="login-meta-data text-center mt-3">
+              <p class="mb-0">Didn't have an account?
+                <a class="stretched-link" href="/signup">Register Now</a>
+              </p>
+            </div>
+            <!-- Reset Password-->
+            <div class="login-meta-data text-center mt-3">
+              <p class="mb-0">Do you foget your account password?
+                <a class="stretched-link" href="/reset-password">Reset Password</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function sendOTP() {
+        const phone = document.getElementById("otp").value;
+        $.ajax({
+          url: "/send-otp",
+          method: "post",
+          data: {
+            phone
+          },
+          success: (response) => {
+            console.log(response);
+            alert(response.message);
+          },
+        });
+      }
+
+      function switchLogin() {
+        const otpLoginDisplay = document.getElementById("otp-login").style.display;
+        const passwdLoginDisplay = document.getElementById("passwd-login").style.display;
+        document.getElementById("otp-login").style.display = otpLoginDisplay === "none" ? "block" : "none";
+        document.getElementById("passwd-login").style.display = passwdLoginDisplay === "block" ? "none" : "block";
+      }
+    </script>

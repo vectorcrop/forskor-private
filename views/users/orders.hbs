@@ -1,0 +1,158 @@
+<div class="container mb-3">
+  <!-- Success Toast-->
+  {{#if orderCancSucc}}
+  <div class="toast toast-autohide custom-toast-1 toast-success home-page-toast" role="alert" aria-live="assertive"
+    aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true">
+    <div class="toast-body">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check2-circle"
+        viewBox="0 0 16 16">
+        <path
+          d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+        <path
+          d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+      </svg>
+      <div class="toast-text ms-3 me-2">
+        <p class="mb-1 text-white">{{orderCancSucc}}</p><small class="d-block"></small>
+      </div>
+      <button class="btn btn-close btn-close-white position-relative p-1 ms-auto" type="button" data-bs-dismiss="toast"
+        aria-label="Close"></button>
+    </div>
+  </div>
+  {{/if}}
+  <!-- Error Toast-->
+  {{#if orderCancErr}}
+  <div class="toast toast-autohide custom-toast-1 toast-danger home-page-toast" role="alert" aria-live="assertive"
+    aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true">
+    <div class="toast-body">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check2-circle"
+        viewBox="0 0 16 16">
+        <path
+          d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+        <path
+          d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+      </svg>
+      <div class="toast-text ms-3 me-2">
+        <p class="mb-1 text-white">{{orderCancErr}}</p><small class="d-block"></small>
+      </div>
+      <button class="btn btn-close btn-close-white position-relative p-1 ms-auto" type="button" data-bs-dismiss="toast"
+        aria-label="Close"></button>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if orders}}
+  <div class="page-content-wrapper mt-4">
+    <!-- Pagination-->
+    <br /><br />
+    <div class="shop-pagination pb-3">
+      <div class="container">
+        <div class="card">
+          <div class="card-body p-2">
+            <div class="d-flex align-items-center justify-content-between"><small class="ms-1">All Orders</small>
+              <a class="btn btn-danger btn-sm" href="/orders">Reload</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{#each orders}}
+
+    <!-- Single Top Product Card-->
+    <div class="col-12 mt-3">
+      <div class="card single-product-card">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+
+            <div class="card-content">
+              <!-- Product Title--><a class="product-title d-block text-truncate mt-0"
+                href="/view-ordered-products/{{this._id}}"><h4><b>{{this.orderId}}</b></h4></a>
+              <!-- Product Price-->
+              <p class="sale-price">₹{{this.totalOrderPrice}}.00</p>
+              <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
+                <h5><b>Status :
+                    <button class="btn btn-sm" style="background-color: {{#getStatusColor this.status}} {{/getStatusColor}};">
+                      <span class="text-light text-capitalize fw-bold">{{this.status}}</span></button></b><span class="pull-right">
+                    {{!-- <div class="dot-loader">
+                      <div class="dot1 bg-dark"></div>
+                      <div class="dot2 bg-dark"></div>
+                      <div class="dot3 bg-dark"></div>
+                    </div> --}}
+                  </span></h5>
+              </div>
+              <hr width="310px" />
+                <p>Date :
+                <b>
+                  <font color="black">{{this.date}}</font>
+                </b>
+              </p>
+              <p>Method :
+                <b>
+                  <font color="black">{{this.paymentMethod}}</font>
+                </b>
+              </p>
+              <p>Address :
+                <b>
+                  <font color="black">{{this.deliveryDetails.address}}</font>
+                </b>
+              </p>
+
+              {{#ifeqarray this.status "placed,confirmed"}}
+                                          <hr width="310px" />
+               <a class="btn btn-primary w-45" href="/view-ordered-products/{{this._id}}">View Items</a>
+              <a id="{{this._id}}" class="btn btn-danger  w-45"
+                onclick="cancel(this.id);">Cancel Order?</a>
+              {{else}}
+              {{!-- <button class="btn btn-primary  w-45" disabled>Order Cancelled</button>
+              <button class="btn btn-danger  w-45" disabled>Order Cancelled</button> --}}
+              {{/ifeqarray}}
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      {{/each}}
+
+    </div>
+
+    {{else}}
+    <!-- Page Content Wrapper-->
+    <div class="page-content-wrapper py-3">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-9 col-md-8 col-lg-6">
+            <div class="card">
+              <div class="card-body px-5 text-center"><img class="mb-4" src="img/icons/order.svg" alt="" />
+                <h4>You don't have any orders!</h4>
+                <p class="mb-4">Please buy somthing...</p><a class="btn btn-creative btn-danger" href="/home">Go to
+                  Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{/if}}
+  </div>
+
+
+  <script>
+    function cancel(id){
+      console.log(id);
+  Swal.fire({
+    title: "Cancel Order?",
+    showCancelButton: true,
+    showConfirmButton:true,
+    confirmButtonText: "Confirm",
+  }).then((result)=>{
+    if(result.isConfirmed){
+      window.location.href=`/cancel-order/`+id;
+    }
+   
+  })
+    }
+
+  </script>

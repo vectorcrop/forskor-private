@@ -1,0 +1,50 @@
+    <br><br><br>
+ 
+    <div class="container">
+           <div class="card">
+        <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Add Item</h2>
+                <form action="/admin/add-product" enctype="multipart/form-data" method="POST">
+                    <label for="">Name</label>
+                    <input type="text" name="Name" class="form-control" required>
+
+                   <label for="">Category</label>
+                     <select class="form-control" name="ParentCat">
+                        <option value="Single">Select Category</option>
+                     {{#each category}}
+                        <option value="{{this.Name}}">{{this.Name}}</option>
+                       {{/each}}
+                    </select>
+
+                       <label for="">Type</label>
+                     <select class="form-control" name="Type">
+                        <option value="nothing">Select Type</option>
+                        <option value="non-veg">Non-Veg</option>
+                        <option value="veg">Veg</option>
+                    </select>
+
+
+                    <label for="">Offere Price</label>
+                    <input type="text" name="Offer" class="form-control" required>
+
+                    <label for="">Original Price</label>
+                    <input type="text" name="Price" class="form-control" required>
+
+
+                    <label for="">Description</label>
+                    <input type="text" name="Description" class="form-control" required>
+
+                    <label for="">Image</label>
+                    <input type="file" name="Image" class="form-control" required>
+
+                    <button type="submit" class="btn btn-success mt-4">Submit</button>
+                   <a href="/admin/all-products" type="submit" class="btn btn-danger mt-4">Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>

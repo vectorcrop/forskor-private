@@ -1,0 +1,184 @@
+<div class="page-content-wrapper py-5 min-mw-100">
+  <div class="container-lg">
+    <center>
+      <h3>Manage Orders</h3>
+    </center>
+    <a href="/admin" class="btn btn-primary mb-3 mt-3">Back to main</a>
+    <a href="/admin/all-orders" class="btn btn-info mb-3 mt-3">Refresh</a>
+
+    <div class="card">
+      <div class="card-body p-3">
+        <table class="data-table w-100 min-mw-100" id="dataTable">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Pincode</th>
+              {{!-- <th>Payment</th> --}}
+              <th>Status</th>
+              <th>Items Info</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each orders}}
+            <tr>
+              <td>{{this.orderId}}</td>
+              <td> {{#getDate this.date}}{{/getDate}}</td>
+              <td> {{#getTime this.date}}{{/getTime}}</td>
+              <td>{{this.deliveryDetails.name}}</font>
+              </td>
+              <td>{{this.deliveryDetails.phone}}</font>
+              </td>
+              <td>{{this.deliveryDetails.address}}</font>
+              </td>
+              <td>{{this.deliveryDetails.pincode}}</td>
+
+              {{!-- <td>{{this.paymentMethod}}</td> --}}
+
+
+              {{#ifeq this.status "delivered"}}
+              <td class=""><font color="{{#getStatusColor this.status}} {{/getStatusColor}}"><b>{{this.status}}</b></font>
+              </td>
+              {{else}}
+              {{#ifeq this.status "cancelled"}}
+              <td class=""><font color="{{#getStatusColor this.status}} {{/getStatusColor}}"><b>{{this.status}}</b></font>
+              </td>
+              {{else}}
+              <td class=""><font color="{{#getStatusColor this.status}} {{/getStatusColor}}"><b>{{this.status}}</b></font>
+              </td>
+              {{/ifeq}}
+              {{/ifeq}}
+
+
+              <td><a href="/admin/view-ordered-products/{{this._id}}" class="btn btn-info btn-sm"
+                  type="button">Items</a></td>
+
+              <td>
+                {{#ifeq this.status "placed"}}
+                <div>
+                  {{!-- Confirmed --}}
+                  <a class="btn btn-primary" href="/admin/change-status/?status=confirmed&orderId={{this._id}}">Confirm</a>
+
+                  {{!-- Cancelled --}}
+                  <a href="/admin/change-status/?status=cancelled&orderId={{this._id}}"
+                    onclick="return confirm('Are You Sure to Cancel This Order ?')" class="btn btn-danger">Cancel</a>
+                </div>
+                {{/ifeq}}
+
+                {{#ifeq this.status "confirmed"}}
+                <div>
+                  {{!-- Cooking --}}
+                  <a class="btn btn-primary"
+                    href="/admin/change-status/?status=cooking&orderId={{this._id}}">Cooking</a>
+
+                  {{!-- Cancelled --}}
+                  <a href="/admin/change-status/?status=cancelled&orderId={{this._id}}"
+                    onclick="return confirm('Are You Sure to Cancel This Order ?')" class="btn btn-danger">Cancel</a>
+                </div>
+                {{/ifeq}}
+
+                {{#ifeq this.status "confirmed" }}
+
+                {{/ifeq}}
+
+                {{#ifeq this.status "cooking"}}
+                {{!-- Cooked --}}
+                <a class="btn btn-primary" href="/admin/change-status/?status=packed&orderId={{this._id}}">Cooked</a>
+                {{/ifeq}}
+
+                {{#ifeq this.status "packed"}}
+                {{!-- Dispatched --}}
+                <a class="btn btn-primary"
+                  href="/admin/change-status/?status=dispatched&orderId={{this._id}}">Dispatch</a>
+                {{/ifeq}}
+
+                {{#ifeq this.status "dispatched"}}
+                {{!-- Picked --}}
+                <a class="btn btn-primary" href="/admin/change-status/?status=picked&orderId={{this._id}}">Picked</a>
+                {{/ifeq}}
+
+                {{#ifeq this.status "picked"}}
+                {{!-- Delivered --}}
+                <a class="btn btn-primary"
+                  href="/admin/change-status/?status=delivered&orderId={{this._id}}">Delivered</a>
+                {{/ifeq}}
+
+                {{#ifeq this.status "delivered"}}
+                {{!-- Delete / Hide --}}
+                <a class="btn btn-danger" href="/admin/remove/{{this._id}}"
+                  onclick="return confirm('Are You Sure to Cancel This Order ?')">Delete</a>
+                {{/ifeq}}
+                {{#ifeq this.status "cancelled"}}
+                {{!-- Delete / Hide --}}
+                {{!-- <a class="btn btn-danger" href="/admin/remove/{{this._id}}"
+                  onclick="return confirm('Are You Sure to Cancel This Order ?')">Delete</a> --}}
+                {{/ifeq}}
+              </td>
+            </tr>
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Basic Modal-->
+<div class="modal fade" id="userinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Modal Heading</h6>
+        <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      {{#each orders}}
+      <div class="modal-body">
+        <p class="mb-0">{{this.deliveryDetails.name}}</p>
+      </div>
+      {{/each}}
+
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-sm btn-success" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  const socket = io();
+
+  socket.on("status-placed", (orderId) => {
+    window.location.reload();
+  })
+  socket.on("status-confirmed", (orderId) => {
+    window.location.reload();
+  })
+  socket.on("status-cooking", (orderId) => {
+    window.location.reload();
+  })
+  socket.on("status-packed", (orderId) => {
+    window.location.reload();
+  })
+  socket.on("status-dispatched", (orderId) => {
+    window.location.reload();
+  })
+  socket.on("status-picked", (orderId) => {
+    window.location.reload();
+  });
+  socket.on("status-delivered", (orderId) => {
+    window.location.reload();
+  })
+  socket.on("status-cancelled", (orderId) => {
+    window.location.reload();
+  })
+</script>

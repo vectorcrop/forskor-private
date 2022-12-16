@@ -1,0 +1,87 @@
+<div class="page-content-wrapper py-5 min-mw-100">
+
+    <!-- Success Message Toast-->
+    {{#if successMsg}}
+    <div class="toast toast-autohide custom-toast-1 toast-success home-page-toast" role="alert" aria-live="assertive"
+        aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true">
+        <div class="toast-body">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi bi-check2-circle" viewBox="0 0 16 16">
+                <path
+                    d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                <path
+                    d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+            </svg>
+            <div class="toast-text ms-3 me-2">
+                <p class="mb-1 text-white">{{successMsg}}</p><small class="d-block"></small>
+            </div>
+            <button class="btn btn-close btn-close-white position-relative p-1 ms-auto" type="button"
+                data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- Error Message Toast-->
+    {{#if errorMsg}}
+    <div class="toast toast-autohide custom-toast-1 toast-danger home-page-toast" role="alert" aria-live="assertive"
+        aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true">
+        <div class="toast-body">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                class="bi bi-check2-circle" viewBox="0 0 16 16">
+                <path
+                    d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                <path
+                    d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+            </svg>
+            <div class="toast-text ms-3 me-2">
+                <p class="mb-1 text-white">{{errorMsg}}</p><small class="d-block"></small>
+            </div>
+            <button class="btn btn-close btn-close-white position-relative p-1 ms-auto" type="button"
+                data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="container-lg">
+        <center>
+            <h3>Manage Admins</h3>
+        </center>
+        <a href="/admin/casher" class="btn btn-primary mb-3 mt-3">Back to main</a>
+        <a href="/admin/add-admin" class="btn btn-success mb-3 mt-3">Add Admins</a>
+
+
+        <div class="card">
+            <div class="card-body p-3">
+                <table class="data-table w-100 min-mw-100" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each admins}}
+                        <tr>
+                            <td>{{incremented @index}}</td>
+                            <td>{{this.Name}}</td>
+                            <td>{{this.Email}}</td>
+                            <td>{{#getRole this.Role}}{{/getRole}}</td>
+                            <td>{{this.Status}}</td>
+                            <td>
+                                <a href="/admin/edit-admin/{{this._id}}" class="btn btn-info">Edit</a>
+                                {{!-- <a href="/admin/block/{{this._id}}" class="btn btn-danger">Block</a> --}}
+                                <a href="/admin/remove-admin/{{this._id}}" class="btn btn-danger">Remove</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

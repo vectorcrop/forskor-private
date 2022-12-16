@@ -1,0 +1,128 @@
+<div class="page-content-wrapper py-5 min-mw-100">
+    <div class="container-lg">
+        <center>
+            <h3>Placed Orders</h3>
+        </center>
+        <a href="/admin" class="btn btn-primary mb-3 mt-3">Back to main</a>
+        <a href="/admin/placed-orders" class="btn btn-info mb-3 mt-3">Refresh</a>
+
+        <div class="card">
+            <div class="card-body p-3">
+                <table class="data-table w-100 min-mw-100" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Pincode</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Items Info</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each orders}}
+                        <tr>
+                            <td><font color="black"><b>{{this.orderId}}</b></font></td>
+                            <td><font color="black"><b>{{#getDate this.date}}{{/getDate}} |  {{#getTime this.date}}{{/getTime}}</b></font> </td>
+                            <td><font color="black"><b>{{this.deliveryDetails.name}}</b></font></font>
+                            </td>
+                            <td><font color="black"><b>{{this.deliveryDetails.phone}}</b></font></font>
+                            </td>
+                            <td><font color="black"><b>{{this.deliveryDetails.address}}</b></font></font>
+                            </td>
+                            <td><font color="black"><b>{{this.deliveryDetails.pincode}}</b></font></td>
+
+                            <td><font color="black"><b>{{this.paymentMethod}}</b></font></td>
+
+
+                            {{#ifeq this.status "delivered"}}
+                            <td class="text-uppercase"><font color="{{#getStatusColor this.status}} {{/getStatusColor}}"><b>{{this.status}}</b></font>
+                            </td>
+                            {{else}}
+                            {{#ifeq this.status "cancelled"}}
+                            <td class="text-uppercase"><font color="{{#getStatusColor this.status}} {{/getStatusColor}}"><b>{{this.status}}</b></font>
+                            </td>
+                            {{else}}
+                            <td class="text-uppercase"><font color="{{#getStatusColor this.status}} {{/getStatusColor}}"><b>{{this.status}}</b></font>
+                            </td>
+                            {{/ifeq}}
+                            {{/ifeq}}
+
+
+                            <td><a href="/admin/view-ordered-products/{{this._id}}" class="btn btn-info btn-sm"
+                                    type="button">Items</a></td>
+
+                            <td>
+                                {{#ifeq this.status "placed"}}
+                                <div>
+                                    {{!-- Confirmed --}}
+                                    <a id="success" class="btn btn-success"
+                                        href="/admin/change-status/?status=confirmed&orderId={{this._id}}&origin=placed-orders">Confirm</a>
+
+                                    {{!-- Cancelled --}}
+                                    <a href="/admin/change-status/?status=cancelled&orderId={{this._id}}&origin=placed-orders"
+                                        onclick="return confirm('Are You Sure to Cancel This Order ?')"
+                                        class="btn btn-danger">Cancel</a>
+                                </div>
+                                {{/ifeq}}
+                            </td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Basic Modal-->
+<div class="modal fade" id="userinfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Modal Heading</h6>
+                <button class="btn btn-close p-1 ms-auto" type="button" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            {{#each orders}}
+            <div class="modal-body">
+                <p class="mb-0">{{this.deliveryDetails.name}}</p>
+            </div>
+            {{/each}}
+
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-sm btn-success" type="button">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const socket = io();
+
+    socket.on("status-placed", (orderId) => {
+        window.location.reload();
+    })
+    socket.on("status-confirmed", (orderId) => {
+        window.location.reload();
+    })
+</script>
+
+<script>
+
+    	$(document).on('click', '#success', function(e) {
+			swal(
+				'Success',
+				'You clicked the <b style="color:green;">Success</b> button!',
+				'success'
+			)
+		});
+
+</script>

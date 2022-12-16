@@ -1,0 +1,111 @@
+<div class="page-content-wrapper py-3">
+  <div class="container">
+    <div class="card invoice-card shadow">
+      <div class="card-body">
+        <!-- Download Invoice-->
+        <a href="/admin/all-orders"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="dark"
+            class="bi bi-arrow-left mb-3" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z">
+            </path>
+          </svg></a>
+        <h3>Order Invoice</h3>
+        <div class="download-invoice text-end mb-3"><a class="btn btn-sm btn-primary me-2" href="#"><i
+              class="fa fa-file-pdf-o me-2"></i>PDF</a><a class="btn btn-sm btn-light" href="#"><i
+              class="fa fa-print me-2"></i>Print</a></div>
+
+        <!-- Invoice Info-->
+        <div class="row">
+          <div class="invoice-info text-start mb-4 col">
+            <h6>Name: {{order.deliveryDetails.name}}</h6>
+            <h6>Date: {{order.date}}</h6>
+          </div>
+          <div class="invoice-info text-end mb-4 col">
+            <h6>Invoice No. {{order.orderId}}</h6>
+            <h6>Order Status: {{order.status}}</h6>
+          </div>
+        </div>
+
+        <!-- Invoice Table-->
+        <div class="invoice-table">
+          <div class="table-responsive">
+            <table class="table table-bordered caption-top">
+              <caption>List of products</caption>
+              <thead class="table-light">
+                <tr>
+                  <th>SlNo.</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                  <th>Status</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each products}}
+                <tr>
+                  <td>{{incremented @index}}</td>
+                  <td>{{this.product.Name}}</td>
+                  <td>₹{{this.product.Offer}}</td>
+                  <td>{{this.quantity}}</td>
+                  <td>{{this.status}}</td>
+                  <td>₹{{this.price}}</td>
+                </tr>
+                {{/each}}
+              </tbody>
+              <tfoot class="table-light">
+                <tr>
+                  <td class="text-end" colspan="5"><b>Total Product Price:</b></td>
+                  <td class="text-end">₹{{order.totalPrice}}</td>
+                </tr>
+                <tr>
+                  <td class="text-end" colspan="5"><b>Total Price Reduction:</b></td>
+                  <td class="text-end">₹{{order.totalReductionPrice}}</td>
+                </tr>
+                <tr>
+                  <td class="text-end" colspan="5"><b>Total Order Price:</b></td>
+                  <td class="text-end">₹{{order.totalOrderPrice}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <p class="mb-0">Notice: This is auto generated invoice.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!--
+<section>
+  <div class="container mt-2">
+    <div class="row mt-5">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-5">
+        <div class="card mx-auto" style="width: 16rem;">
+          <img src="/images/product-images/{{this.product._id}}.png" class="card-img-top" alt="phone-image"
+            style="height: 17rem;">
+          <hr class="text-secondary">
+          <div class="card-body pb-1">
+            <div class="" style="display: flex; justify-content: end;">
+              <div class="" style="margin-right: auto;">
+                <h5 class="card-title"></h5>
+              </div>
+              <div class="">
+                <p class="card-text"><small></small></p>
+              </div>
+            </div>
+            <div class="" style="margin-right: auto;">
+              <h6 class="card-title">Quantity: <span class="badge bg-primary"></span></h6>
+            </div>
+            <p class="card-text">{{this.product.Description}}</p>
+            <div class="row">
+              <button onclick="cancelProduct('{{this._id}}')" class="btn btn-danger">
+                Cancel Product</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section> --}}

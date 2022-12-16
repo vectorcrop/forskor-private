@@ -1,0 +1,87 @@
+    {{!-- {{#if cartProducts}}
+
+ <div class="page-content-wrapper py-3">
+      <div class="container">
+        <!-- Cart Wrapper-->
+        <div class="cart-wrapper-area">
+          <div class="cart-table card mb-3">
+            <div class="table-responsive card-body">
+              <table class="table mb-0 text-center" id="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each cartProducts}}
+                  <tr>
+                    <th scope="row"><img src="/images/product-images/{{this.product._id}}.png" alt=""></th>
+                    <td>
+                      <h6 class="mb-1">{{this.product.Name}}</h6><span>₹{{this.product.Price}}</span>
+                    </td>
+                    <td>
+                      <div class="quantity">
+                          <button class="cart-item-count btn btn-secondary btn-sm me-2"
+                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                            <span id="{{this.product._id}}">{{this.quantity}}</span>
+                            <button class="cart-item-count btn btn-secondary btn-sm ms-2"
+                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                      </div>
+                    </td>
+                    <td><a class="remove-product" href="#" onclick="removeCartProduct('{{this._id}}','{{this.product._id}}','{{this.quantity}}')"><i class="fa fa-close"></i></a></td>
+                  </tr>
+                 {{/each}}
+
+                </tbody>
+              </table>
+            </div>
+            <div class="card-body border-top">
+              <div class="apply-coupon">
+                <h6 class="mb-0">Have a coupon?</h6>
+                <p class="mb-2">Enter your coupon code here &amp; get awesome discounts!</p>
+                <div class="coupon-form">
+                  <form action="#">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input class="form-control input-group-text text-start" type="text" placeholder="OFFER30">
+                        <button class="btn btn-primary" type="submit">Apply</button>
+                      </div>
+                    </div>
+                    <!-- Checkout--><a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{total}} &amp; Pay</a>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    {{else}} --}}
+
+
+      <!-- Page Content Wrapper-->
+    <div class="page-content-wrapper py-3">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-9 col-md-8 col-lg-6">
+            <div class="card">
+              <div class="card-body px-5 text-center"><img class="mb-4" src="img/icons/wishlist.svg" width="200px" alt="">
+                <h4>Your wishlist is empty!</h4>
+                <p class="mb-4">Please add somthing...</p><a class="btn btn-creative btn-danger" href="/home">Go to Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{{!-- 
+    {{/if}}
+</section> --}}

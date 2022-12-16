@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#205E54">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!-- Title-->
+  <title>ForSkor</title>
+  <!-- Fonts-->
+  <link rel="preconnect" href="https://fonts.gstatic.com/">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+    rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+  <!-- Favicon-->
+  <link rel="icon" href="img/icons/logo.png">
+  <link rel="apple-touch-icon" href="img/icons/logo.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="img/icons/logo.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="img/icons/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/icons/logo.png">
+  <!-- CSS Libraries-->
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/animate.css">
+  <link rel="stylesheet" href="../../css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../css/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../css/magnific-popup.css">
+  <link rel="stylesheet" href="../../css/ion.rangeSlider.min.css">
+  <link rel="stylesheet" href="../../css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../css/apexcharts.css">
+
+  <!-- Core Stylesheet-->
+  <link rel="stylesheet" href="../../style.css">
+  <!-- Web App Manifest-->
+  <!-- <link rel="manifest" href="manifest.json"> -->
+</head>
+<style>
+  .header-content.header-style-three .navbar--toggler {
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: #ffffff33;
+    border-radius: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+
+  .header-content .navbar--toggler span {
+    width: 23px;
+    height: 2px;
+    background-color: #ffffff;
+    margin-bottom: 5px;
+  }
+
+  .owl-carousel-one .owl-nav {
+    position: fixed;
+    z-index: 10;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  .owl-carousel-one .owl-dots {
+    position: fixed;
+    bottom: 1.375rem;
+    left: 1.25rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  body,
+  html {
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+    background-color: #F2F2F2;
+    color: #8480ae;
+    scrollbar-width: thin;
+  }
+
+  .element-heading .codeview-clipboard-btn {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 20%;
+    flex: 0 0 40%;
+    max-width: 20%;
+    width: 20%;
+    margin-bottom: 0.5rem;
+  }
+
+  .codeview-btn {
+    width: 80px;
+    height: 31px;
+    display: block;
+    background-color: #205e54;
+    border-radius: 5px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    margin-left: auto;
+    padding-top: 8px;
+    line-height: 1;
+  }
+
+  .card-body1 {
+    padding: 0.5rem;
+  }
+</style>
+
+<body>
+
+  {{!-- Socket Init --}}
+  <script src="/socket.io/socket.io.js"></script>
+
+
+  {{#if admin}}
+  {{>admin-header}}
+  {{else}}
+  {{>others-header}}
+  {{>user-footer}}
+
+  {{/if}}
+
+  {{{body}}}
+
+  <!-- All JavaScript Files-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>I
+  <script src="../../js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="../../js/default/internet-status.js"></script>
+  <script src="../../js/waypoints.min.js"></script>
+  <script src="../../js/jquery.easing.min.js"></script>
+  <script src="../../js/wow.min.js"></script>
+  <script src="../../js/owl.carousel.min.js"></script>
+  <script src="../../js/jquery.counterup.min.js"></script>
+  <script src="../../js/jquery.countdown.min.js"></script>
+  <script src="../../js/imagesloaded.pkgd.min.js"></script>
+  <script src="../../js/isotope.pkgd.min.js"></script>
+  <script src="../../js/jquery.magnific-popup.min.js"></script>
+  <script src="../../js/default/dark-mode-switch.js"></script>
+  <script src="../../js/ion.rangeSlider.min.js"></script>
+  <script src="../../js/jquery.dataTables.min.js"></script>
+  <script src="../../js/default/active.js"></script>
+  <script src="../../js/default/clipboard.js"></script>
+  <!-- PWA-->
+  <script src="../../js/pwa.js"></script>
+</body>
+
+</html>

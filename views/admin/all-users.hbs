@@ -1,0 +1,47 @@
+
+
+   <div class="page-content-wrapper py-5 min-mw-100">
+      <div class="container-lg">
+        <center><h3>Manage Users</h3></center>
+                                <a href="/admin/casher" class="btn btn-primary mb-3 mt-3">Back to main</a>
+
+        <div class="card">
+          <div class="card-body p-3">
+            <table class="data-table w-100 min-mw-100" id="dataTable">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                 <th>Place</th>
+                 <th>Pincode</th>
+                <th>Address</th>
+                 {{!-- <th>Actions</th> --}}
+                </tr>
+              </thead>
+
+              <tbody>
+               {{#each users}}
+                <tr>
+                  <td>{{incremented @index}}</td>
+                  <td>{{this.firstName}} {{this.lastName}} </td>
+                  <td>{{this.email}}</td>
+                  <td>{{this.phone}}</td>
+                  <td>{{this.place}}</td>
+                  <td>{{this.pincode}}</td>
+                  <td>{{this.address}}</td>
+                  {{!-- <td><a href="/admin/remove-user/{{this._id}}" class="btn btn-danger">Remove</a></td> --}}
+
+                    
+                </tr>
+                {{/each}}
+
+             
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+

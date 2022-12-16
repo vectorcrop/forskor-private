@@ -1,0 +1,40 @@
+
+<br><br><br>
+
+<div class="container">
+<div class="card mb-4">
+          <div class="card-body p-2">
+            <div class="chat-search-box">
+              <form action="/search-result" method="POST">
+                <div class="input-group"><span class="input-group-text" name="search" id="searchbox"><i class="bi bi-search"></i></span>
+                  <input class="form-control form-control-clicked" name="search" type="search" placeholder="Search for itmes..." aria-describedby="searchbox">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+            <div class="container ">
+               <br>
+               <h5><b>Recommended</b></h5>
+               <br>
+    
+ {{#each category}}
+<a href="/menus?category={{this.Name}}"><span class="badge  bg-info">{{this.Name}}</span></a>
+{{/each}}
+        </div>
+
+
+             <div class="container ">
+               <br>
+               <h5><b>More</b></h5>
+               <br>
+    
+<a href="/menus?category=Combo"><span class="badge bg-dark">Combo Offer</span></a>
+
+        </div>
+
+
+         
