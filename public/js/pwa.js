@@ -10,3 +10,13 @@
 //             });
 //     });
 // }
+
+$(document).ready(function () {
+    $('#dataTable').DataTable({
+        destroy: true,
+        lengthMenu: [
+            [-1],
+            ["All"]
+        ],
+    });
+});

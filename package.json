@@ -6,6 +6,16 @@
       "start": "node ./bin/www",
       "dev": "nodemon ./bin/www"
     },
+    "Statement": [
+      {
+        "Sid": "",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "apigateway.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ],
     "dependencies": {
       "bcrypt": "^5.0.1",
       "body-parser": "^1.20.1",
