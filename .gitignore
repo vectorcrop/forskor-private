@@ -1,7 +1,5 @@
 # .gitignore 
 node_modules/
-config/constant.js
 package-lock.json
-package.json
 yarn.lock
 .env
