@@ -8,7 +8,7 @@
     },
     "Statement": [
       {
-        "Sid": "",
+        "Sid": "1",
         "Effect": "Allow",
         "Principal": {
           "Service": "apigateway.amazonaws.com"
