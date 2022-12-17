@@ -18,6 +18,13 @@
     background-color: #2ecc4a !important;
     color: #ffffff;
   }
+   .textreducer {
+     display: inline-block;
+    width: 120px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
 </style>
 
 <br>
@@ -88,7 +95,7 @@
             <div class="card-body1 align-items-center">
               <center><img src="/images/category-images/{{this._id}}.png" style="width: 50px; border-radius: 10px;">
                 <div class="card-content mt-2">
-                  <h6 class="mb-2">{{this.Name}}</h6>
+                  <h6 class="textreducer mb-2">{{this.Name}}</h6>
               </center>
             </div>
           </div>
