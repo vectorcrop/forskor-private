@@ -616,6 +616,17 @@ module.exports = {
     });
   },
 
+  getAllVisibilityProducts: () => {
+    return new Promise(async (resolve, reject) => {
+      let products = await db
+        .get()
+        .collection(collections.PRODUCTS_COLLECTION)
+        .find({ Visibility: "Show" })
+        .toArray();
+      resolve(products);
+    });
+  },
+
   getProductDetails: (productId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -653,6 +664,7 @@ module.exports = {
               ParentCat: productDetails.ParentCat,
               Type: productDetails.Type,
               Price: productDetails.Price,
+              Visibility: productDetails.Visibility,
               Description: productDetails.Description,
             },
           }
@@ -845,6 +857,16 @@ module.exports = {
         .find()
         .toArray();
       resolve(users);
+    });
+  },
+
+  getSingleUsers: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      let user = await db
+        .get()
+        .collection(collections.USERSCOLLECTION)
+        .findOne({ _id: objectId(userId) });
+      resolve(user);
     });
   },
 
