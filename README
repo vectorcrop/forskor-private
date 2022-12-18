@@ -30,3 +30,15 @@ toast.addEventListener('mouseleave', Swal.resumeTimer)
 
 "mongodb+srv://forskor:forskor.com001@forskor.vs3wn9x.mongodb.net/?retryWrites=true&w=majority";
 "mongodb+srv://msb:msb.com001@cluster0.vtkzb9y.mongodb.net/cluster0?retryWrites=true&w=majority";
+
+
+// {
+//   _id: 639f1c1afdf2315ac8ec8a1d,
+//   Name: 'Hummus',
+//   ParentCat: 'Sauce & Salads',
+//   Type: 'non-veg',
+//   Offer: '120',
+//   Price: '120',
+//   Description: 'forskor special Hummus',
+//   Category: 'Barbeque Starter'
+// }

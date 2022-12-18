@@ -641,6 +641,7 @@ module.exports = {
 
   updateProduct: (productId, productDetails) => {
     return new Promise((resolve, reject) => {
+      console.log(productDetails.ParentCat);
       db.get()
         .collection(collections.PRODUCTS_COLLECTION)
         .updateOne(
@@ -649,7 +650,7 @@ module.exports = {
             $set: {
               Name: productDetails.Name,
               Offer: productDetails.Offer,
-              Category: productDetails.ParentCat,
+              ParentCat: productDetails.ParentCat,
               Type: productDetails.Type,
               Price: productDetails.Price,
               Description: productDetails.Description,
