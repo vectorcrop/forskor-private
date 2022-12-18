@@ -52,6 +52,9 @@ app.engine(
         if (!date) return "Invalid";
         return date.split("|")[2];
       },
+      getEncodedValue: function(value){
+        return encodeURIComponent(value);
+      },
       getRole: function (role) {
         if (role === "1" || role === "2") return "Casher";
         if (role === "3") return "Cheif";

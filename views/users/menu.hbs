@@ -1,33 +1,61 @@
 <style>
-.btn-w{
-  background-color: white;
-  color: black;
-}
+  .btn-w {
+    background-color: white;
+    color: black;
+  }
+
+  .textreducer {
+    display: inline-block;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+
+  .active_button {
+    background-color: orange;
+
+  }
+
+  .active_button_2 {
+    background-color: rgb(169, 212, 60);
+  }
+
+
+  .fixed {
+    position: fixed;
+    width: 100%;
+    top: 10;
+  }
 </style>
 
 <br />
 
-<div class="page-content-wrapper" data-js="hero-demo">
+<div class="page-content-wrapper fixed" data-js="hero-demo">
   <div class="filters container-lg">
-    <div class="image-gallery-carousel owl-carousel">
-     <a href="/menu"> <button id="section" class="btn btn-w w-100 pb-2 pt-2" data-filter="*">show all</button></a>
+    <div class="owl-carousel owl-theme" id="owl-carousel">
+      <a href="/menu"> <button id="section" class="btn btn-w w-100 pb-2 pt-2 fixed" data-filter="*">show
+          all</button></a>
       {{#each category}}
-      <a href="/menus?category={{this.Name}}"><button class="btn btn-w w-100 pb-2 pt-2">{{this.Name}}</button></a>
+      <a href="/menus?category={{#getEncodedValue this.Name}}{{/getEncodedValue}}">
+        <button class="btn btn-w w-100 pb-2 pt-2 textreducer" id="{{this.Name}}">{{this.Name}}</button>
+      </a>
       {{/each}}
     </div>
+    <a href="" class="btn btn-w w-100 pb-2 pt-2 mt-2" id="selected"></a>
   </div>
 
   {{!-- Category Name is Getting here --}}
   {{!-- {{catName}} --}}
 
-  <br /><br />
-  <div class="grid">
-    <div class="container-lg">
+  <div class="grid mt-3 mb-3">
+    <div class="container-md">
       <div class="row g-3 justify-content-center">
         {{#each products}}
         <!-- Single Blog Card-->
         <div class="element-item {{this.ParentCat}} metal" data-category="{{this.ParentCat}}">
-          <div class="col-12 col-md-8 col-lg-7 col-xl-6">
+         <center>
+           <div class="col-12 col-md-8 col-lg-7 col-xl-6 justify-content-center">
             <div class="card shadow-sm blog-list-card">
               <div class="d-flex align-items-center">
                 <img src="/images/product-images/{{this._id}}.png"
@@ -46,6 +74,7 @@
               </div>
             </div>
           </div>
+         </center>
         </div>
         {{/each}}
       </div>
@@ -55,8 +84,51 @@
 </div>
 
 <br /><br />
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
+  integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    $('#owl-carousel').owlCarousel({
+    loop: true,
+    dots: false,
+    margin: 10,
+    nav: false,
+    responsive: {
+      0: {
+        items: 3
+      },
+      600: {
+        items: 4
+      },
+      1000: {
+        items: 5
+      }
+    }
+  });
+  var search = window.location.search.replace("?category=", "").replaceAll("%20", " ").replaceAll("%26","&");
+  console.log(search);
+  $("#selected").hide();
+  if (search != null) {
+    var searched = document.getElementById(search).id;
+    if (searched == search) {
+      //document.getElementById(search).classList.add("active_button");
+      //$("#section").removeClass("active_button");
+      $("#selected").text(search).addClass("active_button_2").show();
 
+    } else {
+      //$("#section").addClass("active_button");
+      //document.getElementById(search).classList.remove("active_button");
+    }
+  } else {
+    //$("#section").addClass("active_button");
+  }
+
+  </script>
+  
 <script>
+
   function addToCart(productId) {
     $.ajax({
       url: "/add-to-cart/" + productId,
@@ -64,42 +136,43 @@
       success: (response) => {
         if (response.status) {
           Swal.fire({
-    toast: true,
-    icon: 'success',
-    title: response.message,
-    animation: true,
-    background: "#5cb85c",
-    color: "white",
-    position: 'bottom',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+            toast: true,
+            icon: 'success',
+            title: response.message,
+            animation: true,
+            background: "#5cb85c",
+            color: "white",
+            position: 'bottom',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
           let count = $("#cart-count").html();
           count = parseInt(count) + 1;
           $("#cart-count").html(count);
         } else {
-            Swal.fire({
-    toast: true,
-    icon: 'error',
-    title: response.message,
-    animation: true,
-    position: 'top-right',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+          Swal.fire({
+            toast: true,
+            icon: 'error',
+            title: response.message,
+            animation: true,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
           window.location = "/signin";
         }
       },
     });
   }
+
 </script>
