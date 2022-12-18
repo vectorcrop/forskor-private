@@ -1,6 +1,6 @@
 // Product model = {
 // {
-// \_id: 638df5fd0ffc1042d849be34,
+// _id: 638df5fd0ffc1042d849be34,
 // Name: 'Dosa',
 // ParentCat: 'Break Fast',
 // Type: 'veg',
