@@ -18,7 +18,7 @@ const verifySignedIn = (req, res, next) => {
 
 // user welcome page
 router.get("/", async (req, res, next) => {
-  res.render("users/welcome", { layout: "layout2", admin: false });
+  res.render("users/maintenance", { layout: "layout2", admin: false });
 });
 
 // Combo-offers page
@@ -57,7 +57,7 @@ router.get("/fav", verifySignedIn, async (req, res, next) => {
 });
 
 //single product
-router.get("/single-product/:id",verifySignedIn, async (req, res, next) => {
+router.get("/single-product/:id", verifySignedIn, async (req, res, next) => {
   let user = req.session.user;
   let userId = req.session.user._id;
   let cartCount = await userHelper.getCartCount(userId);
@@ -71,7 +71,7 @@ router.get("/single-product/:id",verifySignedIn, async (req, res, next) => {
         back: true,
         product,
         user,
-    cartCount,
+        cartCount,
       });
     });
 
@@ -89,7 +89,7 @@ router.get("/profile", verifySignedIn, async (req, res, next) => {
     admin: false,
     user,
     cartCount,
-    back: true
+    back: true,
   });
 });
 
