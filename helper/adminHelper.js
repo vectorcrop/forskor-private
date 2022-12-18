@@ -649,7 +649,7 @@ module.exports = {
             $set: {
               Name: productDetails.Name,
               Offer: productDetails.Offer,
-              Category: productDetails.Category,
+              Category: productDetails.ParentCat,
               Type: productDetails.Type,
               Price: productDetails.Price,
               Description: productDetails.Description,
