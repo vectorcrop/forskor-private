@@ -3,6 +3,7 @@ var adminHelper = require("../helper/adminHelper");
 var fs = require("fs");
 const userHelper = require("../helper/userHelper");
 var router = express.Router();
+const { ADMIN_ID_KEY } = require("../config/constant").COOKIE_KEYS;
 
 // Verify as admin
 const verifySignedIn = (req, res, next) => {
@@ -310,6 +311,11 @@ router.post("/signin", function (req, res) {
     if (response.status) {
       req.session.signedInAdmin = true;
       req.session.admin = response.admin;
+      res.cookie(ADMIN_ID_KEY, response.admin._id, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+      });
       res.redirect("/admin");
     } else {
       req.session.signInErr = "Invalid Email/Password";
@@ -322,6 +328,7 @@ router.post("/signin", function (req, res) {
 router.get("/signout", function (req, res) {
   req.session.signedInAdmin = false;
   req.session.admin = null;
+  res.clearCookie(ADMIN_ID_KEY);
   res.redirect("/admin");
 });
 

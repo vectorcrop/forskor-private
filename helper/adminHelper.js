@@ -616,17 +616,6 @@ module.exports = {
     });
   },
 
-  getAllVisibilityProducts: () => {
-    return new Promise(async (resolve, reject) => {
-      let products = await db
-        .get()
-        .collection(collections.PRODUCTS_COLLECTION)
-        .find({ Visibility: "Show" })
-        .toArray();
-      resolve(products);
-    });
-  },
-
   getProductDetails: (productId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -860,11 +849,11 @@ module.exports = {
     });
   },
 
-  getSingleUsers: (userId) => {
+  getSingleUser: (userId) => {
     return new Promise(async (resolve, reject) => {
       let user = await db
         .get()
-        .collection(collections.USERSCOLLECTION)
+        .collection(collections.USERS_COLLECTION)
         .findOne({ _id: objectId(userId) });
       resolve(user);
     });

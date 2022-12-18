@@ -13,8 +13,19 @@ const TWILLIO = {
   TWILLIO_SERVICE_ID,
 };
 
+const USER_ID_KEY = "59eeef57496815b5531f1875080abe5b";
+const ADMIN_ID_KEY = "15230e3dbba5afd24117c6472895fa00";
+const GUEST_ID_KEY = "29272f677dd16553e508858f1dd9d64f";
+
+const COOKIE_KEYS = {
+  USER_ID_KEY,
+  ADMIN_ID_KEY,
+  GUEST_ID_KEY,
+};
+
 const config = {
   TWILLIO,
+  COOKIE_KEYS,
 };
 
 module.exports = config;

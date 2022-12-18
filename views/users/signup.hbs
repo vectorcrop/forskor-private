@@ -24,41 +24,49 @@
             {{/if}}
 
             <div class="input-group mb-3">
-              <input type="text" aria-label="First name" name="firstName" class="form-control" placeholder="First name" {{#if tempFormData.firstName}} value={{tempFormData.firstName}} {{/if}} required />
-              <input type="text" aria-label="Last name" class="form-control" name="lastName" placeholder="Last name" {{#if tempFormData.lastName}} value={{tempFormData.lastName}} {{/if}} required />
+              <input type="text" aria-label="First name" name="firstName" class="form-control" placeholder="First name"
+                {{#if tempFormData.firstName}} value={{tempFormData.firstName}} {{/if}} required />
+              <input type="text" aria-label="Last name" class="form-control" name="lastName" placeholder="Last name"
+                {{#if tempFormData.lastName}} value={{tempFormData.lastName}} {{/if}} required />
             </div>
 
             <div class="form-group">
-              <input class="form-control" type="text" name="email" placeholder="Email" {{#if tempFormData.email}} value={{tempFormData.email}} {{/if}} required />
+              <input class="form-control" type="text" name="email" placeholder="Email" {{#if tempFormData.email}}
+                value={{tempFormData.email}} {{/if}} required />
             </div>
 
             <div class="input-group mb-3">
               <input class="form-control" id="otp" type="text" name="phone" placeholder="Phone"
                 style="margin-right: 8px;" {{#if tempFormData.phone}} value={{tempFormData.phone}} {{/if}} required />
               <div class="input-group-append">
-                <button class="btn btn-outline-primary" type="button" onclick="sendOTP()" >Send
+                <button class="btn btn-outline-primary" type="button" onclick="sendOTP()">Send
                   OTP</button>
               </div>
             </div>
 
             <div class="form-group">
-              <input class="form-control" type="text" name="code" placeholder="Verify Code"  required {{#if tempFormData.code}} value={{tempFormData.code}} {{/if}} />
+              <input class="form-control" type="text" name="code" placeholder="Verify Code" required {{#if
+                tempFormData.code}} value={{tempFormData.code}} {{/if}} />
             </div>
 
             <div class="input-group mb-3">
               <select class="form-select" id="defaultSelect" name="place" aria-label="Default select example">
                 <option value="None" selected=true {{#if tempFormData.code}} selected=false {{/if}}>Your place</option>
-                <option {{#ifeq tempFormData.place "Kammanahalli"}} selected {{/ifeq}} value="Kammanahalli">Kammanahalli</option>
-                <option {{#ifeq tempFormData.place "Forskor City"}} selected {{/ifeq}} value="Forskor City">Forskor City</option>
-                <option {{#ifeq tempFormData.place "Near Wipro"}} selected {{/ifeq}} value="Near Wipro">Near Wipro</option>
+                <option {{#ifeq tempFormData.place "Kammanahalli" }} selected {{/ifeq}} value="Kammanahalli">
+                  Kammanahalli</option>
+                <option {{#ifeq tempFormData.place "Forskor City" }} selected {{/ifeq}} value="Forskor City">Forskor
+                  City</option>
+                <option {{#ifeq tempFormData.place "Near Wipro" }} selected {{/ifeq}} value="Near Wipro">Near Wipro
+                </option>
               </select>
 
-              <input type="text" aria-label="Last name" class="form-control" name="pincode" placeholder="Zip Code" {{#if tempFormData.pincode}} value={{tempFormData.pincode}} {{/if}} required />
+              <input type="text" aria-label="Last name" class="form-control" name="pincode" placeholder="Zip Code" {{#if
+                tempFormData.pincode}} value={{tempFormData.pincode}} {{/if}} required />
             </div>
 
             <div class="form-group">
               <textarea class="form-control" id="exampleTextarea1" name="address" cols="3" rows="5"
-                placeholder="Enter Your Address" ></textarea>
+                placeholder="Enter Your Address"> {{#if tempFormData.address}} value={{tempFormData.address}} {{/if}}</textarea>
             </div>
 
             <div class="form-group">
@@ -79,7 +87,7 @@
 </div>
 
 <script>
-    function sendOTP() {
+  function sendOTP() {
     const phone = document.getElementById("otp").value;
     $.ajax({
       url: "/send-signup-otp",

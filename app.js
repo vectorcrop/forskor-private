@@ -11,8 +11,9 @@ var fileUpload = require("express-fileupload");
 var db = require("./config/connection");
 var session = require("express-session");
 const connectSocket = require("./socket/socket.io");
+const adminHelper = require("./helper/adminHelper");
 var app = express();
-
+const { ADMIN_ID_KEY, USER_ID_KEY } = require("./config/constant").COOKIE_KEYS;
 /**
  * Create HTTP server.
  */
@@ -52,7 +53,7 @@ app.engine(
         if (!date) return "Invalid";
         return date.split("|")[2];
       },
-      getEncodedValue: function(value){
+      getEncodedValue: function (value) {
         return encodeURIComponent(value);
       },
       getRole: function (role) {
@@ -131,7 +132,7 @@ app.use(
     secret: "Key",
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 600000 },
+    cookie: { maxAge: 5 * 1000 },
   })
 );
 db.connect((err) => {
@@ -147,6 +148,19 @@ app.use(function (req, res, next) {
   req.io = io;
   next();
 });
+app.use(async (req, res, next) => {
+  if (!req.session.signedIn && req.cookies[USER_ID_KEY]) {
+    const user = await adminHelper.getSingleUser(req.cookies[USER_ID_KEY]);
+    req.session.user = user;
+    req.session.signedIn = true;
+  }
+  if (!req.session.signedInAdmin && req.cookies[ADMIN_ID_KEY]) {
+    const { admin } = await adminHelper.getAdminById(req.cookies[ADMIN_ID_KEY]);
+    req.session.admin = admin;
+    req.session.signedInAdmin = true;
+  }
+  next();
+});
 app.use("/", usersRouter);
 app.use("/admin", adminRouter);
 
@@ -160,10 +174,10 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-  var mode = req.app.get('env');
+  var mode = req.app.get("env");
   // render the error page
   res.status(err.status || 500);
-  res.render("error",{mode});
+  res.render("error", { mode });
 });
 
 module.exports = { app, server };

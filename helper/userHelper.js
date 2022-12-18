@@ -19,9 +19,8 @@ module.exports = {
       let products = await db
         .get()
         .collection(collections.PRODUCTS_COLLECTION)
-        .find()
+        .find({ Visibility: "Show" })
         .toArray();
-      console.log(products.length);
       resolve(products);
     });
   },
@@ -122,7 +121,7 @@ module.exports = {
         console.log(user);
 
         if (user) {
-          reject({
+          return reject({
             message: "Account already exist",
           });
         }
@@ -385,6 +384,86 @@ module.exports = {
     });
   },
 
+  addGuestCartItemsToUserCart: (guestId, userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!userId || !guestId) {
+          return reject({
+            message: "Provide userId and guestId",
+          });
+        }
+
+        // Check guest has any cart
+        const guestCart = await db
+          .get()
+          .collection(collections.CART_COLLECTION)
+          .findOne({ user: objectId(guestId) });
+        const userCart = await db
+          .get()
+          .collection(collections.CART_COLLECTION)
+          .findOne({ user: objectId(userId) });
+        if (guestCart) {
+          if (userCart) {
+            guestCart.products.map(async (product) => {
+              // Check product exist in cart
+              const productExist = userCart.products.find(
+                (products) =>
+                  products.item.toString() === product.item.toString()
+              );
+              // if item exist in cart then Update a quantity otherwise create a new item
+              if (productExist) {
+                await db
+                  .get()
+                  .collection(collections.CART_COLLECTION)
+                  .updateOne(
+                    {
+                      user: objectId(userId),
+                      "products.item": objectId(product.item),
+                    },
+                    {
+                      $set: {
+                        "products.$.quantity":
+                          product.quantity + productExist.quantity,
+                      },
+                    }
+                  );
+              } else {
+                await db
+                  .get()
+                  .collection(collections.CART_COLLECTION)
+                  .updateOne(
+                    { user: objectId(userId) },
+                    {
+                      $push: { products: product },
+                    }
+                  );
+              }
+            });
+            await db
+              .get()
+              .collection(collections.CART_COLLECTION)
+              .removeOne({ user: objectId(guestId) });
+          } else {
+            await db
+              .get()
+              .collection(collections.CART_COLLECTION)
+              .updateOne(
+                { user: objectId(guestId) },
+                {
+                  $set: { user: userId },
+                }
+              );
+          }
+        }
+        return resolve();
+      } catch (error) {
+        return reject({
+          message: error.message || "Server Error",
+        });
+      }
+    });
+  },
+
   getCartProducts: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -554,7 +633,7 @@ module.exports = {
           },
         ])
         .toArray();
-      resolve(total[0].total);
+      resolve(total[0]?.total ?? 0);
     });
   },
 
@@ -930,24 +1009,21 @@ module.exports = {
     });
   },
 
-
   searchProduct: (details) => {
     console.log("searched +++++++ ");
     return new Promise(async (resolve, reject) => {
-      var result = await db.get()
+      var result = await db
+        .get()
         .collection(collections.PRODUCTS_COLLECTION)
-            .find({
-              "Name": new RegExp(
-                details.search,"i"
-              )
-            })
-            .toArray();
-          console.log(result);
-          resolve(result);
+        .find({
+          Name: new RegExp(details.search, "i"),
+        })
+        .toArray();
+      console.log(result);
+      resolve(result);
     });
   },
 };
-
 
 //   searchProduct: (details) => {
 //     console.log("searched +++++++ ");

@@ -1,14 +1,13 @@
-const { response } = require("express");
 var express = require("express");
-const { getSelectedCatorgory } = require("../helper/userHelper");
 var userHelper = require("../helper/userHelper");
-const { sentOtp, verifyOtp } = require("../utlis/twilio");
 var router = express.Router();
-
+const { ObjectID } = require("mongodb");
+const { GUEST_ID_KEY, USER_ID_KEY } =
+  require("../config/constant").COOKIE_KEYS;
 ///------------------THIS IS USER SIDE---------------------------///
 
 // verify user
-const verifySignedIn = (req, res, next) => {
+const verifySignedIn = async (req, res, next) => {
   if (req.session.signedIn) {
     next();
   } else {
@@ -135,15 +134,21 @@ router.get("/menu/:Name", async (req, res, next) => {
 
 // user home page
 router.get("/home", async function (req, res, next) {
-  let user = req.session.user;
-  let cartCount = null;
-  if (user) {
-    let userId = req.session.user._id;
-    cartCount = await userHelper.getCartCount(userId);
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
+
+  if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
+    userId = new ObjectID().toString();
+    res.cookie(GUEST_ID_KEY, userId);
   }
-  products = await userHelper.getAllProducts();
-  category = await userHelper.getAllCategories();
-  banners = await userHelper.getAllBanner();
+
+  const user = req.session.user;
+
+  const cartCount = await userHelper.getCartCount(userId);
+  const products = await userHelper.getAllProducts();
+  const category = await userHelper.getAllCategories();
+  const banners = await userHelper.getAllBanner();
 
   res.render("users/home", {
     admin: false,
@@ -207,9 +212,26 @@ router.post("/signup", async function (req, res) {
   const data = req.body;
   userHelper
     .doSignup(req.body)
-    .then((response) => {
+    .then(async (response) => {
       req.session.signedIn = true;
       req.session.user = response.user;
+      res.cookie(USER_ID_KEY, response.user._id, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+      });
+      res.cookie(USER_ID_KEY, response.user._id, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+      });
+      if (req.cookies[GUEST_ID_KEY]) {
+        await userHelper.addGuestCartItemsToUserCart(
+          req.cookies[GUEST_ID_KEY],
+          response.user._id
+        );
+        res.clearCookie(GUEST_ID_KEY);
+      }
       req.session.signInSucc = response.message;
       res.redirect("/home");
     })
@@ -257,9 +279,21 @@ router.post("/signin", function (req, res) {
   const data = req.body;
   userHelper
     .doSignin(data)
-    .then((response) => {
+    .then(async (response) => {
       req.session.signedIn = true;
       req.session.user = response.user;
+      res.cookie(USER_ID_KEY, response.user._id, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+      });
+      if (req.cookies[GUEST_ID_KEY]) {
+        await userHelper.addGuestCartItemsToUserCart(
+          req.cookies[GUEST_ID_KEY],
+          response.user._id
+        );
+        res.clearCookie(GUEST_ID_KEY);
+      }
       req.session.signInSucc = response.message;
       res.redirect("/home");
     })
@@ -331,9 +365,21 @@ router.post("/verify-otp", (req, res, next) => {
   const data = req.body;
   userHelper
     .doOtpLogin(data.phone, data.code)
-    .then(({ message, user }) => {
+    .then(async ({ message, user }) => {
       req.session.signedIn = true;
       req.session.user = user;
+      res.cookie(USER_ID_KEY, user._id, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+      });
+      if (req.cookies[GUEST_ID_KEY]) {
+        await userHelper.addGuestCartItemsToUserCart(
+          req.cookies[GUEST_ID_KEY],
+          user._id
+        );
+        res.clearCookie(GUEST_ID_KEY);
+      }
       req.session.signInSucc = message;
       res.redirect("/home");
     })
@@ -350,23 +396,21 @@ router.post("/verify-otp", (req, res, next) => {
 router.get("/signout", function (req, res) {
   req.session.signedIn = false;
   req.session.user = null;
+  res.clearCookie(USER_ID_KEY);
   res.redirect("/home");
 });
 
 // cart page
 router.get("/cart", async function (req, res) {
-  if (!req.session.signedIn) {
-    return res.render("users/cart", {
-      admin: false,
-      user: null,
-      cartCount: 0,
-      cartProducts: [],
-      total: 0,
-    });
-  }
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
 
+  if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
+    userId = new ObjectID().toString();
+    res.cookie(GUEST_ID_KEY, userId);
+  }
   const user = req.session.user;
-  const userId = req.session.user._id;
   const cartCount = await userHelper.getCartCount(userId);
   const cartProducts = await userHelper.getCartProducts(userId);
   let total = null;
@@ -384,18 +428,16 @@ router.get("/cart", async function (req, res) {
 
 // add to cart (id calling)
 router.get("/add-to-cart/:id", function (req, res) {
-  const isLoggedIn = req.session.signedIn || false;
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
 
-  if (!isLoggedIn) {
-    return res.json({
-      status: false,
-      message: "Please Login In",
-      isLoggedIn,
-    });
+  if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
+    userId = new ObjectID().toString();
+    res.cookie(GUEST_ID_KEY, userId);
   }
 
   const productId = req.params.id;
-  const userId = req.session.user._id;
 
   userHelper
     .addToCart(productId, userId)
