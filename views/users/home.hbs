@@ -151,7 +151,7 @@
             <div class="card-body p-3">
               <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="/single-product/:{{this._id}}"><img
                   src="/images/product-images/{{this._id}}.png" alt="">
-                <!-- Badge--><span class="badge bg-primary">-10%</span></a>
+                <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
               <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
               <!-- Product Price-->
               <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
@@ -192,7 +192,7 @@
 
             <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="#"><img
                 src="/images/product-images/{{this._id}}.png" alt="">
-              <!-- Badge--><span class="badge bg-primary">-10%</span></a>
+              <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
 
             <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
 
