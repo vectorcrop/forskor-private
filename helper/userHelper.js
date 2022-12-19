@@ -47,6 +47,17 @@ module.exports = {
     });
   },
 
+  getAllMainCat: () => {
+    return new Promise(async (resolve, reject) => {
+      let maincat = await db
+        .get()
+        .collection(collections.MAIN_CAT_COLLECTION)
+        .find()
+        .toArray();
+      resolve(maincat);
+    });
+  },
+
   getSelectedProduct: (cat) => {
     return new Promise(async (resolve, reject) => {
       let category = await db

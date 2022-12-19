@@ -2,8 +2,7 @@ var express = require("express");
 var userHelper = require("../helper/userHelper");
 var router = express.Router();
 const { ObjectID } = require("mongodb");
-const { GUEST_ID_KEY, USER_ID_KEY } =
-  require("../config/constant").COOKIE_KEYS;
+const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
 ///------------------THIS IS USER SIDE---------------------------///
 
 // verify user
@@ -148,6 +147,7 @@ router.get("/home", async function (req, res, next) {
   const cartCount = await userHelper.getCartCount(userId);
   const products = await userHelper.getAllProducts();
   const category = await userHelper.getAllCategories();
+  const maincat = await userHelper.getAllMainCat();
   const banners = await userHelper.getAllBanner();
 
   res.render("users/home", {
@@ -156,6 +156,7 @@ router.get("/home", async function (req, res, next) {
     user,
     cartCount,
     category,
+    maincat,
     banners,
     signInSucc: req.session.signInSucc,
   });
