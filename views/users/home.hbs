@@ -89,7 +89,7 @@
     <div class="owl-carousel owl-theme" id="menu-carousel">
       {{#each category}}
       <!-- Single Image Gallery-->
-      <a href="/menus?category={{this.Name}}">
+      <a href="/menus?category={{#getEncodedValue this.Name}}{{/getEncodedValue}}">
         <div class="single-image-gallery">
           <div class="card">
             <div class="card-body1 align-items-center">

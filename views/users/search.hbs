@@ -22,7 +22,7 @@
                <br>
     
  {{#each category}}
-<a href="/menus?category={{this.Name}}"><span class="badge  bg-info">{{this.Name}}</span></a>
+<a href="/menus?category={{#getEncodedValue this.Name}}{{/getEncodedValue}}"><span class="badge  bg-info">{{this.Name}}</span></a>
 {{/each}}
         </div>
 
