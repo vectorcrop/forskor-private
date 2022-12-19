@@ -100,6 +100,7 @@ router.get("/menu", async (req, res, next) => {
     cartCount = await userHelper.getCartCount(req.session.user._id);
   }
   products = await userHelper.getAllProducts();
+  maincat = await userHelper.getAllMainCat();
   category = await userHelper.getAllCategories();
   res.render("users/menu", {
     admin: false,
@@ -107,6 +108,7 @@ router.get("/menu", async (req, res, next) => {
     back: true,
     cartCount,
     category,
+    maincat,
     products,
   });
 });
@@ -121,11 +123,13 @@ router.get("/menu/:Name", async (req, res, next) => {
   }
   products = await userHelper.getAllProducts();
   category = await userHelper.getAllCategories();
+  maincat = await userHelper.getAllMainCat();
   res.render("users/menu", {
     admin: false,
     user,
     cartCount,
     category,
+    maincat,
     products,
     catName: req.params.Name,
   });
@@ -661,6 +665,7 @@ router.get("/menus", async (req, res, next) => {
   category = await userHelper.getAllCategories();
   console.log(req.query.category);
   products = await userHelper.getSelectedProduct(req.query.category);
+
   // category = await userHelper.getAllCategories();
   res.render("users/menu", {
     admin: false,

@@ -45,6 +45,12 @@
   .mt-5-5{
     margin-top: 2rem;
   }
+  .page-content-wrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: -13px;
+    margin-bottom: 62px;
+}
 </style>
 
 <br />
@@ -56,6 +62,7 @@
         <li class="nav-item" role="presentation">
           <button class="btn active" id="all" data-bs-target="#pug" type="button" role="tab" aria-controls="pug"
             aria-selected="true" style="white-space: nowrap;" onclick="window.location.href='/menu'">Show All</button>
+
         </li>
         {{#each category}}
         <li class="nav-item" role="presentation">
@@ -65,15 +72,41 @@
         </li>
         {{/each}}
       </ul>
+   
     </div>
   </div>
 
   {{!-- Category Name is Getting here --}}
   {{!-- {{catName}} --}}
+  
+  
+      
+
   <div class="tab-content rounded-lg p-3 mb-3 " id="affanTab2Content">
+       <div class="container mt-5">
+      <div class="shop-pagination">
+          <div class="card">
+            <div class="card-body p-2">
+              <div class="d-flex align-items-center justify-content-between"><small class="ms-1">
+                  <div class="gallery-menu">
+              <button class="active btn btn-primary btn-sm" data-filter="*">All</button>
+                    {{#each maincat}}
+              <button class="btn btn-primary btn-sm" data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{this.Name}}</button>
+              {{/each}}
+            </div>
+              </small>
+              
+              </div>
+            </div>
+          </div>
+      </div>
+      </div>
     <div class="page-content-wrapper py-3 grid mb-3">
+      
       <div class="container-md">
-        <div class="row g-3 justify-content-center mt-4">
+        
+        <div class="row g-3 justify-content-center">
+          
           {{#each products}}
           <!-- Single Blog Card-->
           <div class="element-item {{this.ParentCat}} metal" data-category="{{this.ParentCat}}">
