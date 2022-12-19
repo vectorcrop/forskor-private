@@ -71,14 +71,31 @@
   {{!-- Category Name is Getting here --}}
   {{!-- {{catName}} --}}
   <div class="tab-content rounded-lg p-3 mb-3 " id="affanTab2Content">
-    <div class="grid mb-3">
+    <div class="page-content-wrapper py-3 grid mb-3">
       <div class="container-md">
         <div class="row g-3 justify-content-center mt-4">
           {{#each products}}
           <!-- Single Blog Card-->
           <div class="element-item {{this.ParentCat}} metal" data-category="{{this.ParentCat}}">
-            <center>
-              <div class="col-12 col-md-8 col-lg-7 col-xl-6 justify-content-center">
+
+          <div class="col-12 col-md-8 col-lg-7 col-xl-6">
+            <div class="card shadow-sm blog-list-card">
+              <div class="d-flex align-items-center">
+                <div class="card-blog-img position-relative" style="background-image: url('/images/product-images/{{this._id}}.png')"><span class="badge bg-warning text-dark position-absolute card-badge">Agency</span></div>
+                <div class="card-blog-content"><span class="badge bg-danger rounded-pill mb-2 d-inline-block">{{this.ParentCat}}</span><a class="blog-title d-block mb-3 text-dark" href="page-blog-details.html">{{this.Name}}</a>
+                   <p class="sale-price" style="font-size: 1.25rem;line-height:1;color: #0134d4;font-weight: 500;">
+                        ₹{{this.Offer}}<span
+                          style="font-size: 1rem;margin-left: 0.25rem; text-decoration: line-through; color: #ea4c62;">₹{{this.Price}}</span>
+                      </p>
+                <a class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">Add to bag</a></div>
+              </div>
+            </div>
+          </div>
+ 
+
+
+
+              {{!-- <div class="col-12 col-md-8 col-lg-7 col-xl-6 justify-content-center">
                 <div class="card shadow-sm blog-list-card">
                   <div class="d-flex align-items-center">
                     <img src="/images/product-images/{{this._id}}.png"
@@ -96,9 +113,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> --}}
 
-            </center>
+
+
           </div>
           {{/each}}
         </div>
