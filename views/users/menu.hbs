@@ -12,6 +12,12 @@
     text-overflow: ellipsis;
   }
 
+  .tab-content {
+    /* this is where you would scroll only the content */
+    overflow: auto;
+    
+  }
+
   .active_button {
     background-color: orange;
 
@@ -24,30 +30,32 @@
 
   .fixed {
     position: fixed;
-    width: 100%;
+    z-index: 999;
     top: 10;
   }
-  .nav-tabs{
-  overflow-x: auto;
-   overflow-y:hidden;
-   flex-wrap: nowrap;
+
+  .nav-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
   }
 </style>
 
 <br />
 
-<div class="container-ld fixed mt-5" data-js="hero-demo">
-  <div class="fixed minimal-tab">
-    <div class="mb-3 mr-5 ml-4"  role="tablist">
+<div class="container-ld mt-5" data-js="hero-demo">
+  <div class=" minimal-tab">
+    <div class="mb-3 mr-5 ml-4" role="tablist">
       <ul class="nav nav-tabs mb-3" id="affanTab2" role="tablist">
         <li class="nav-item" role="presentation">
-              <button class="btn active" id="all"  data-bs-target="#pug" type="button" role="tab"
-          aria-controls="pug" aria-selected="true" style="white-space: nowrap;" onclick="window.location.href='/menu'" >Show All</button>
+          <button class="btn active" id="all" data-bs-target="#pug" type="button" role="tab" aria-controls="pug"
+            aria-selected="true" style="white-space: nowrap;" onclick="window.location.href='/menu'">Show All</button>
         </li>
         {{#each category}}
         <li class="nav-item" role="presentation">
-             <button class="btn" id="{{#getEncodedValue this.Name}}{{/getEncodedValue}}" data-bs-target="#pug" type="button" role="tab"
-          aria-controls="pug"  aria-selected="true" onclick="goToPage(this.id);" style="white-space: nowrap;">{{this.Name}}</button>
+          <button class="btn" id="{{#getEncodedValue this.Name}}{{/getEncodedValue}}" data-bs-target="#pug"
+            type="button" role="tab" aria-controls="pug" aria-selected="true" onclick="goToPage(this.id);"
+            style="white-space: nowrap;">{{this.Name}}</button>
         </li>
         {{/each}}
       </ul>
@@ -56,8 +64,8 @@
 
   {{!-- Category Name is Getting here --}}
   {{!-- {{catName}} --}}
-  <div class="tab-content rounded-lg p-3" id="affanTab2Content">
-    <div class="grid mt-3 mb-3">
+  <div class="tab-content rounded-lg p-3 " id="affanTab2Content">
+    <div class="grid  mb-3">
       <div class="container-md">
         <div class="row g-3 justify-content-center">
           {{#each products}}
@@ -83,15 +91,15 @@
                   </div>
                 </div>
               </div>
-            
+
             </center>
           </div>
           {{/each}}
         </div>
       </div>
-      </div>
     </div>
   </div>
+</div>
 
 </div>
 
@@ -120,7 +128,7 @@
     }
   });
   var search = window.location.search.replace("?category=", "");
-  
+
   $("#selected").hide();
   if (search != null) {
     var searched = document.getElementById(search).id;
@@ -133,11 +141,11 @@
       $("#all").addClass("active");
     }
   } else {
-   $("#all").addClass("active");
+    $("#all").addClass("active");
   }
 
-  function goToPage(id){
-    window.location.href="/menus?category="+id;
+  function goToPage(id) {
+    window.location.href = "/menus?category=" + id;
   }
 
 </script>
