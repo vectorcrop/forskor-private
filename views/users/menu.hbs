@@ -30,8 +30,10 @@
 
   .fixed {
     position: fixed;
+    width: 100%;
     z-index: 999;
     top: 10;
+    
   }
 
   .nav-tabs {
@@ -44,9 +46,9 @@
 <br />
 
 <div class="container-ld mt-5" data-js="hero-demo">
-  <div class=" minimal-tab">
-    <div class="mb-3 mr-5 ml-4" role="tablist">
-      <ul class="nav nav-tabs mb-3" id="affanTab2" role="tablist">
+  <div class="fixed minimal-tab ">
+    <div class="mb-5 mr-5 ml-4 " role="tablist">
+      <ul class="nav nav-tabs mb-5" id="affanTab2" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="btn active" id="all" data-bs-target="#pug" type="button" role="tab" aria-controls="pug"
             aria-selected="true" style="white-space: nowrap;" onclick="window.location.href='/menu'">Show All</button>
@@ -64,7 +66,7 @@
 
   {{!-- Category Name is Getting here --}}
   {{!-- {{catName}} --}}
-  <div class="tab-content rounded-lg p-3 " id="affanTab2Content">
+  <div class="tab-content rounded-lg p-3 mb-3" id="affanTab2Content">
     <div class="grid  mb-3">
       <div class="container-md">
         <div class="row g-3 justify-content-center">
