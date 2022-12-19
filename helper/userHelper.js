@@ -716,6 +716,7 @@ module.exports = {
 
         let orderObject = {
           deliveryDetails: {
+            type: order.type,
             name: order.name,
             phone: order.phone,
             place: order.place,
