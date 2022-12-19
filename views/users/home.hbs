@@ -18,8 +18,9 @@
     background-color: #2ecc4a !important;
     color: #ffffff;
   }
-   .textreducer {
-     display: inline-block;
+
+  .textreducer {
+    display: inline-block;
     width: 100px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -107,75 +108,60 @@
 
 
 
-    <div class="container">
+  <div class="container">
 
-      <div class="shop-pagination pb-3 mt-4">
-          <div class="card">
-            <div class="card-body p-2">
-              <div class="d-flex align-items-center justify-content-between"><small class="ms-1">
-                  <div class="gallery-menu">
-              <button class="active btn btn-primary btn-sm" data-filter="*">All</button>
-                    {{#each maincat}}
-              <button class="btn btn-primary btn-sm" data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{this.Name}}</button>
-              {{/each}}
-            </div>
-              </small>
-              
+    <div class="shop-pagination pb-3 mt-4">
+      <div class="card">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center justify-content-between"><small class="ms-1">
+              <div class="gallery-menu">
+                <button class="active btn btn-primary btn-sm" data-filter="*">All</button>
+                {{#each maincat}}
+                <button class="btn btn-primary btn-sm"
+                  data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{this.Name}}</button>
+                {{/each}}
               </div>
-            </div>
-          </div>
-      </div>
- 
-            <!-- Gallery Wrapper-->
-            <div class="gallery-wrapper row g-3">
-           
+            </small>
 
-             <div class="top-products-area">
-    <div class="container">
-      <div class="row g-3">
-
-
-        {{#each products}}
-
-        <!-- Single Top Product Card-->
-        <div class="col-6 col-sm-4 col-lg-3 single-image-gallery {{this.Type}}">
-          <div class="card single-product-card">
-            <div class="card-body p-3">
-              <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="/single-product/:{{this._id}}"><img
-                  src="/images/product-images/{{this._id}}.png" alt="">
-                <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
-              <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
-              <!-- Product Price-->
-              <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
-              <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
-                Add to Bag
-              </button>
-            </div>
           </div>
         </div>
-        {{/each}}
       </div>
     </div>
-  </div>
-            
+
+    <!-- Gallery Wrapper-->
+    <div class="gallery-wrapper row g-3">
 
 
-           
+      <div class="top-products-area">
+        <div class="container">
+          <div class="row g-3">
+
+
+            {{#each products}}
+
+            <!-- Single Top Product Card-->
+            <div class="col-6 col-sm-4 col-lg-3 single-image-gallery {{this.Type}}">
+              <div class="card single-product-card">
+                <div class="card-body p-3">
+                  <!-- Product Thumbnail--><a class="product-thumbnail d-block"
+                    href="/single-product/:{{this._id}}"><img src="/images/product-images/{{this._id}}.png" alt="">
+                    <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
+                  <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
+                  <!-- Product Price-->
+                  <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
+                  <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
+                    Add to Bag
+                  </button>
+                </div>
+              </div>
             </div>
-      </div>
-
-
-  <div class="container">
-    <div class="container">
-      <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
-        <br>
-        <h5><b>Recommended</b><span class="pull-right">
-            <a href="/menu" class="btn btn-primary btn-small" name="submit" id="submit">View More</a></span></h5>
-        <br>
+            {{/each}}
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
+
 
 
   <!-- Pagination-->
@@ -197,51 +183,6 @@
     </div>
   </div> --}}
   <!-- Top Products-->
-
-
-
-  <div class="container">
-    <div class="container">
-      <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
-        <br>
-        <h5><b>Recent Menus</b><span class="pull-right">
-            <a href="/menu" class="btn btn-primary btn-small" name="submit" id="submit">View More</a></span>
-        </h5>
-        <br>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="container overflow-hidden">
-    <div class="owl-carousel  owl-theme" id="product-carousel">
-
-      {{#each products}}
-
-      <!-- Single Top Product Card-->
-      <div class="item">
-        <div class="card single-product-card">
-          <div class="card-body p-3">
-
-            <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="#"><img
-                src="/images/product-images/{{this._id}}.png" alt="">
-              <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
-
-            <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
-
-            <!-- Product Price-->
-            <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
-            <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
-              Add to Bag
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {{/each}}
-
-    </div>
-  </div>
 </div>
 
 <br><br>
