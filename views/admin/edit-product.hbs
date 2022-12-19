@@ -9,7 +9,7 @@
 
                     <label for="">Category</label>
                     <select class="form-control" value="{{product.ParentCat}}" name="ParentCat">
-                        <option value="Single">Select Category</option>
+                        <option value="{{product.ParentCat}}">{{product.ParentCat}}</option>
                         {{#each category}}
                         <option value="{{this.Name}}">{{this.Name}}</option>
                         {{/each}}
