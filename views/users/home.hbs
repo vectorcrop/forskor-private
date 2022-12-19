@@ -18,8 +18,9 @@
     background-color: #2ecc4a !important;
     color: #ffffff;
   }
-   .textreducer {
-     display: inline-block;
+
+  .textreducer {
+    display: inline-block;
     width: 100px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -107,251 +108,233 @@
 
 
 
-    <div class="container">
+  <div class="container">
 
-      <div class="shop-pagination pb-3 mt-4">
+    <div class="shop-pagination pb-3 mt-4">
+      <div class="card">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center justify-content-between"><small class="ms-1">
+              <div class="gallery-menu">
+                <button class="active btn btn-primary btn-sm" data-filter="*">All</button>
+                {{#each maincat}}
+                <button class="btn btn-primary btn-sm"
+                  data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{this.Name}}</button>
+                {{/each}}
+              </div>
+            </small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Wrapper-->
+    <div class="gallery-wrapper row g-3">
+
+
+      <div class="top-products-area">
+        <div class="container">
+          <div class="row g-3">
+
+
+            {{#each products}}
+
+            <!-- Single Top Product Card-->
+            <div class="col-6 col-sm-4 col-lg-3 single-image-gallery {{this.Type}}">
+              <div class="card single-product-card">
+                <div class="card-body p-3">
+                  <!-- Product Thumbnail--><a class="product-thumbnail d-block"
+                    href="/single-product/:{{this._id}}"><img src="/images/product-images/{{this._id}}.png" alt="">
+                    <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
+                  <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
+                  <!-- Product Price-->
+                  <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
+                  <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
+                    Add to Bag
+                  </button>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Pagination-->
+      {{!-- <div class="shop-pagination pb-3">
+        <div class="container">
           <div class="card">
             <div class="card-body p-2">
-              <div class="d-flex align-items-center justify-content-between"><small class="ms-1">
-                  <div class="gallery-menu">
-              <button class="active btn btn-primary btn-sm" data-filter="*">All</button>
-                    {{#each maincat}}
-              <button class="btn btn-primary btn-sm" data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{this.Name}}</button>
-              {{/each}}
-            </div>
-              </small>
-              
+              <div class="d-flex align-items-center justify-content-between"><small class="ms-1">Showing 6 of 31</small>
+                <form action="#">
+                  <select class="pe-4 form-select form-select-sm" id="defaultSelectSm" name="defaultSelectSm"
+                    aria-label="Default select example">
+                    <option value="1" selected>Non-Veg </option>
+                    <option value="2">Veg</option>
+                  </select>
+                </form>
               </div>
             </div>
           </div>
+        </div>
+      </div> --}}
+      <!-- Top Products-->
+
+
+
+      <div class="container">
+        <div class="container">
+          <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
+            <br>
+            <h5><b>Recent Menus</b><span class="pull-right">
+                <a href="/menu" class="btn btn-primary btn-small" name="submit" id="submit">View More</a></span>
+            </h5>
+            <br>
+          </div>
+        </div>
+
       </div>
- 
-            <!-- Gallery Wrapper-->
-            <div class="gallery-wrapper row g-3">
-           
 
-             <div class="top-products-area">
-    <div class="container">
-      <div class="row g-3">
+      <div class="container overflow-hidden">
+        <div class="owl-carousel  owl-theme" id="product-carousel">
 
+          {{#each products}}
 
-        {{#each products}}
+          <!-- Single Top Product Card-->
+          <div class="item">
+            <div class="card single-product-card">
+              <div class="card-body p-3">
 
-        <!-- Single Top Product Card-->
-        <div class="col-6 col-sm-4 col-lg-3 single-image-gallery {{this.Type}}">
-          <div class="card single-product-card">
-            <div class="card-body p-3">
-              <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="/single-product/:{{this._id}}"><img
-                  src="/images/product-images/{{this._id}}.png" alt="">
-                <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
-              <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
-              <!-- Product Price-->
-              <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
-              <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
-                Add to Bag
-              </button>
+                <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="#"><img
+                    src="/images/product-images/{{this._id}}.png" alt="">
+                  <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
+
+                <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
+
+                <!-- Product Price-->
+                <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
+                  Add to Bag
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        {{/each}}
-      </div>
-    </div>
-  </div>
-            
 
+          {{/each}}
 
-           
-            </div>
-      </div>
-
-
-  <div class="container">
-    <div class="container">
-      <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
-        <br>
-        <h5><b>Recommended</b><span class="pull-right">
-            <a href="/menu" class="btn btn-primary btn-small" name="submit" id="submit">View More</a></span></h5>
-        <br>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- Pagination-->
-  {{!-- <div class="shop-pagination pb-3">
-    <div class="container">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex align-items-center justify-content-between"><small class="ms-1">Showing 6 of 31</small>
-            <form action="#">
-              <select class="pe-4 form-select form-select-sm" id="defaultSelectSm" name="defaultSelectSm"
-                aria-label="Default select example">
-                <option value="1" selected>Non-Veg </option>
-                <option value="2">Veg</option>
-              </select>
-            </form>
-          </div>
         </div>
       </div>
     </div>
-  </div> --}}
-  <!-- Top Products-->
 
+    <br><br>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
+      integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
 
+      $('#product-carousel').owlCarousel({
+        loop: true,
 
-  <div class="container">
-    <div class="container">
-      <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
-        <br>
-        <h5><b>Recent Menus</b><span class="pull-right">
-            <a href="/menu" class="btn btn-primary btn-small" name="submit" id="submit">View More</a></span>
-        </h5>
-        <br>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="container overflow-hidden">
-    <div class="owl-carousel  owl-theme" id="product-carousel">
-
-      {{#each products}}
-
-      <!-- Single Top Product Card-->
-      <div class="item">
-        <div class="card single-product-card">
-          <div class="card-body p-3">
-
-            <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="#"><img
-                src="/images/product-images/{{this._id}}.png" alt="">
-              <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
-
-            <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
-
-            <!-- Product Price-->
-            <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
-            <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
-              Add to Bag
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {{/each}}
-
-    </div>
-  </div>
-</div>
-
-<br><br>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"
-  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
-  integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-
-  $('#product-carousel').owlCarousel({
-    loop: true,
-
-    dots: false,
-    margin: 10,
-    nav: false,
-    responsive: {
-      0: {
-        items: 2
-      },
-      600: {
-        items: 3
-      },
-      1000: {
-        items: 5
-      }
-    }
-  });
-  $('#menu-carousel').owlCarousel({
-    loop: true,
-    dots: false,
-    margin: 10,
-    nav: false,
-    responsive: {
-      0: {
-        items: 3
-      },
-      600: {
-        items: 3
-      },
-      1000: {
-        items: 5
-      }
-    }
-  });
-  $('#hero-carousel').owlCarousel({
-    loop: true,
-
-    dots: false,
-    margin: 10,
-    nav: false,
-    responsive: {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 1
-      },
-      1000: {
-        items: 1
-      }
-    }
-  });
-
-  function addToCart(productId) {
-    $.ajax({
-      url: "/add-to-cart/" + productId,
-      method: "get",
-      success: (response) => {
-        if (response.status) {
-
-          Swal.fire({
-            toast: true,
-            icon: 'success',
-            customClass: 'my',
-            title: response.message,
-            animation: true,
-            position: 'top-right',
-            showConfirmButton: false,
-            timer: 3000,
-            iconColor: "#fff",
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-          let count = $("#cart-count").html();
-          count = parseInt(count) + 1;
-          $("#cart-count").html(count);
-        } else {
-          Swal.fire({
-            toast: true,
-            icon: 'error',
-            title: response.message,
-            animation: true,
-            position: 'top-right',
-            showConfirmButton: false,
-            timer: 3000,
-            iconColor: "#fff",
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-          window.location = "/signin";
+        dots: false,
+        margin: 10,
+        nav: false,
+        responsive: {
+          0: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 5
+          }
         }
-      },
-    });
-  }
+      });
+      $('#menu-carousel').owlCarousel({
+        loop: true,
+        dots: false,
+        margin: 10,
+        nav: false,
+        responsive: {
+          0: {
+            items: 3
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 5
+          }
+        }
+      });
+      $('#hero-carousel').owlCarousel({
+        loop: true,
 
-</script>
+        dots: false,
+        margin: 10,
+        nav: false,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 1
+          },
+          1000: {
+            items: 1
+          }
+        }
+      });
+
+      function addToCart(productId) {
+        $.ajax({
+          url: "/add-to-cart/" + productId,
+          method: "get",
+          success: (response) => {
+            if (response.status) {
+
+              Swal.fire({
+                toast: true,
+                icon: 'success',
+                customClass: 'my',
+                title: response.message,
+                animation: true,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                iconColor: "#fff",
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              let count = $("#cart-count").html();
+              count = parseInt(count) + 1;
+              $("#cart-count").html(count);
+            } else {
+              Swal.fire({
+                toast: true,
+                icon: 'error',
+                title: response.message,
+                animation: true,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                iconColor: "#fff",
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              window.location = "/signin";
+            }
+          },
+        });
+      }
+
+    </script>
