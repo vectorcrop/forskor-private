@@ -1,8 +1,10 @@
+// Description: Twilio OTP verification
 const { Server } = require("socket.io");
 
 // Socket Instance
 let io = null;
 
+// Socket Connection
 const connectSocket = (server) => {
   io = new Server(server);
 
@@ -28,4 +30,5 @@ const connectSocket = (server) => {
   return io;
 };
 
+// Socket Emit
 module.exports = connectSocket;

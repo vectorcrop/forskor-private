@@ -1,3 +1,4 @@
+// Description: This file is the entry point of the application
 var createError = require("http-errors");
 var express = require("express");
 const http = require("http");
@@ -14,20 +15,18 @@ const connectSocket = require("./socket/socket.io");
 const adminHelper = require("./helper/adminHelper");
 var app = express();
 const { ADMIN_ID_KEY, USER_ID_KEY } = require("./config/constant").COOKIE_KEYS;
-/**
- * Create HTTP server.
- */
+
+// Socket Config
 var server = http.createServer(app);
 
-/**
- * Socket Config
- */
+// Socket Connection
 const io = connectSocket(server);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
+// Handlebars Config for Layouts
 app.engine(
   "hbs",
   hbs({
@@ -138,6 +137,8 @@ app.use(
     cookie: { maxAge: 5 * 1000 },
   })
 );
+
+// Mongodb Connection
 db.connect((err) => {
   if (err) console.log("Error" + err);
   else
@@ -151,6 +152,8 @@ app.use(function (req, res, next) {
   req.io = io;
   next();
 });
+
+// session middleware
 app.use(async (req, res, next) => {
   if (!req.session.signedIn && req.cookies[USER_ID_KEY]) {
     const user = await adminHelper.getSingleUser(req.cookies[USER_ID_KEY]);
@@ -164,6 +167,8 @@ app.use(async (req, res, next) => {
   }
   next();
 });
+
+// Routes
 app.use("/", usersRouter);
 app.use("/admin", adminRouter);
 

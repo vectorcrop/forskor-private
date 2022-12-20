@@ -14,6 +14,7 @@ const { search } = require("../routes/users");
 // });
 
 module.exports = {
+  ////////////////////////////Get All Products/////////////////////////////
   getAllProducts: () => {
     return new Promise(async (resolve, reject) => {
       let products = await db
@@ -24,7 +25,7 @@ module.exports = {
       resolve(products);
     });
   },
-
+////////////////////////////Get Single Products/////////////////////////////
   getSingleProducts: (pro) => {
     return new Promise(async (resolve, reject) => {
       let products = await db
@@ -35,7 +36,7 @@ module.exports = {
       resolve(products);
     });
   },
-
+////////////////////////////Get All Categories/////////////////////////////
   getAllCategories: () => {
     return new Promise(async (resolve, reject) => {
       let category = await db
@@ -46,7 +47,7 @@ module.exports = {
       resolve(category);
     });
   },
-
+////////////////////////////Get All Main Categories/////////////////////////////
   getAllMainCat: () => {
     return new Promise(async (resolve, reject) => {
       let maincat = await db
@@ -57,7 +58,7 @@ module.exports = {
       resolve(maincat);
     });
   },
-
+////////////////////////////Get Selected Categories/////////////////////////////
   getSelectedProduct: (cat) => {
     return new Promise(async (resolve, reject) => {
       let category = await db
@@ -69,7 +70,7 @@ module.exports = {
       resolve(category);
     });
   },
-
+////////////////////////////Get All Banners/////////////////////////////
   getAllBanner: () => {
     return new Promise(async (resolve, reject) => {
       let banners = await db
@@ -80,7 +81,7 @@ module.exports = {
       resolve(banners);
     });
   },
-
+////////////////////////////Get All Offers/////////////////////////////
   getAllOffers: () => {
     return new Promise(async (resolve, reject) => {
       let offers = await db
@@ -91,7 +92,7 @@ module.exports = {
       resolve(offers);
     });
   },
-
+////////////////////////////Login/////////////////////////////
   doSignup: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -160,7 +161,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////Login/////////////////////////////
   doSignin: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -197,7 +198,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////reset password/////////////////////////////
   resetPassword: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -240,7 +241,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////send otp/////////////////////////////
   sendOtp: (mobile, channel, isExistUser = true) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -279,7 +280,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////verify otp/////////////////////////////
   doOtpLogin: (mobile, code) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -320,7 +321,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////Add to cart/////////////////////////////
   addToCart: (productId, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -394,7 +395,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////add guest cart items/////////////////////////////
   addGuestCartItemsToUserCart: (guestId, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -474,7 +475,7 @@ module.exports = {
       }
     });
   },
-
+////////////////////////////get cart products/////////////////////////////
   getCartProducts: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {

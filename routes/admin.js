@@ -1,3 +1,4 @@
+// Description: This file contains all the routes for admin
 var express = require("express");
 var adminHelper = require("../helper/adminHelper");
 var fs = require("fs");
@@ -968,4 +969,5 @@ router.post("/search-result", verifySignedIn, function (req, res) {
   });
 });
 
+// export router
 module.exports = router;
