@@ -60,7 +60,7 @@ app.engine(
       },
       getRole: function (role) {
         if (role === "1" || role === "2") return "Casher";
-        if (role === "3") return "Cheif";
+        if (role === "3") return "Chef";
         if (role === "4") return "Delivery Boy";
         return "No Role";
       },
@@ -170,7 +170,7 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use("/", usersRouter);
-app.use("/admin", adminRouter);
+app.use("/bigwig", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

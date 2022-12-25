@@ -46,8 +46,8 @@
         <center>
             <h3>Manage Admins</h3>
         </center>
-        <a href="/admin/casher" class="btn btn-primary mb-3 mt-3">Back to main</a>
-        <a href="/admin/add-admin" class="btn btn-success mb-3 mt-3">Add Admins</a>
+        <a href="/bigwig/" class="btn btn-primary mb-3 mt-3">Back to main</a>
+        <a href="/bigwig/add-admin" class="btn btn-success mb-3 mt-3">Add Admins</a>
 
 
         <div class="card">
@@ -73,9 +73,9 @@
                             <td>{{#getRole this.Role}}{{/getRole}}</td>
                             <td>{{this.Status}}</td>
                             <td>
-                                <a href="/admin/edit-admin/{{this._id}}" class="btn btn-info">Edit</a>
-                                {{!-- <a href="/admin/block/{{this._id}}" class="btn btn-danger">Block</a> --}}
-                                <a href="/admin/remove-admin/{{this._id}}" class="btn btn-danger">Remove</a>
+                                <a href="/bigwig/edit-admin/{{this._id}}" class="btn btn-info">Edit</a>
+                                {{!-- <a href="/bigwig/block/{{this._id}}" class="btn btn-danger">Block</a> --}}
+                                <a href="/bigwig/remove-admin/{{this._id}}" class="btn btn-danger">Remove</a>
                             </td>
                         </tr>
                         {{/each}}

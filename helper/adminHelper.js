@@ -11,7 +11,7 @@ module.exports = {
       const { Name, Email, Password, Role, Code } = adminData;
       if (
         (Role === "2" && Code == "casher@123") ||
-        (Role === "3" && Code == "cheif@123") ||
+        (Role === "3" && Code == "chef@123") ||
         (Role === "4" && Code == "dboy@123")
       ) {
         const encryptedPassword = await bcrypt.hash(Password, 10);
@@ -21,7 +21,7 @@ module.exports = {
             Name,
             Email,
             Password: encryptedPassword,
-            Role,
+            Role, 
             Status: "Active",
           })
           .then((data) => {
