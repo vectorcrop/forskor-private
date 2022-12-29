@@ -20,7 +20,7 @@
               <tr>
                 <th scope="row"><img src="/images/product-images/{{this.product._id}}.png" alt=""></th>
                 <td>
-                  <h6 class="mb-1">{{this.product.Name}}</h6><span>₹{{this.product.Offer}}</span>
+                  <h6 class="mb-1">{{#getTitleCase this.product.Name}}{{/getTitleCase}}</h6><span>₹{{this.product.Offer}}</span>
                 </td>
                 <td>
                   <div class="quantity row-3">

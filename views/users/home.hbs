@@ -41,7 +41,7 @@
         style="background-image: url('/images/banner-images/{{this._id}}.png')">
         <div class="card-body p-5 direction-rtl">
           <center>
-            <h5 class="text-white font-weight-bold mb-3">{{this.Name}}</h5>
+            <h5 class="text-white font-weight-bold mb-3">{{#getTitleCase this.Name}}{{/getTitleCase}}</h5>
             <a class="btn btn-warning" href="/{{this.Path}}">View More</a>
           </center>
         </div>
@@ -96,7 +96,7 @@
             <div class="card-body1 align-items-center">
               <center><img src="/images/category-images/{{this._id}}.png" style="width: 50px; border-radius: 10px;">
                 <div class="card-content mt-2">
-                  <h6 class="textreducer mb-2">{{this.Name}}</h6>
+                  <h6 class="textreducer mb-2">{{#getTitleCase this.Name}}{{/getTitleCase}}</h6>
               </center>
             </div>
           </div>
@@ -118,7 +118,7 @@
                 <button class="active btn btn-primary btn-sm" data-filter="*">All</button>
                 {{#each maincat}}
                 <button class="btn btn-primary btn-sm"
-                  data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{this.Name}}</button>
+                  data-filter=".{{#getSmallerCase this.Name}}{{/getSmallerCase}}">{{#getTitleCase this.Name}}{{/getTitleCase}}</button>
                 {{/each}}
               </div>
             </small>
@@ -146,7 +146,7 @@
                   <!-- Product Thumbnail--><a class="product-thumbnail d-block"
                     href="/single-product/:{{this._id}}"><img src="/images/product-images/{{this._id}}.png" alt="">
                     <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
-                  <!-- Product Title--><a class="product-title d-block text-truncate" href="/single-product/:{{this._id}}">{{this.Name}}</a>
+                  <!-- Product Title--><a class="product-title d-block text-truncate" href="/single-product/:{{this._id}}">{{#getTitleCase this.Name}}{{/getTitleCase}}</a>
                   <!-- Product Price-->
                    
                   <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>

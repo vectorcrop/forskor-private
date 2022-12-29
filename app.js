@@ -58,6 +58,14 @@ app.engine(
       getSmallerCase: function (text) {
         return text.toLowerCase();
       },
+      getTitleCase: function toTitleCase(str) {
+        return str.replace(
+          /\w\S*/g,
+          function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          }
+        );
+      },
       getRole: function (role) {
         if (role === "1" || role === "2") return "Casher";
         if (role === "3") return "Chef";
