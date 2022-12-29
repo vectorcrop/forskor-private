@@ -3,8 +3,8 @@
         <center>
             <h3>Placed Orders</h3>
         </center>
-        <a href="/admin" class="btn btn-primary mb-3 mt-3">Back to main</a>
-        <a href="/admin/placed-orders" class="btn btn-info mb-3 mt-3">Refresh</a>
+        <a href="/bigwig" class="btn btn-primary mb-3 mt-3">Back to main</a>
+        <a href="/bigwig/placed-orders" class="btn btn-info mb-3 mt-3">Refresh</a>
 
         <div class="card">
             <div class="card-body p-3">
@@ -57,7 +57,7 @@
                             {{/ifeq}}
 
 
-                            <td><a href="/admin/view-ordered-products/{{this._id}}" class="btn btn-info btn-sm"
+                            <td><a href="/bigwig/view-ordered-products/{{this._id}}" class="btn btn-info btn-sm"
                                     type="button">Items</a></td>
 
                             <td>
@@ -65,10 +65,10 @@
                                 <div>
                                     {{!-- Confirmed --}}
                                     <a id="success" class="btn btn-success"
-                                        href="/admin/change-status/?status=confirmed&orderId={{this._id}}&origin=placed-orders">Confirm</a>
+                                        href="/bigwig/change-status/?status=confirmed&orderId={{this._id}}&origin=placed-orders">Confirm</a>
 
                                     {{!-- Cancelled --}}
-                                    <a href="/admin/change-status/?status=cancelled&orderId={{this._id}}&origin=placed-orders"
+                                    <a href="/bigwig/change-status/?status=cancelled&orderId={{this._id}}&origin=placed-orders"
                                         onclick="return confirm('Are You Sure to Cancel This Order ?')"
                                         class="btn btn-danger">Cancel</a>
                                 </div>

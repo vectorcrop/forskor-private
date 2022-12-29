@@ -1,8 +1,10 @@
+// Description: This file contains all the routes for the user side of the application
 var express = require("express");
 var userHelper = require("../helper/userHelper");
 var router = express.Router();
 const { ObjectID } = require("mongodb");
 const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
+
 ///------------------THIS IS USER SIDE---------------------------///
 
 // verify user
@@ -677,4 +679,5 @@ router.get("/menus", async (req, res, next) => {
   });
 });
 
+// export router
 module.exports = router;

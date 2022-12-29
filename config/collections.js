@@ -1,3 +1,4 @@
+// Description: This file contains all the collections name used in the project
 module.exports = {
   PRODUCTS_COLLECTION: "products",
   USERS_COLLECTION: "users",

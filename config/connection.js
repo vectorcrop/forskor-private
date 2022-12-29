@@ -1,3 +1,4 @@
+// Description: This file contains all the collections name used in the project
 const mongoClient = require("mongodb").MongoClient;
 
 const state = {

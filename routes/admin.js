@@ -1,3 +1,4 @@
+// Description: This file contains all the routes for admin
 var express = require("express");
 var adminHelper = require("../helper/adminHelper");
 var fs = require("fs");
@@ -10,7 +11,7 @@ const verifySignedIn = (req, res, next) => {
   if (req.session.signedInAdmin) {
     next();
   } else {
-    res.redirect("/admin/signin");
+    res.redirect("/bigwig/signin");
   }
 };
 
@@ -38,8 +39,8 @@ router.get("/all-banner", verifySignedIn, function (req, res) {
   });
 });
 
-// Router For Cheif
-router.get("/cheif", verifySignedIn, function (req, res) {
+// Router For Chef
+router.get("/chef", verifySignedIn, function (req, res) {
   let administator = req.session.admin;
   res.render("admin/chef", {
     layout: "layout3",
@@ -160,7 +161,7 @@ router.get("/all-products", verifySignedIn, function (req, res) {
   // if (administator.Role != "1") {
   //   req.session.signedInAdmin = false;
   //   req.session.admin = null;
-  //   return res.redirect("/admin/login");
+  //   return res.redirect("/bigwig/login");
   // }
   adminHelper.getAllProducts().then((products) => {
     res.render("admin/all-products", {
@@ -178,7 +179,7 @@ router.get("/products", verifySignedIn, function (req, res) {
   // if (administator.Role != "1") {
   //   req.session.signedInAdmin = false;
   //   req.session.admin = null;
-  //   return res.redirect("/admin/login");
+  //   return res.redirect("/bigwig/login");
   // }
   adminHelper.getAllProducts().then((products) => {
     res.render("admin/all-products", {
@@ -248,11 +249,11 @@ router.post("/add-admin", verifySignedIn, function (req, res) {
     .addAdmin(req.session.admin.Role, req.body)
     .then((response) => {
       req.session.successMsg = response.message;
-      res.redirect("/admin/all-admins");
+      res.redirect("/bigwig/all-admins");
     })
     .catch((error) => {
       req.session.addAdminErr = error.message;
-      res.redirect("/admin/add-admin");
+      res.redirect("/bigwig/add-admin");
     });
 });
 
@@ -272,7 +273,7 @@ router.get("/edit-admin/:id", verifySignedIn, function (req, res) {
     })
     .catch((error) => {
       req.session.errorMsg = error.message;
-      res.redirect("/admin/all-admins");
+      res.redirect("/bigwig/all-admins");
     });
 });
 
@@ -283,18 +284,18 @@ router.post("/edit-admin/:id", verifySignedIn, function (req, res) {
     .editAdmin(req.params.id, req.session.admin.Role, req.body)
     .then((response) => {
       req.session.successMsg = response.message;
-      res.redirect("/admin/all-admins");
+      res.redirect("/bigwig/all-admins");
     })
     .catch((error) => {
       req.session.editAdminErr = error.message;
-      res.redirect(`/admin/edit-admin/${req.params.id}`);
+      res.redirect(`/bigwig/edit-admin/${req.params.id}`);
     });
 });
 
 // admin signin
 router.get("/signin", function (req, res) {
   if (req.session.signedInAdmin) {
-    res.redirect("/admin");
+    res.redirect("/bigwig");
   } else {
     res.render("admin/signin", {
       layout: "adminlayout",
@@ -316,10 +317,10 @@ router.post("/signin", function (req, res) {
         httpOnly: true,
         sameSite: "strict",
       });
-      res.redirect("/admin");
+      res.redirect("/bigwig");
     } else {
       req.session.signInErr = "Invalid Email/Password";
-      res.redirect("/admin/signin");
+      res.redirect("/bigwig/signin");
     }
   });
 });
@@ -329,7 +330,7 @@ router.get("/signout", function (req, res) {
   req.session.signedInAdmin = false;
   req.session.admin = null;
   res.clearCookie(ADMIN_ID_KEY);
-  res.redirect("/admin");
+  res.redirect("/bigwig");
 });
 
 ///---------------BANNER---------------------------------///
@@ -352,7 +353,7 @@ router.post("/add-banner", function (req, res) {
     let image = req.files.Image;
     image.mv("./public/images/banner-images/" + id + ".png", (err, done) => {
       if (!err) {
-        res.redirect("/admin/all-banner");
+        res.redirect("/bigwig/all-banner");
       } else {
         console.log(err);
       }
@@ -384,7 +385,7 @@ router.post("/edit-banner/:id", verifySignedIn, function (req, res) {
         image.mv("./public/images/banner-images/" + bannerId + ".png");
       }
     }
-    res.redirect("/admin/all-banner");
+    res.redirect("/bigwig/all-banner");
   });
 });
 
@@ -393,14 +394,14 @@ router.get("/delete-banner/:id", verifySignedIn, function (req, res) {
   let bannerId = req.params.id;
   adminHelper.deleteAllBanner(bannerId).then((response) => {
     fs.unlinkSync("./public/images/banner-images/" + bannerId + ".png");
-    res.redirect("/admin/all-banner");
+    res.redirect("/bigwig/all-banner");
   });
 });
 
 // delete all Banner
 router.get("/delete-all-banner", verifySignedIn, function (req, res) {
   adminHelper.deleteAllbanner().then(() => {
-    res.redirect("/admin/all-banner");
+    res.redirect("/bigwig/all-banner");
   });
 });
 
@@ -423,7 +424,7 @@ router.post("/add-offer", function (req, res) {
     let image = req.files.Image;
     image.mv("./public/images/offer-images/" + id + ".png", (err, done) => {
       if (!err) {
-        res.redirect("/admin/all-offers");
+        res.redirect("/bigwig/all-offers");
       } else {
         console.log(err);
       }
@@ -455,7 +456,7 @@ router.post("/edit-offer/:id", verifySignedIn, function (req, res) {
         image.mv("./public/images/offer-images/" + offerId + ".png");
       }
     }
-    res.redirect("/admin/all-offers");
+    res.redirect("/bigwig/all-offers");
   });
 });
 
@@ -464,14 +465,14 @@ router.get("/delete-offer/:id", verifySignedIn, function (req, res) {
   let offerId = req.params.id;
   adminHelper.deleteAlloffer(offerId).then((response) => {
     fs.unlinkSync("./public/images/offer-images/" + offerId + ".png");
-    res.redirect("/admin/all-offers");
+    res.redirect("/bigwig/all-offers");
   });
 });
 
 // delete all products
 router.get("/delete-all-offer", verifySignedIn, function (req, res) {
   adminHelper.deleteAlloffer().then(() => {
-    res.redirect("/admin/all-offers");
+    res.redirect("/bigwig/all-offers");
   });
 });
 
@@ -494,7 +495,7 @@ router.post("/add-combo", function (req, res) {
     let image = req.files.Image;
     image.mv("./public/images/combo-images/" + id + ".png", (err, done) => {
       if (!err) {
-        res.redirect("/admin/all-combo");
+        res.redirect("/bigwig/all-combo");
       } else {
         console.log(err);
       }
@@ -526,7 +527,7 @@ router.post("/edit-combo/:id", verifySignedIn, function (req, res) {
         image.mv("./public/images/combo-images/" + comboId + ".png");
       }
     }
-    res.redirect("/admin/all-combos");
+    res.redirect("/bigwig/all-combos");
   });
 });
 
@@ -535,14 +536,14 @@ router.get("/delete-combo/:id", verifySignedIn, function (req, res) {
   let comboId = req.params.id;
   adminHelper.deleteAllCombos(comboId).then((response) => {
     fs.unlinkSync("./public/images/combo-images/" + comboId + ".png");
-    res.redirect("/admin/all-combo");
+    res.redirect("/bigwig/all-combo");
   });
 });
 
 // delete all products
 router.get("/delete-all-combo", verifySignedIn, function (req, res) {
   adminHelper.deleteAllCombos().then(() => {
-    res.redirect("/admin/all-combo");
+    res.redirect("/bigwig/all-combo");
   });
 });
 
@@ -565,7 +566,7 @@ router.post("/add-product", function (req, res) {
     let image = req.files.Image;
     image.mv("./public/images/product-images/" + id + ".png", (err, done) => {
       if (!err) {
-        res.redirect("/admin/all-products");
+        res.redirect("/bigwig/all-products");
       } else {
         console.log(err);
       }
@@ -600,7 +601,7 @@ router.post("/edit-product/:id", verifySignedIn, function (req, res) {
         image.mv("./public/images/product-images/" + productId + ".png");
       }
     }
-    res.redirect("/admin/all-products");
+    res.redirect("/bigwig/all-products");
   });
 });
 
@@ -609,14 +610,14 @@ router.get("/delete-product/:id", verifySignedIn, function (req, res) {
   let productId = req.params.id;
   adminHelper.deleteProduct(productId).then((response) => {
     fs.unlinkSync("./public/images/product-images/" + productId + ".png");
-    res.redirect("/admin/all-products");
+    res.redirect("/bigwig/all-products");
   });
 });
 
 // delete all products
 router.get("/delete-all-products", verifySignedIn, function (req, res) {
   adminHelper.deleteAllProducts().then(() => {
-    res.redirect("/admin/all-products");
+    res.redirect("/bigwig/all-products");
   });
 });
 
@@ -637,7 +638,7 @@ router.post("/add-maincat", function (req, res) {
     let image = req.files.Image;
     image.mv("./public/images/maincat-images/" + id + ".png", (err, done) => {
       if (!err) {
-        res.redirect("/admin/all-maincat");
+        res.redirect("/bigwig/all-maincat");
       } else {
         console.log(err);
       }
@@ -669,7 +670,7 @@ router.post("/edit-maincat/:id", verifySignedIn, function (req, res) {
         image.mv("./public/images/maincat-images/" + maincatId + ".png");
       }
     }
-    res.redirect("/admin/all-maincat");
+    res.redirect("/bigwig/all-maincat");
   });
 });
 
@@ -690,7 +691,7 @@ router.post("/add-category", function (req, res) {
     let image = req.files.Image;
     image.mv("./public/images/category-images/" + id + ".png", (err, done) => {
       if (!err) {
-        res.redirect("/admin/all-category");
+        res.redirect("/bigwig/all-category");
       } else {
         console.log(err);
       }
@@ -722,7 +723,7 @@ router.post("/edit-category/:id", verifySignedIn, function (req, res) {
         image.mv("./public/images/category-images/" + categoryId + ".png");
       }
     }
-    res.redirect("/admin/all-category");
+    res.redirect("/bigwig/all-category");
   });
 });
 
@@ -731,14 +732,14 @@ router.get("/delete-category/:id", verifySignedIn, function (req, res) {
   let categoryId = req.params.id;
   adminHelper.deleteCategory(categoryId).then((response) => {
     fs.unlinkSync("./public/images/category-images/" + categoryId + ".png");
-    res.redirect("/admin/all-category");
+    res.redirect("/bigwig/all-category");
   });
 });
 
 // delete all category
 router.get("/delete-all-category", verifySignedIn, function (req, res) {
   adminHelper.deleteAllCategory().then(() => {
-    res.redirect("/admin/all-category");
+    res.redirect("/bigwig/all-category");
   });
 });
 
@@ -764,7 +765,7 @@ router.post("/add-sub-category", function (req, res) {
       "./public/images/sub-category-images/" + id + ".png",
       (err, done) => {
         if (!err) {
-          res.redirect("/admin/add-sub-category");
+          res.redirect("/bigwig/add-sub-category");
         } else {
           console.log(err);
         }
@@ -799,7 +800,7 @@ router.post("/edit-sub-category/:id", verifySignedIn, function (req, res) {
         );
       }
     }
-    res.redirect("/admin/all-sub-category");
+    res.redirect("/bigwig/all-sub-category");
   });
 });
 
@@ -810,14 +811,14 @@ router.get("/delete-sub-category/:id", verifySignedIn, function (req, res) {
     fs.unlinkSync(
       "./public/images/sub-category-images/" + subcategoryId + ".png"
     );
-    res.redirect("/admin/all-sub-category");
+    res.redirect("/bigwig/all-sub-category");
   });
 });
 
 // delete all category
 router.get("/delete-all-sub-category", verifySignedIn, function (req, res) {
   adminHelper.deleteAllSubCategory().then(() => {
-    res.redirect("/admin/all-sub-category");
+    res.redirect("/bigwig/all-sub-category");
   });
 });
 
@@ -839,7 +840,7 @@ router.get("/all-users", verifySignedIn, function (req, res) {
 router.get("/remove-user/:id", verifySignedIn, function (req, res) {
   let userId = req.params.id;
   adminHelper.removeUser(userId).then(() => {
-    res.redirect("/admin/all-users");
+    res.redirect("/bigwig/all-users");
   });
 });
 
@@ -848,14 +849,14 @@ router.get("/remove-admin/:id", verifySignedIn, function (req, res) {
   let adminId = req.params.id;
   adminHelper.removeAdmin(adminId).then((response) => {
     req.session.successMsg = response.message;
-    res.redirect("/admin/all-admins");
+    res.redirect("/bigwig/all-admins");
   });
 });
 
 // remove all user
 router.get("/remove-all-users", verifySignedIn, function (req, res) {
   adminHelper.removeAllUsers().then(() => {
-    res.redirect("/admin/all-users");
+    res.redirect("/bigwig/all-users");
   });
 });
 
@@ -888,7 +889,7 @@ router.get("/placed-orders", verifySignedIn, async function (req, res) {
     });
 });
 
-router.get("/cheif/all-orders", verifySignedIn, async function (req, res) {
+router.get("/chef/all-orders", verifySignedIn, async function (req, res) {
   let administator = req.session.admin;
   let orders = await adminHelper.getAllOrders(req.params.status);
   res.render("admin/all-orders", {
@@ -923,20 +924,20 @@ router.get("/change-status/", verifySignedIn, function (req, res) {
   adminHelper.changeStatus(status, orderId).then(() => {
     req.io.emit(`status-${status}`, orderId);
     if (req.session.admin.Role === "3" || req.session.admin.Role === "4") {
-      return res.redirect("/admin");
+      return res.redirect("/bigwig");
     }
     if (
       req.query.origin === "placed-orders" &&
       (req.session.admin.Role === "1" || req.session.admin.Role === "2")
     ) {
-      return res.redirect("/admin/placed-orders");
+      return res.redirect("/bigwig/placed-orders");
     }
     if (req.session.admin.Role === "1" || req.session.admin.Role === "2") {
-      return res.redirect("/admin/all-orders");
+      return res.redirect("/bigwig/all-orders");
     }
     req.session.signedInAdmin = false;
     req.session.admin = null;
-    res.redirect("/admin/login");
+    res.redirect("/bigwig/login");
   });
 });
 
@@ -944,14 +945,14 @@ router.get("/change-status/", verifySignedIn, function (req, res) {
 router.get("/cancel-order/:id", verifySignedIn, function (req, res) {
   let orderId = req.params.id;
   adminHelper.cancelOrder(orderId).then(() => {
-    res.redirect("/admin/all-orders");
+    res.redirect("/bigwig/all-orders");
   });
 });
 
 // cancel all orders
 router.get("/cancel-all-orders", verifySignedIn, function (req, res) {
   adminHelper.cancelAllOrders().then(() => {
-    res.redirect("/admin/all-orders");
+    res.redirect("/bigwig/all-orders");
   });
 });
 
@@ -968,4 +969,5 @@ router.post("/search-result", verifySignedIn, function (req, res) {
   });
 });
 
+// export router
 module.exports = router;

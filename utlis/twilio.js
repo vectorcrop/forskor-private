@@ -1,3 +1,4 @@
+// Description: Twilio OTP verification
 const { TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN, TWILLIO_SERVICE_ID } =
   require("../config/constant").TWILLIO;
 

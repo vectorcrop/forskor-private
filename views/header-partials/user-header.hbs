@@ -165,7 +165,7 @@
         </svg>Category</a>  
       <ul>
         {{#each category}}
-        <li><a href="/menus?category={{this.Name}}">{{this.Name}}</a></li>
+        <li><a href="/menus?category={{#getEncodedValue this.Name}}{{/getEncodedValue}}">{{this.Name}}</a></li>
         {{/each}}
       </ul>
     </li>

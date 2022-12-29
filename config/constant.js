@@ -1,3 +1,4 @@
+// Description: This file contains all the collections name used in the project
 require("dotenv").config();
 
 const TWILLIO_ACCOUNT_SID =

@@ -1,8 +1,9 @@
+
 <div class="row mx-auto mt-5">
     <div class="col-md-6 mx-auto">
         <div class="container mt-5">
             <h2 class="text-center">Add Admin</h2>
-            <form action="/admin/add-admin" method="POST">
+            <form action="/bigwig/add-admin" method="POST">
                 {{#if addAdminErr}}
                 <div class="alert alert-danger" role="alert">
                     <p class="error alert-heading">{{addAdminErr}}</p>
@@ -32,7 +33,7 @@
                         <div class="form-check form-check-inline    ">
                             <input class="form-check-input" type="radio" name="Role" id="adminrole2" value="3">
                             <label class="form-check-label mt-1" for="adminrole2">
-                                Cheif
+                                Chef
                             </label>
                         </div>
                         <div class="form-check form-check-inline    ">
