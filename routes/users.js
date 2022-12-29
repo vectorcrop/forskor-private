@@ -156,11 +156,17 @@ router.get("/home", async function (req, res, next) {
   const maincat = await userHelper.getAllMainCat();
   const banners = await userHelper.getAllBanner();
 
+  // var shuffleproducts = 
+  // products.sort(() => Math.random() - 0.5);
+
+  var limit20products = products.slice(0, 20);
+
   res.render("users/home", {
     admin: false,
     products,
     user,
     cartCount,
+    limit20products,
     category,
     maincat,
     banners,
