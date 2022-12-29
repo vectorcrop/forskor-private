@@ -146,7 +146,7 @@
                   <!-- Product Thumbnail--><a class="product-thumbnail d-block"
                     href="/single-product/:{{this._id}}"><img src="/images/product-images/{{this._id}}.png" alt="">
                     <!-- Badge--><span class="badge bg-primary">{{this.Type}}</span></a>
-                  <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{this.Name}}</a>
+                  <!-- Product Title--><a class="product-title d-block text-truncate" href="">{{#getSmallerCase this.Name}}{{/getSmallerCase}}</a>
                   <!-- Product Price-->
                    
                   <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
@@ -297,4 +297,19 @@
     });
   }
 
+</script>
+
+<script>
+  str = document.getElementById("texting");
+res = '';
+for (var i = 0; i < str.length; ++i) {
+    c = str[i];
+  if (c == c.toUpperCase()) {
+    res += c.toLowerCase();
+  } else if (c == c.toLowerCase()) {
+    res += c.toUpperCase();
+  } else {
+    res += c;
+  }
+}
 </script>

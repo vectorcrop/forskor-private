@@ -59,6 +59,7 @@ app.engine(
       getSmallerCase: function (text) {
         return text.toLowerCase();
       },
+
       getRole: function (role) {
         if (role === "1" || role === "2") return "Casher";
         if (role === "3") return "Cheif";
