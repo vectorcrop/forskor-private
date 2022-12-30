@@ -1,3 +1,14 @@
+<style>
+    .card-body {
+    padding: 0.8rem;
+}
+.bg-warning {
+    background-color: #00000069 !important;
+}
+.text-dark {
+    color: #ffffff !important;
+}
+</style>
 <br /><br /><br />
 <div class="container">
   <div class="card mb-4">
@@ -29,27 +40,15 @@
     <div class="row g-3">
       {{#each response}}
         <!-- Single Top Product Card-->
-        <div class="col-6 col-sm-4 col-lg-3">
-          <div class="card single-product-card">
-            <div class="card-body p-3">
-              <!-- Product Thumbnail--><a
-                class="product-thumbnail d-block"
-                href="#"
-              ><img src="/images/product-images/{{this._id}}.png" alt="" />
-                <!-- Badge--><span class="badge bg-primary">10%</span></a>
-              <!-- Product Title--><a
-                class="product-title d-block text-truncate"
-                href=""
-              >{{this.Name}}</a>
-              <!-- Product Price-->
-              <p class="sale-price">₹{{this.Offer}}<span
-                >₹{{this.Price}}</span></p><button
-                class="btn btn-primary btn-sm"
-                onclick="addToCart('{{this._id}}')"
-              >Add to Bag</button>
+             <div class="col-6 col-sm-4 col-md-3 single-image-gallery {{this.Type}}">
+              <div class="card position-relative shadow-sm"><a href="/single-product/:{{this._id}}"><img class="card-img-top" src="/images/product-images/{{this._id}}.png" alt=""></a><span class="badge bg-warning text-dark position-absolute card-badge">{{this.Type}}</span>
+                <div class="card-body"> <a class="product-title d-block text-truncate" href="/single-product/:{{this._id}}" style="font-size: 1.125rem;color: #1f0757;margin-top: 0.75rem;font-weight: 500;margin-bottom: 0.25rem;">{{#getTitleCase this.Name}}{{/getTitleCase}}</a>
+                <p class="sale-price" style="font-size: 1.25rem;line-height: 1;color: #0134d4;font-weight: 500;">₹{{this.Offer}}<span style="font-size: 1rem;margin-left: 0.25rem;text-decoration: line-through;color: #ea4c62;">₹{{this.Price}}</span></p>
+                <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
+                    Add to Bag
+                  </button></div>
+              </div>
             </div>
-          </div>
-        </div>
       {{/each}}
     </div>
   </div>

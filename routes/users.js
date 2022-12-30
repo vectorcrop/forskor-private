@@ -57,10 +57,13 @@ router.get("/fav", verifySignedIn, async (req, res, next) => {
 });
 
 //single product
-router.get("/single-product/:id", verifySignedIn, async (req, res, next) => {
-  let user = req.session.user;
-  let userId = req.session.user._id;
-  let cartCount = await userHelper.getCartCount(userId);
+router.get("/single-product/:id", async (req, res, next) => {
+  let cartCount = 0;
+  let user = null;
+  if (req.session.user) {
+    user = req.session.user;
+    cartCount = await userHelper.getCartCount(req.session.user._id);
+  }
   let product = await userHelper
     .getSingleProducts(req.params.id.replace(":", ""))
     .then((response) => {
@@ -156,7 +159,7 @@ router.get("/home", async function (req, res, next) {
   const maincat = await userHelper.getAllMainCat();
   const banners = await userHelper.getAllBanner();
 
-  // var shuffleproducts = 
+  // var shuffleproducts =
   // products.sort(() => Math.random() - 0.5);
 
   var limit20products = products.slice(0, 20);
