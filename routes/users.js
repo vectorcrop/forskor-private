@@ -18,7 +18,7 @@ const verifySignedIn = async (req, res, next) => {
 
 // user welcome page
 router.get("/", async (req, res, next) => {
-  res.render("users/maintenance", { layout: "layout2", admin: false });
+  res.render("users/welcome", { layout: "layout2", admin: false });
 });
 
 // Combo-offers page
