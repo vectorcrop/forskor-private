@@ -3,7 +3,7 @@
     <div class="card invoice-card shadow">
       <div class="card-body">
         <!-- Download Invoice-->
-        <a href="/bigwig/all-orders"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="dark"
+        <a href="/bigwig"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="dark"
             class="bi bi-arrow-left mb-3" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
               d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z">
@@ -17,10 +17,13 @@
         <!-- Invoice Info-->
         <div class="row">
           <div class="invoice-info text-start mb-4 col">
-            <h6>Name: {{order.deliveryDetails.name}}</h6>
-            <h6>Date: {{order.date}}</h6>
+            <h6>Name: <b>{{order.deliveryDetails.name}}</b></h6>
+            <h6>Address: <b>{{order.deliveryDetails.address}}</b></h6>
+            <h6>Pin: <b>{{order.deliveryDetails.pincode}}</b></h6>
+            <h6>Phone: <b>{{order.deliveryDetails.phone}}</b></h6>
           </div>
           <div class="invoice-info text-end mb-4 col">
+            <h6>Date: {{order.date}}</h6>
             <h6>Invoice No. {{order.orderId}}</h6>
             <h6>Order Status: {{order.status}}</h6>
           </div>
