@@ -921,8 +921,8 @@ router.get(
 router.get("/change-status/", verifySignedIn, function (req, res) {
   let status = req.query.status;
   let orderId = req.query.orderId;
-  adminHelper.changeStatus(status, orderId).then(() => {
-    req.io.emit(`status-${status}`, orderId);
+  adminHelper.changeStatus(status, orderId).then(({ order }) => {
+    req.io.emit(`status-${status}`, order);
     if (req.session.admin.Role === "3" || req.session.admin.Role === "4") {
       return res.redirect("/bigwig");
     }

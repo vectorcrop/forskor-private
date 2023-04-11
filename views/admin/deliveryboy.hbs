@@ -68,14 +68,14 @@
 <script>
   const socket = io();
 
-  socket.on("status-dispatched", (orderId) => {
-    window.location.reload();
+  socket.on("status-dispatched", (order) => {
+    addRow(order)
   });
-  socket.on("status-picked", (orderId) => {
-    window.location.reload();
+  socket.on("status-picked", (order) => {
+    addRow(order)
   });
-  socket.on("status-delivered", (orderId) => {
-    window.location.reload();
+  socket.on("status-delivered", (order) => {
+    addRow(order)
   })
 
 </script>

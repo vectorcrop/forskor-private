@@ -39,7 +39,7 @@
               </td>
               <td>{{this.deliveryDetails.pincode}}</td>
 
-              <td>{{this.deliveryDetails.type}}</td>
+              <td>{{this.deliveryDetails.type}}</td> 
 
 
               {{#ifeq this.status "delivered"}}
@@ -157,28 +157,28 @@
 
   const socket = io();
 
-  socket.on("status-placed", (orderId) => {
-    window.location.reload();
+  socket.on("status-placed", (order) => {
+    addRow(order)
   })
-  socket.on("status-confirmed", (orderId) => {
-    window.location.reload();
+  socket.on("status-confirmed", (order) => {
+    addRow(order)
   })
-  socket.on("status-cooking", (orderId) => {
-    window.location.reload();
+  socket.on("status-cooking", (order) => {
+    addRow(order)
   })
-  socket.on("status-packed", (orderId) => {
-    window.location.reload();
+  socket.on("status-packed", (order) => {
+    addRow(order)
   })
-  socket.on("status-dispatched", (orderId) => {
-    window.location.reload();
+  socket.on("status-dispatched", (order) => {
+    addRow(order)
   })
-  socket.on("status-picked", (orderId) => {
-    window.location.reload();
+  socket.on("status-picked", (order) => {
+    addRow(order)
   });
-  socket.on("status-delivered", (orderId) => {
-    window.location.reload();
+  socket.on("status-delivered", (order) => {
+    addRow(order)
   })
-  socket.on("status-cancelled", (orderId) => {
-    window.location.reload();
+  socket.on("status-cancelled", (order) => {
+    addRow(order)
   })
 </script>

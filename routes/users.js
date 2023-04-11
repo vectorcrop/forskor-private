@@ -18,7 +18,7 @@ const verifySignedIn = async (req, res, next) => {
 
 // user welcome page
 router.get("/", async (req, res, next) => {
-  res.render("users/welcome", { layout: "layout2", admin: false });
+  res.redirect("/home");
 });
 
 // Combo-offers page
@@ -159,8 +159,7 @@ router.get("/home", async function (req, res, next) {
   const maincat = await userHelper.getAllMainCat();
   const banners = await userHelper.getAllBanner();
 
-   var shuffleproducts =
-   products.sort(() => Math.random() - 0.5);
+  var shuffleproducts = products.sort(() => Math.random() - 0.5);
 
   var limit20products = shuffleproducts.slice(0, 20);
 

@@ -969,8 +969,14 @@ module.exports = {
               },
             }
           );
+          const norder = await db
+          .get()
+          .collection(collections.ORDER_COLLECTION)
+          .findOne({ _id: objectId(orderId) });
+
         resolve({
           message: `Order Status changed ${status}`,
+          order: norder,
         });
       } catch (error) {
         reject({
