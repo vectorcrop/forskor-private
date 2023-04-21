@@ -349,6 +349,10 @@
       </div>
     </div>
 
+
+
+
+
     <!-- Gallery Wrapper-->
     <div class="gallery-wrapper row g-3">
 
@@ -372,7 +376,19 @@
                     ₹{{this.Offer}}<span
                       style="font-size: 1rem;margin-left: 0.25rem;text-decoration: line-through;color: #ea4c62;">₹{{this.Price}}</span>
                   </p>
-                  <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
+                  {{!-- <div id="count-container" style="display: none;"> --}}
+                    <div class="d-flex align-items-center mb-2">
+                      <button class="btn btn-sm btn-secondary ml-2" style="margin-right: 7px;"
+                        onclick="incrementCount()">+</button>
+                      <p class="count-text mb-0">1</p>
+                      <button class="btn btn-sm btn-secondary mr-2" style="margin-left: 7px;"
+                        onclick="decrementCount()">-</button>
+
+                    </div>
+
+                    {{!--
+                  </div> --}}
+                  <button class="btn btn-primary btn-sm" onclick="showCountContainer(); addToCart('{{this._id}}')">
                     Add to Bag
                   </button>
                 </div>
@@ -415,6 +431,10 @@
 
   </div>
 
+
+  {{#if user}}
+
+  {{else}}
   <div id="myModal" class="modal">
 
     <!-- Modal content -->
@@ -425,12 +445,8 @@
         <h3 class="text-white"><b>Login to unlock <br>
             Awesome Benefits</b></h3>
         <span class="close" style="color:rgb(247, 247, 247);">&times;</span>
-
       </div>
       <p class="text-white" style="margin-left: 20px;">It hardly takes only 10 seconds!</p>
-
-
-
       <div class="modal-body">
         <div class="card1">
           <img src="img/icons/im1.png" alt="Card Image">
@@ -451,22 +467,50 @@
     {{!-- TODO --}}
 
   </div>
+  {{/if}}
 
 
   <br><br>
+  <script>
+    let count = 1; // initial count value
+
+    function incrementCount() {
+      count++;
+      updateCountText();
+    }
+
+    function decrementCount() {
+      if (count > 1) { // prevent negative count
+        count--;
+        updateCountText();
+      }
+    }
+
+    function updateCountText() {
+      const countText = document.querySelector('.count-text');
+      countText.textContent = count;
+    }
+
+  </script>
+
+  <script>
+    function showCountContainer() {
+      document.getElementById("count-container").style.display = "block";
+    }
+  </script>
+
+
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"
     integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
     integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
   <script>
 
     //on page open set timeout
-    $(document).ready(function () {
-      setTimeout(function () {
-        $('#myModal').css('display', 'block');
-      }, 5000);
-    });
 
     $('#product-carousel').owlCarousel({
       loop: true,
@@ -574,7 +618,8 @@
 
 
     //timer then open modal 
-    setTimeout(function () { modal.style.display = "block"; }, 2000);
+    setTimeout(function () { modal.style.display = "block"; }, 5000);
+
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -593,4 +638,5 @@
         modal.style.display = "none";
       }
     }
+
   </script>
