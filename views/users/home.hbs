@@ -320,23 +320,118 @@
     <center> <a class="btn btn-outline-info w-100" href="/menu">View More</a></center>
 
   </div>
+
+  <style>
+
+.modal-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 30px;
+}
+
+.modal-heading h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.modal-heading h3 {
+  font-size: 18px;
+  font-weight: normal;
+  margin: 0;
+}
+
+
+.card1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border: 1px solid #ffffff;
+  border-radius: 50px;
+  background-color: #EAEAEA;
+  margin-bottom: 5px;
+}
+
+.card1 img {
+  width: 40px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.card-text {
+  flex: 1;
+}
+
+.card-text h2 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card-text p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+}
+
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+}
+
+.black-button {
+    padding: 10px 145px;
+    border: none;
+    border-radius: 130px;
+    font-size: 16px;
+    margin-bottom: 75px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+  </style>
   <div id="myModal" class="modal">
 
     <!-- Modal content -->
     {{!-- TODO --}}
     <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2>Modal Header</h2>
+      <div class="modal-header" style="border-radius: 10px; background-color:white; border: 1px solid #ffffff00; margin-top:20px;">
+        <h3><b>Login to unlock <br>
+Awesome Benefits</b></h3>     
+         <span class="close" style="color:black;">&times;</span>
+
       </div>
+      <div class="container">
+               <p>It hardly takes only 10 seconds!</p></div>
+
       <div class="modal-body">
-        <p>Some text in the Modal Body</p>
-        <p>Some other text...</p>
+     <div class="card1">
+  <img src="img/icons/im1.png" alt="Card Image">
+  <div class="card-text">
+    <h5>Easy Ordering</h5>
+  </div>
+</div>
+   <div class="card1">
+  <img src="img/icons/im2.png" alt="Card Image">
+  <div class="card-text">
+       <h5>Track Your Orders</h5>
+
+  </div>
+</div>
+        <button class="black-button">Login</button>
+
       </div>
-      <div class="modal-footer">
-        <h3>Modal Footer</h3>
-      </div>
+
     </div>
+    <br><br><br><br><br><br>
 
     {{!-- TODO --}}
 
@@ -464,7 +559,7 @@
 
 
     //timer then open modal 
-    setTimeout(function () { modal.style.display = "block"; }, 5000);
+    setTimeout(function () { modal.style.display = "block"; }, 2000);
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
