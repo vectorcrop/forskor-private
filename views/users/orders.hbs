@@ -66,13 +66,18 @@
 
             <div class="card-content">
               <!-- Product Title--><a class="product-title d-block text-truncate mt-0"
-                href="/view-ordered-products/{{this._id}}"><h4><b>{{this.orderId}}</b></h4></a>
+                href="/view-ordered-products/{{this._id}}">
+                <h4><b>{{this.orderId}}</b></h4>
+              </a>
               <!-- Product Price-->
               <p class="sale-price">₹{{this.totalOrderPrice}}.00</p>
               <div class="col-xs-12 col-md-6 col-sm-8 col-lg-12 center-block">
-                <h5><b>Status :
-                    <button class="btn btn-sm" style="background-color: {{#getStatusColor this.status}} {{/getStatusColor}};">
-                      <span class="text-light text-capitalize fw-bold">{{this.status}}</span></button></b><span class="pull-right">
+                <h5><b>Status : <span id="status-{{this._id}}">
+                      <button class="btn btn-sm"
+                        style="background-color: {{#getStatusColor this.status}} {{/getStatusColor}};">
+                        <span class="text-light text-capitalize fw-bold">{{this.status}}</span></button>
+                    </span>
+                  </b><span class="pull-right">
                     {{!-- <div class="dot-loader">
                       <div class="dot1 bg-dark"></div>
                       <div class="dot2 bg-dark"></div>
@@ -81,7 +86,7 @@
                   </span></h5>
               </div>
               <hr width="310px" />
-                <p>Date :
+              <p>Date :
                 <b>
                   <font color="black">{{this.date}}</font>
                 </b>
@@ -98,10 +103,9 @@
               </p>
 
               {{#ifeqarray this.status "placed,confirmed"}}
-                                          <hr width="310px" />
-               <a class="btn btn-primary w-45" href="/view-ordered-products/{{this._id}}">View Items</a>
-              <a id="{{this._id}}" class="btn btn-danger  w-45"
-                onclick="cancel(this.id);">Cancel Order?</a>
+              <hr width="310px" />
+              <a class="btn btn-primary w-45" href="/view-ordered-products/{{this._id}}">View Items</a>
+              <a id="{{this._id}}" class="btn btn-danger  w-45" onclick="cancel(this.id);">Cancel Order?</a>
               {{else}}
               {{!-- <button class="btn btn-primary  w-45" disabled>Order Cancelled</button>
               <button class="btn btn-danger  w-45" disabled>Order Cancelled</button> --}}
@@ -140,19 +144,63 @@
 
 
   <script>
-    function cancel(id){
+    function cancel(id) {
       console.log(id);
-  Swal.fire({
-    title: "Cancel Order?",
-    showCancelButton: true,
-    showConfirmButton:true,
-    confirmButtonText: "Confirm",
-  }).then((result)=>{
-    if(result.isConfirmed){
-      window.location.href=`/cancel-order/`+id;
-    }
-   
-  })
+      Swal.fire({
+        title: "Cancel Order?",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "Confirm",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/cancel-order/` + id;
+        }
+
+      })
     }
 
+  </script>
+
+
+  <script>
+
+    const socket = io();
+
+    socket.on("status-changed", ({ orderId, status }) => {
+      console.log(status, orderId);
+      const orderSpan = $("#status-" + orderId)
+
+      if (orderSpan) {
+        orderSpan.replaceWith(`
+        <span id="status-${orderId}">
+          <button class="btn btn-sm" style="background-color: ${getStatusColor(status)};">
+            <span class="text-light text-capitalize fw-bold">${status}</span>
+          </button>
+        </span>
+        `)
+      }
+    })
+
+    function getStatusColor(status = "") {
+      switch (status) {
+        case "placed":
+          return "#3498DB";
+        case "confirmed":
+          return "#1ABC9C";
+        case "cooking":
+          return "#F39C12";
+        case "packed":
+          return "#16A085";
+        case "dispatched":
+          return "#5D6D7E";
+        case "picked":
+          return "#28B463";
+        case "delivered":
+          return "#27AE60";
+        case "cancelled":
+          return "#E74C3C";
+        default:
+          return "blue";
+      }
+    }
   </script>

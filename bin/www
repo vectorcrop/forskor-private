@@ -80,6 +80,6 @@ function onListening() {
   debug("Listening on " + bind);
 
   console.log(
-    `Server listening on HOST:[localhost] DOMAIN:[localhost] PORT:[] in development mode and DOT_ENV_STATE is INACTIVE`
+    `Server listening on PORT:[${addr.port}]`
   );
 }

@@ -25,7 +25,34 @@ module.exports = {
       resolve(products);
     });
   },
-////////////////////////////Get Single Products/////////////////////////////
+  getAllProductsWithCartCount: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      let products = await db
+        .get()
+        .collection(collections.PRODUCTS_COLLECTION)
+        .find({ Visibility: "Show" })
+        .toArray();
+
+      let updatedProducts = await Promise.all(
+        products.map(async (product) => {
+          let cart = await db
+            .get()
+            .collection(collections.CART_COLLECTION)
+            .findOne({ user: objectId(userId), "products.item": product._id });
+          product.CartId = cart ? cart._id : null;
+          product.CartCount = cart
+            ? cart.products.find(
+                (cartProduct) =>
+                  cartProduct.item.toString() === product._id.toString()
+              ).quantity
+            : 0;
+          return product;
+        })
+      );
+      resolve(updatedProducts);
+    });
+  },
+  ////////////////////////////Get Single Products/////////////////////////////
   getSingleProducts: (pro) => {
     return new Promise(async (resolve, reject) => {
       let products = await db
@@ -36,7 +63,7 @@ module.exports = {
       resolve(products);
     });
   },
-////////////////////////////Get All Categories/////////////////////////////
+  ////////////////////////////Get All Categories/////////////////////////////
   getAllCategories: () => {
     return new Promise(async (resolve, reject) => {
       let category = await db
@@ -47,7 +74,7 @@ module.exports = {
       resolve(category);
     });
   },
-////////////////////////////Get All Main Categories/////////////////////////////
+  ////////////////////////////Get All Main Categories/////////////////////////////
   getAllMainCat: () => {
     return new Promise(async (resolve, reject) => {
       let maincat = await db
@@ -58,7 +85,7 @@ module.exports = {
       resolve(maincat);
     });
   },
-////////////////////////////Get Selected Categories/////////////////////////////
+  ////////////////////////////Get Selected Categories/////////////////////////////
   getSelectedProduct: (cat) => {
     return new Promise(async (resolve, reject) => {
       let category = await db
@@ -70,7 +97,7 @@ module.exports = {
       resolve(category);
     });
   },
-////////////////////////////Get All Banners/////////////////////////////
+  ////////////////////////////Get All Banners/////////////////////////////
   getAllBanner: () => {
     return new Promise(async (resolve, reject) => {
       let banners = await db
@@ -81,7 +108,7 @@ module.exports = {
       resolve(banners);
     });
   },
-////////////////////////////Get All Offers/////////////////////////////
+  ////////////////////////////Get All Offers/////////////////////////////
   getAllOffers: () => {
     return new Promise(async (resolve, reject) => {
       let offers = await db
@@ -92,7 +119,7 @@ module.exports = {
       resolve(offers);
     });
   },
-////////////////////////////Login/////////////////////////////
+  ////////////////////////////Login/////////////////////////////
   doSignup: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -161,7 +188,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////Login/////////////////////////////
+  ////////////////////////////Login/////////////////////////////
   doSignin: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -198,7 +225,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////reset password/////////////////////////////
+  ////////////////////////////reset password/////////////////////////////
   resetPassword: (userData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -241,7 +268,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////send otp/////////////////////////////
+  ////////////////////////////send otp/////////////////////////////
   sendOtp: (mobile, channel, isExistUser = true) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -280,7 +307,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////verify otp/////////////////////////////
+  ////////////////////////////verify otp/////////////////////////////
   doOtpLogin: (mobile, code) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -321,7 +348,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////Add to cart/////////////////////////////
+  ////////////////////////////Add to cart/////////////////////////////
   addToCart: (productId, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -364,6 +391,8 @@ module.exports = {
               );
             return resolve({
               message: "The Item quantity updated in your bag",
+              quantity: productExist.quantity + 1,
+              cartId: userCart._id,
             });
           } else {
             await db
@@ -375,18 +404,21 @@ module.exports = {
                   $push: { products: productObject },
                 }
               );
-            return resolve({ message: "Item was added" });
+            return resolve({
+              message: "Item was added",
+              quantity: productObject.quantity,
+              cartId: userCart._id,
+            });
           }
         } else {
-          await db
+          const ncart = await db
             .get()
             .collection(collections.CART_COLLECTION)
             .insertOne({
               user: objectId(userId),
               products: [productObject],
             });
-
-          return resolve({ message: "Item was added" });
+          return resolve({ message: "Item was added", quantity: productObject.quantity, cartId: ncart.insertedId });
         }
       } catch (error) {
         return reject({
@@ -395,7 +427,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////add guest cart items/////////////////////////////
+  ////////////////////////////add guest cart items/////////////////////////////
   addGuestCartItemsToUserCart: (guestId, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -475,7 +507,7 @@ module.exports = {
       }
     });
   },
-////////////////////////////get cart products/////////////////////////////
+  ////////////////////////////get cart products/////////////////////////////
   getCartProducts: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -544,7 +576,6 @@ module.exports = {
       resolve(count);
     });
   },
-
   changeProductQuantity: (details) => {
     details.count = parseInt(details.count);
     details.quantity = parseInt(details.quantity);

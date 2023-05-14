@@ -148,7 +148,7 @@ db.connect((err) => {
   if (err) console.log("Error" + err);
   else
     console.log(
-      `MONGODB DATABASE [forskor] connected in HOST [atles] PORT [] by USER [forskor]`
+      `MONGODB DATABASE [forskor] connected to ther server`
     );
 });
 

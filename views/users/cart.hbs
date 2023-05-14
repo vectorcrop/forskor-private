@@ -17,10 +17,11 @@
             </thead>
             <tbody>
               {{#each cartProducts}}
-              <tr>
+              <tr id="{{this._id}}">
                 <th scope="row"><img src="/images/product-images/{{this.product._id}}.png" alt=""></th>
                 <td>
-                  <h6 class="mb-1">{{#getTitleCase this.product.Name}}{{/getTitleCase}}</h6><span>₹{{this.product.Offer}}</span>
+                  <h6 class="mb-1">{{#getTitleCase this.product.Name}}{{/getTitleCase}}</h6>
+                  <span>₹{{this.product.Offer}}</span>
                 </td>
                 <td>
                   <div class="quantity row-3">
@@ -41,15 +42,15 @@
           </table>
         </div>
         <div class="container">
-        <div class="row mb-4">
-  <div class="col">
-    <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{total}} &amp; Pay</a>
-  </div>
-  <div class="col">
-    <a class="btn btn-dark w-100" href="/menu">Add More</a>
-  </div>
-</div>
-</div>
+          <div class="row mb-4">
+            <div class="col">
+              <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{total}} &amp; Pay</a>
+            </div>
+            <div class="col">
+              <a class="btn btn-dark w-100" href="/menu">Add More</a>
+            </div>
+          </div>
+        </div>
 
         {{!-- <div class="card-body border-top">
 
@@ -119,15 +120,17 @@
               toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
           });
-          let cartCount = $("#cart-count").html();
-          cartCount = parseInt(cartCount) + count;
-          $("#cart-count").html(cartCount);
-          if (cartCount > 1) {
-            $("#table").load(" #table");
-            $("#total").load(" #total");
-          } else {
-            location.reload()
-          }
+          $('#' + cartId).empty();
+          $("#total").load(" #total");
+          //  let cartCount = $("#cart-count").html();
+          //  cartCount = parseInt(cartCount) + count;
+          //  $("#cart-count").html(cartCount);
+          //  if (cartCount > 1) {
+          //    $("#table").load(" #table");
+          //    $("#total").load(" #total");
+          //  } else {
+          //    location.reload()
+          // }
         } else {
           document.getElementById(productId).innerHTML = quantity + count;
           let cartCount = $("#cart-count").html();
@@ -166,15 +169,17 @@
               toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
           });
-          let cartCount = $("#cart-count").html();
-          cartCount = parseInt(cartCount) - parseInt(quantity);
-          $("#cart-count").html(cartCount);
-          if (cartCount > 1) {
-            $("#table").load(" #table");
-            $("#total").load(" #total");
-          } else {
-            location.reload()
-          }
+          $('#' + cartId).empty();
+          $("#total").load(" #total");
+          // let cartCount = $("#cart-count").html();
+          // cartCount = parseInt(cartCount) - parseInt(quantity);
+          // $("#cart-count").html(cartCount);
+          // if (cartCount > 1) {
+          //   $("#table").load(" #table");
+          //   $("#total").load(" #total");
+          // } else {
+          //   location.reload()
+          // }
         } else {
           alert("Remove Error")
         }

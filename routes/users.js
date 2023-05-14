@@ -98,13 +98,22 @@ router.get("/profile", verifySignedIn, async (req, res, next) => {
 
 // favoraite page
 router.get("/menu", async (req, res, next) => {
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
+
+  if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
+    userId = new ObjectID().toString();
+    res.cookie(GUEST_ID_KEY, userId);
+  }
+
   let cartCount = 0;
   let user = null;
   if (req.session.user) {
     user = req.session.user;
-    cartCount = await userHelper.getCartCount(req.session.user._id);
+    cartCount = await userHelper.getCartCount(userId);
   }
-  products = await userHelper.getAllProducts();
+  products = await userHelper.getAllProductsWithCartCount(userId);
   maincat = await userHelper.getAllMainCat();
   category = await userHelper.getAllCategories();
   res.render("users/menu", {
@@ -126,7 +135,7 @@ router.get("/menu/:Name", async (req, res, next) => {
     user = req.session.user;
     cartCount = await userHelper.getCartCount(req.session.user._id);
   }
-  products = await userHelper.getAllProducts();
+  products = await userHelper.getAllProductsWithCartCount(req.session.user._id);
   category = await userHelper.getAllCategories();
   maincat = await userHelper.getAllMainCat();
   res.render("users/menu", {
@@ -154,7 +163,7 @@ router.get("/home", async function (req, res, next) {
   const user = req.session.user;
 
   const cartCount = await userHelper.getCartCount(userId);
-  const products = await userHelper.getAllProducts();
+  const products = await userHelper.getAllProductsWithCartCount(userId);
   const category = await userHelper.getAllCategories();
   const maincat = await userHelper.getAllMainCat();
   const banners = await userHelper.getAllBanner();
@@ -457,7 +466,12 @@ router.get("/add-to-cart/:id", function (req, res) {
   userHelper
     .addToCart(productId, userId)
     .then((response) => {
-      res.json({ status: true, message: response.message });
+      res.json({
+        status: true,
+        message: response.message,
+        cartId: response.cartId,
+        quantity: response.quantity,
+      });
     })
     .catch((error) => {
       return res.json({
