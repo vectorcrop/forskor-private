@@ -127,8 +127,11 @@
                           style="font-size: 1rem;margin-left: 0.25rem; text-decoration: line-through; color: #ea4c62;">₹{{this.Price}}</span>
                       </p>
 
+                      <button class="btn btn-primary w-100" onclick="addToCart('{{this._id}}')">Add to Bag</button>
 
-                      <div id="{{this._id}}">
+
+
+                      {{!-- <div id="{{this._id}}">
                         {{#ifeq this.CartCount 0}}
                         <button class="btn btn-primary btn-sm" onclick=" addToCart('{{this._id}}')">
                           Add to Bag
@@ -143,7 +146,7 @@
                             onclick="changeQuantity('{{this.CartId}}','{{this._id}}','{{this.CartCount}}',-1)">-</button>
                         </div>
                         {{/ifneq}}
-                      </div>
+                      </div> --}}
                     </div>
                   </div>
                 </div>
