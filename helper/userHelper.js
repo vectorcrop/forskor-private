@@ -418,7 +418,11 @@ module.exports = {
               user: objectId(userId),
               products: [productObject],
             });
-          return resolve({ message: "Item was added", quantity: productObject.quantity, cartId: ncart.insertedId });
+          return resolve({
+            message: "Item was added",
+            quantity: productObject.quantity,
+            cartId: ncart.insertedId,
+          });
         }
       } catch (error) {
         return reject({
@@ -676,7 +680,7 @@ module.exports = {
           },
         ])
         .toArray();
-      resolve(total[0]?.total ?? 0);
+      resolve(total[0] ? total[0].total : 0);
     });
   },
 
