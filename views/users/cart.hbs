@@ -42,9 +42,24 @@
           </table>
         </div>
         <div class="container">
+          <hr>
+          <div style="display: flex; justify-content: center; align-items: end; flex-direction: column; padding-right: 10px;">
+            <br>
+            <h6 id="gross-total">GROSS TOTAL: ₹{{total}}</h6>
+            <br>
+            <h6 id="cgst-total">CGST (2.5%): ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}</h6>
+            <br>
+            <h6 id="sgst-total">SGST (2.5%): ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}</h6>
+            <br>
+            <h6 id="discount-total">DISCOUNT ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%): ₹{{#getTotalDiscount total}}{{/getTotalDiscount}}</h6>
+            <br>
+            <h6 id="grand-total">GRAND TOTAL: ₹<span style="color: red; font-weight: bold;">{{#getTotalWithGST total}}{{/getTotalWithGST}}</span></h6>
+            <br>
+          </div>
           <div class="row mb-4">
             <div class="col">
-              <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{total}} &amp; Pay</a>
+              <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{#getTotalWithGST
+                total}}{{/getTotalWithGST}} &amp; Pay</a>
             </div>
             <div class="col">
               <a class="btn btn-dark w-100" href="/menu">Add More</a>
@@ -121,21 +136,39 @@
             }
           });
           $('#' + cartId).empty();
+          // $("#table").load(" #table");
+          $("#gross-total").load(" #gross-total");
+          $("#cgst-total").load(" #cgst-total");
+          $("#sgst-total").load(" #sgst-total");
+          $("#discount-total").load(" #discount-total");
+          $("#grand-total").load(" #grand-total");
           $("#total").load(" #total");
-          //  let cartCount = $("#cart-count").html();
-          //  cartCount = parseInt(cartCount) + count;
-          //  $("#cart-count").html(cartCount);
-          //  if (cartCount > 1) {
-          //    $("#table").load(" #table");
-          //    $("#total").load(" #total");
-          //  } else {
-          //    location.reload()
+          location.reload()
+
+          // let cartCount = $("#cart-count").html();
+          // cartCount = parseInt(cartCount) + count;
+          // $("#cart-count").html(cartCount);
+          // if (cartCount > 1) {
+          //   $("#table").load(" #table");
+          // $("#gross-total").load(" #gross-total");
+          // $("#cgst-total").load(" #cgst-total");
+          // $("#sgst-total").load(" #sgst-total");
+          // $("#discount-total").load(" #discount-total");
+          // $("#grand-total").load(" #grand-total");
+          // $("#total").load(" #total");
+          // } else {
+          //   location.reload()
           // }
         } else {
           document.getElementById(productId).innerHTML = quantity + count;
           let cartCount = $("#cart-count").html();
           cartCount = parseInt(cartCount) + count;
           $("#cart-count").html(cartCount);
+          $("#gross-total").load(" #gross-total");
+          $("#cgst-total").load(" #cgst-total");
+          $("#sgst-total").load(" #sgst-total");
+          $("#discount-total").load(" #discount-total");
+          $("#grand-total").load(" #grand-total");
           $("#total").load(" #total");
         }
       }
@@ -143,47 +176,50 @@
   }
 
   function removeCartProduct(cartId, productId, quantity) {
-    $.ajax({
-      url: '/remove-cart-product',
-      data: {
-        cart: cartId,
-        product: productId
-      },
-      method: 'post',
-      success: (response) => {
-        if (response.status) {
-          Swal.fire({
-            toast: true,
-            icon: 'success',
-            title: "Item have been removed",
-            animation: true,
-            showConfirmButton: false,
-            position: 'top-right',
-            customClass: 'my',
-            timerProgressBar: true,
-            showDenyButton: false,
-            showCancelButton: false,
-            timer: 3000,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          });
-          $('#' + cartId).empty();
-          $("#total").load(" #total");
-          // let cartCount = $("#cart-count").html();
-          // cartCount = parseInt(cartCount) - parseInt(quantity);
-          // $("#cart-count").html(cartCount);
-          // if (cartCount > 1) {
-          //   $("#table").load(" #table");
-          //   $("#total").load(" #total");
-          // } else {
-          //   location.reload()
-          // }
-        } else {
-          alert("Remove Error")
+    try {
+
+      $.ajax({
+        url: '/remove-cart-product',
+        data: {
+          cart: cartId,
+          product: productId
+        },
+        method: 'post',
+        success: (response) => {
+          if (response.status) {
+            Swal.fire({
+              toast: true,
+              icon: 'success',
+              title: "Item have been removed",
+              animation: true,
+              showConfirmButton: false,
+              position: 'top-right',
+              customClass: 'my',
+              timerProgressBar: true,
+              showDenyButton: false,
+              showCancelButton: false,
+              timer: 3000,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+            $('#' + cartId).empty();
+            $("#gross-total").load(" #gross-total");
+            $("#cgst-total").load(" #cgst-total");
+            $("#sgst-total").load(" #sgst-total");
+            $("#discount-total").load(" #discount-total");
+            $("#grand-total").load(" #grand-total");
+            $("#total").load(" #total");
+            // $("#table").load(" #table");
+            location.reload()
+          } else {
+            alert("Remove Error")
+          }
         }
-      }
-    })
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 </script>

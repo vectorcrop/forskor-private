@@ -15,6 +15,8 @@ const connectSocket = require("./socket/socket.io");
 const adminHelper = require("./helper/adminHelper");
 var app = express();
 const { ADMIN_ID_KEY, USER_ID_KEY } = require("./config/constant").COOKIE_KEYS;
+const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT } =
+  require("./config/constant").SETTINGS;
 
 // Socket Config
 var server = http.createServer(app);
@@ -125,6 +127,31 @@ app.engine(
           0
         );
       },
+      getTotalWithCGST: (price) => {
+        return (price * 2.5) / 100;
+      },
+      getTotalWithSGST: (price) => {
+        return (price * 2.5) / 100;
+      },
+      getDiscountPercentage: () => {
+        return DISCOUNT_PERCENTAGE;
+      },
+      getTotalDiscount: (price) => {
+        let total = price + (price * 5) / 100;
+        if (total >= DISCOUNT_TOTAL_LIMIT) {
+          return (total * DISCOUNT_PERCENTAGE) / 100;
+        } else {
+          return 0;
+        }
+      },
+      getTotalWithGST: (price) => {
+        let total = price + (price * 5) / 100;
+        if (total >= DISCOUNT_TOTAL_LIMIT) {
+          return Math.ceil(total - (total * DISCOUNT_PERCENTAGE) / 100);
+        } else {
+          return Math.ceil(total);
+        }
+      },
     },
   })
 );
@@ -146,10 +173,7 @@ app.use(
 // Mongodb Connection
 db.connect((err) => {
   if (err) console.log("Error" + err);
-  else
-    console.log(
-      `MONGODB DATABASE [forskor] connected to ther server`
-    );
+  else console.log(`MONGODB DATABASE [forskor] connected to ther server`);
 });
 
 // socket add in req.io middleware

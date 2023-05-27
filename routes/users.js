@@ -4,6 +4,8 @@ var userHelper = require("../helper/userHelper");
 var router = express.Router();
 const { ObjectID } = require("mongodb");
 const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
+const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT } =
+  require("../config/constant").SETTINGS;
 
 ///------------------THIS IS USER SIDE---------------------------///
 
@@ -64,8 +66,11 @@ router.get("/single-product/:id", async (req, res, next) => {
     user = req.session.user;
     cartCount = await userHelper.getCartCount(req.session.user._id);
   }
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
   let product = await userHelper
-    .getSingleProducts(req.params.id.replace(":", ""))
+    .getSingleProductsWithCartCount(req.params.id.replace(":", ""), userId)
     .then((response) => {
       var product = response[0];
       console.log(response[0].Name);
@@ -114,6 +119,7 @@ router.get("/menu", async (req, res, next) => {
     cartCount = await userHelper.getCartCount(userId);
   }
   products = await userHelper.getAllProductsWithCartCount(userId);
+  console.log(products);
   maincat = await userHelper.getAllMainCat();
   category = await userHelper.getAllCategories();
   res.render("users/menu", {
@@ -129,13 +135,23 @@ router.get("/menu", async (req, res, next) => {
 
 // favoraite page
 router.get("/menu/:Name", async (req, res, next) => {
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
+
+  if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
+    userId = new ObjectID().toString();
+    res.cookie(GUEST_ID_KEY, userId);
+  }
+
   let cartCount = 0;
   let user = null;
   if (req.session.user) {
     user = req.session.user;
     cartCount = await userHelper.getCartCount(req.session.user._id);
   }
-  products = await userHelper.getAllProductsWithCartCount(req.session.user._id);
+  products = await userHelper.getAllProductsWithCartCount(userId);
+  console.log(products);
   category = await userHelper.getAllCategories();
   maincat = await userHelper.getAllMainCat();
   res.render("users/menu", {
@@ -519,9 +535,13 @@ router.post("/place-order", verifySignedIn, async (req, res) => {
   }
 
   const products = await userHelper.getCartProductList(user._id);
-  const totalPrice = await userHelper.getTotalAmount(user._id);
+  let totalPrice = await userHelper.getTotalAmount(user._id);
+  totalPrice += (totalPrice * 5) / 100;
+  if (totalPrice >= DISCOUNT_TOTAL_LIMIT) {
+    totalPrice -= (totalPrice * DISCOUNT_PERCENTAGE) / 100;
+  }
   userHelper
-    .placeOrder(req.body, products, totalPrice, user._id)
+    .placeOrder(req.body, products,  Math.ceil(totalPrice) , user._id)
     .then((orderId) => {
       req.io.emit("status-placed", orderId);
       if (req.body["payment-method"] === "COD") {
@@ -680,6 +700,10 @@ router.post("/search-result", async function (req, res) {
 
 // custom cat filter
 router.get("/menus", async (req, res, next) => {
+  let userId = req.session.signedIn
+    ? req.session.user._id
+    : req.cookies[GUEST_ID_KEY];
+
   let cartCount = 0;
   let user = null;
   if (req.session.user) {
@@ -688,9 +712,11 @@ router.get("/menus", async (req, res, next) => {
   }
   category = await userHelper.getAllCategories();
   console.log(req.query.category);
-  products = await userHelper.getSelectedProduct(req.query.category);
+  products = await userHelper.getSelectedProductWithCartCount(
+    req.query.category,
+    userId
+  );
 
-  // category = await userHelper.getAllCategories();
   res.render("users/menu", {
     admin: false,
     user,

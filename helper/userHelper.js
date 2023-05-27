@@ -60,6 +60,30 @@ module.exports = {
         .collection(collections.PRODUCTS_COLLECTION)
         .find({ _id: objectId(pro) })
         .toArray();
+
+      resolve(products);
+    });
+  },
+  getSingleProductsWithCartCount: (pro, userId) => {
+    return new Promise(async (resolve, reject) => {
+      let products = await db
+        .get()
+        .collection(collections.PRODUCTS_COLLECTION)
+        .find({ _id: objectId(pro) })
+        .toArray();
+
+      let cart = await db
+        .get()
+        .collection(collections.CART_COLLECTION)
+        .findOne({ user: objectId(userId), "products.item": products[0]._id });
+      products[0].CartId = cart ? cart._id : null;
+      products[0].CartCount = cart
+        ? cart.products.find(
+            (cartProduct) => cartProduct.item.toString() === pro.toString()
+          ).quantity
+        : 0;
+
+      console.log(products);
       resolve(products);
     });
   },
@@ -93,8 +117,34 @@ module.exports = {
         .collection(collections.PRODUCTS_COLLECTION)
         .find({ ParentCat: cat })
         .toArray();
-      console.log(cat);
+
       resolve(category);
+    });
+  },
+  getSelectedProductWithCartCount: (cat, userId) => {
+    return new Promise(async (resolve, reject) => {
+      let products = await db
+        .get()
+        .collection(collections.PRODUCTS_COLLECTION)
+        .find({ ParentCat: cat })
+        .toArray();
+      let updatedProducts = await Promise.all(
+        products.map(async (product) => {
+          let cart = await db
+            .get()
+            .collection(collections.CART_COLLECTION)
+            .findOne({ user: objectId(userId), "products.item": product._id });
+          product.CartId = cart ? cart._id : null;
+          product.CartCount = cart
+            ? cart.products.find(
+                (cartProduct) =>
+                  cartProduct.item.toString() === product._id.toString()
+              ).quantity
+            : 0;
+          return product;
+        })
+      );
+      resolve(updatedProducts);
     });
   },
   ////////////////////////////Get All Banners/////////////////////////////

@@ -1,64 +1,152 @@
-
 <div class="page-content-wrapper py-3">
-      <div class="container">
-        <div class="card mb-1" >
-           <center><div class="card-body" style="width: 14rem;">
-           <img  src="/images/product-images/{{product._id}}.png" alt="">
-          </div></center>
+  <div class="container">
+    <div class="card mb-1">
+      <center>
+        <div class="card-body" style="width: 14rem;">
+          <img src="/images/product-images/{{product._id}}.png" alt="">
         </div>
-        <div class="card product-details-card mb-3 direction-rtl">
-          <div class="card-body">
-            <h3>{{#getTitleCase product.Name}}{{/getTitleCase}}</h3>
-            <h1>₹{{product.Offer}}<span style="color:red;">&ThinSpace;<s>₹{{product.Price}}</s></span></h1>
-            <p>{{product.Description}}</p>
-            <div>
-            
-              <div class="input-group">
-                {{!-- <input class="input-group-text form-control" type="number" value="1"> --}}
-                <button class="btn btn-primary w-100" onclick="addToCart('{{product._id}}')">Add to Bag</button>
+      </center>
+    </div>
+    <div class="card product-details-card mb-3 direction-rtl">
+      <div class="card-body">
+        <h3>{{#getTitleCase product.Name}}{{/getTitleCase}}</h3>
+        <h1>₹{{product.Offer}}<span style="color:red;">&ThinSpace;<s>₹{{product.Price}}</s></span></h1>
+        <p>{{product.Description}}</p>
+        <div>
+
+          <div class="input-group">
+            {{!-- <input class="input-group-text form-control" type="number" value="1"> --}}
+            {{!-- <button class="btn btn-primary w-100" onclick="addToCart('{{product._id}}')">Add to Bag</button> --}}
+            <div id="{{product._id}}">
+              {{#ifeq product.CartCount 0}}
+              <button class="btn btn-primary w-100" style="margin: 2px 0 6px 0;"
+                onclick=" addToCart('{{product._id}}')">
+                Add to Bag
+              </button>
+              {{/ifeq}}
+              {{#ifneq product.CartCount 0}}
+              <div class="d-flex align-items-center mb-2">
+                <button class="btn btn-sm btn-primary ml-2" style="margin-right: 7px;"
+                  onclick="changeQuantity('{{product.CartId}}','{{product._id}}','{{product.CartCount}}',1)">+</button>
+                <p class="count-text mb-0">{{product.CartCount}}</p>
+                <button class="btn btn-sm btn-primary mr-2" style="margin-left: 7px;"
+                  onclick="changeQuantity('{{product.CartId}}','{{product._id}}','{{product.CartCount}}',-1)">-</button>
               </div>
+              {{/ifneq}}
             </div>
           </div>
         </div>
-    
-        {{!-- <div class="card related-product-card">
-          <div class="card-body">
-            <h5 class="mb-3">Related Products</h5>
-            <div class="row g-3">
-              <!-- Single Top Product Card-->
-              <div class="col-6 col-sm-4 col-lg-3">
-                <div class="card single-product-card shadow">
-                  <div class="card-body p-3">
-                    <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="page-shop-details.html"><img src="img/bg-img/p1.jpg" alt="">
-                      <!-- Badge--><span class="badge bg-primary">Sale</span></a>
-                    <!-- Product Title--><a class="product-title d-block text-truncate" href="page-shop-details.html">Wooden Tool</a>
-                    <!-- Product Price-->
-                    <p class="sale-price">$9.89<span>$13.42</span></p><a class="btn btn-danger btn-sm" href="#">Add to Cart</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Single Top Product Card-->
-              <div class="col-6 col-sm-4 col-lg-3">
-                <div class="card single-product-card shadow">
-                  <div class="card-body p-3">
-                    <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="page-shop-details.html"><img src="img/bg-img/p2.jpg" alt="">
-                      <!-- Badge--><span class="badge bg-primary">Sale</span></a>
-                    <!-- Product Title--><a class="product-title d-block text-truncate" href="page-shop-details.html">Atoms Musk</a>
-                    <!-- Product Price-->
-                    <p class="sale-price">$3.36<span>$5.99</span></p><a class="btn btn-danger btn-sm" href="#">Add to Cart</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> --}}
       </div>
     </div>
 
-    {{!-- add to cart --}}
+    {{!-- <div class="card related-product-card">
+      <div class="card-body">
+        <h5 class="mb-3">Related Products</h5>
+        <div class="row g-3">
+          <!-- Single Top Product Card-->
+          <div class="col-6 col-sm-4 col-lg-3">
+            <div class="card single-product-card shadow">
+              <div class="card-body p-3">
+                <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="page-shop-details.html"><img
+                    src="img/bg-img/p1.jpg" alt="">
+                  <!-- Badge--><span class="badge bg-primary">Sale</span></a>
+                <!-- Product Title--><a class="product-title d-block text-truncate" href="page-shop-details.html">Wooden
+                  Tool</a>
+                <!-- Product Price-->
+                <p class="sale-price">$9.89<span>$13.42</span></p><a class="btn btn-danger btn-sm" href="#">Add to
+                  Cart</a>
+              </div>
+            </div>
+          </div>
+          <!-- Single Top Product Card-->
+          <div class="col-6 col-sm-4 col-lg-3">
+            <div class="card single-product-card shadow">
+              <div class="card-body p-3">
+                <!-- Product Thumbnail--><a class="product-thumbnail d-block" href="page-shop-details.html"><img
+                    src="img/bg-img/p2.jpg" alt="">
+                  <!-- Badge--><span class="badge bg-primary">Sale</span></a>
+                <!-- Product Title--><a class="product-title d-block text-truncate" href="page-shop-details.html">Atoms
+                  Musk</a>
+                <!-- Product Price-->
+                <p class="sale-price">$3.36<span>$5.99</span></p><a class="btn btn-danger btn-sm" href="#">Add to
+                  Cart</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> --}}
+  </div>
+</div>
+
+{{!-- add to cart --}}
 
 
 <script>
+
+  function changeQuantity(cartId, productId, quantity, count) {
+    var productDiv = $("#" + productId);
+    quantity = parseInt(quantity);
+    count = parseInt(count);
+    $.ajax({
+      url: '/change-product-quantity',
+      data: {
+        cart: cartId,
+        product: productId,
+        count: count,
+        quantity: quantity
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.removeProduct) {
+          Swal.fire({
+            toast: true,
+            icon: 'success',
+            title: "Item have been removed",
+            animation: true,
+            showConfirmButton: false,
+            position: 'top-right',
+            customClass: 'my',
+            timerProgressBar: true,
+            showDenyButton: false,
+            showCancelButton: false,
+            timer: 3000,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+          $(productDiv).replaceWith(`<div id="${productId}"><button class="btn btn-primary w-100" style="margin: 2px 0 6px 0;" onclick="addToCart('${productId}')">
+                      Add to Bag
+                    </button></div>`)
+        } else {
+          // Check the quantity in the cart for the product
+          // Replace the following line with your logic to retrieve the quantity from the cart
+          var quantityInCart = quantity + count;
+          if (quantityInCart > 0) {
+            // Replace "Add to Cart" button with increment and decrement buttons
+            $(productDiv).replaceWith(`<div id="${productId}"><div class="d-flex align-items-center mb-2">
+                      <button class="btn btn-sm btn-primary ml-2" style="margin-right: 7px;"
+                        onclick="changeQuantity('${cartId}','${productId}','${quantityInCart}',1)">+</button>
+                      <p class="count-text mb-0">${quantityInCart}</p>
+                      <button class="btn btn-sm btn-primary mr-2" style="margin-left: 7px;"
+                        onclick="changeQuantity('${cartId}','${productId}','${quantityInCart}',-1)">-</button>
+                    </div></div>`);
+          } else {
+            // Change the Added button
+            $(productDiv).replaceWith(`<div id="${productId}"><button class="btn btn-primary w-100" style="margin: 2px 0 6px 0;" onclick="addToCart('${productId}')">
+                      Add to Bag
+                    </button></div>`)
+          }
+          //   document.getElementById(productId).innerHTML = quantity + count;
+          //   let cartCount = $("#cart-count").html();
+          //   cartCount = parseInt(cartCount) + count;
+          //   $("#cart-count").html(cartCount);
+          //   $("#total").load(" #total");
+        }
+      }
+    })
+  }
 
   function addToCart(productId) {
     $.ajax({
@@ -66,43 +154,47 @@
       method: "get",
       success: (response) => {
         if (response.status) {
-
-Swal.fire({
-    toast: true,
-    icon: 'success',
-    customClass: 'my',
-    title: response.message,
-    animation: true,
-    position: 'top-right',
-    showConfirmButton: false,
-    timer: 3000,
-    iconColor:"#fff",
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
-          let count = $("#cart-count").html();
-          count = parseInt(count) + 1;
-          $("#cart-count").html(count);
+          Swal.fire({
+            toast: true,
+            icon: 'success',
+            customClass: 'my',
+            title: response.message,
+            animation: true,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 3000,
+            iconColor: "#fff",
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          const cartId = response.cartId;
+          const quantity = response.quantity ?? 1;
+          $("#" + productId).replaceWith(`<div id="${productId}"><div class="d-flex align-items-center mb-2">
+                      <button class="btn btn-sm btn-primary ml-2" style="margin-right: 7px;"
+                        onclick="changeQuantity('${cartId}','${productId}','${quantity}',1)">+</button>
+                      <p class="count-text mb-0">${quantity}</p>
+                      <button class="btn btn-sm btn-primary mr-2" style="margin-left: 7px;"
+                        onclick="changeQuantity('${cartId}','${productId}','${quantity}',-1)">-</button>
+                    </div></div>`);
         } else {
           Swal.fire({
-    toast: true,
-    icon: 'error',
-    title: response.message,
-    animation: true,
-    position: 'top-right',
-    showConfirmButton: false,
-    timer: 3000,
-    iconColor:"#fff",
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
-          window.location = "/signin";
+            toast: true,
+            icon: 'error',
+            title: response.message,
+            animation: true,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 3000,
+            iconColor: "#fff",
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
         }
       },
     });
