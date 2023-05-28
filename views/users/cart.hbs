@@ -43,8 +43,7 @@
             </tbody>
           </table>
         </div>
-        <div class="container">
-<<<<<<< Updated upstream
+        {{!-- <div class="container">
           <hr>
           <div
             style="display: flex; justify-content: center; align-items: end; flex-direction: column; padding-right: 10px;">
@@ -73,8 +72,13 @@
             </div>
             <div class="col">
               <a class="btn btn-dark w-100" href="/menu">Add More</a>
-=======
-          <div class="card invoice-card shadow">
+            </div>
+          </div>
+        </div> --}}
+
+
+        <div class="container">
+          <div class="card invoice-card shadow mb-4">
             <div class="card-body">
 
               <!-- Invoice Table-->
@@ -124,8 +128,12 @@
                   </table>
                   <div class="row">
                     <div class="col">
-                      <a class="btn btn-danger w-100" href="/place-order" id="total">₹{{#getTotalWithGST
+                      {{#if shopStatus}}
+                      <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{#getTotalWithGST
                         total}}{{/getTotalWithGST}} &amp; Pay</a>
+                      {{else}}
+                      <button class="btn btn-danger w-100 mb-0" disabled id="total">Shop Closed</button>
+                      {{/if}}
                     </div>
                     <div class="col">
                       <a class="btn btn-dark w-100" href="/menu">Add More</a>
@@ -133,21 +141,22 @@
                   </div>
                 </div>
               </div>
->>>>>>> Stashed changes
+
+
+
+
+
+              {{!-- <div class="card-body border-top">
+
+                <!-- Checkout--><a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{total}} &amp;
+                  Pay</a>
+              </div> --}}
             </div>
           </div>
         </div>
-        <br>
-
-        {{!-- <div class="card-body border-top">
-
-          <!-- Checkout--><a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{total}} &amp; Pay</a>
-        </div> --}}
       </div>
     </div>
-  </div>
-</div>
-<br>
+    <br>
 
 
 
@@ -156,148 +165,149 @@
 
 
 
-{{else}}
+    {{else}}
 
 
-<!-- Page Content Wrapper-->
-<div class="page-content-wrapper py-3">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-sm-9 col-md-8 col-lg-6">
-        <div class="card">
-          <div class="card-body px-5 text-center"><img class="mb-4" src="img/icons/cart.svg" width="200px" alt="">
-            <h4> Your cart is empty!</h4>
-            <p class="mb-4">Please buy somthing...</p><a class="btn btn-creative btn-danger" href="/home">Go to Home</a>
+    <!-- Page Content Wrapper-->
+    <div class="page-content-wrapper py-3">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-9 col-md-8 col-lg-6">
+            <div class="card">
+              <div class="card-body px-5 text-center"><img class="mb-4" src="img/icons/cart.svg" width="200px" alt="">
+                <h4> Your cart is empty!</h4>
+                <p class="mb-4">Please buy somthing...</p><a class="btn btn-creative btn-danger" href="/home">Go to
+                  Home</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
 
-{{/if}}
-</section>
+    {{/if}}
+    </section>
 
-<script>
-  function changeQuantity(cartId, productId, count) {
-    let quantity = parseInt(document.getElementById(productId).innerHTML);
-    count = parseInt(count);
-    $.ajax({
-      url: '/change-product-quantity',
-      data: {
-        cart: cartId,
-        product: productId,
-        count: count,
-        quantity: quantity
-      },
-      method: 'post',
-      success: (response) => {
-        if (response.removeProduct) {
-          Swal.fire({
-            toast: true,
-            icon: 'success',
-            title: "Item have been removed",
-            animation: true,
-            showConfirmButton: false,
-            position: 'top-right',
-            customClass: 'my',
-            timerProgressBar: true,
-            showDenyButton: false,
-            showCancelButton: false,
-            timer: 3000,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
+    <script>
+      function changeQuantity(cartId, productId, count) {
+        let quantity = parseInt(document.getElementById(productId).innerHTML);
+        count = parseInt(count);
+        $.ajax({
+          url: '/change-product-quantity',
+          data: {
+            cart: cartId,
+            product: productId,
+            count: count,
+            quantity: quantity
+          },
+          method: 'post',
+          success: (response) => {
+            if (response.removeProduct) {
+              Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: "Item have been removed",
+                animation: true,
+                showConfirmButton: false,
+                position: 'top-right',
+                customClass: 'my',
+                timerProgressBar: true,
+                showDenyButton: false,
+                showCancelButton: false,
+                timer: 3000,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              });
+              $('#' + cartId).empty();
+              // $("#table").load(" #table");
+              $("#gross-total").load(" #gross-total");
+              $("#cgst-total").load(" #cgst-total");
+              $("#sgst-total").load(" #sgst-total");
+              $("#discount-total").load(" #discount-total");
+              $("#grand-total").load(" #grand-total");
+              $("#total").load(" #total");
+              location.reload()
+
+              // let cartCount = $("#cart-count").html();
+              // cartCount = parseInt(cartCount) + count;
+              // $("#cart-count").html(cartCount);
+              // if (cartCount > 1) {
+              //   $("#table").load(" #table");
+              // $("#gross-total").load(" #gross-total");
+              // $("#cgst-total").load(" #cgst-total");
+              // $("#sgst-total").load(" #sgst-total");
+              // $("#discount-total").load(" #discount-total");
+              // $("#grand-total").load(" #grand-total");
+              // $("#total").load(" #total");
+              // } else {
+              //   location.reload()
+              // }
+            } else {
+              document.getElementById(productId).innerHTML = quantity + count;
+              let cartCount = $("#cart-count").html();
+              cartCount = parseInt(cartCount) + count;
+              $("#cart-count").html(cartCount);
+              $("#gross-total").load(" #gross-total");
+              $("#cgst-total").load(" #cgst-total");
+              $("#sgst-total").load(" #sgst-total");
+              $("#discount-total").load(" #discount-total");
+              $("#grand-total").load(" #grand-total");
+              $("#total").load(" #total");
+              location.reload()
+
             }
-          });
-          $('#' + cartId).empty();
-          // $("#table").load(" #table");
-          $("#gross-total").load(" #gross-total");
-          $("#cgst-total").load(" #cgst-total");
-          $("#sgst-total").load(" #sgst-total");
-          $("#discount-total").load(" #discount-total");
-          $("#grand-total").load(" #grand-total");
-          $("#total").load(" #total");
-          location.reload()
+          }
+        })
+      }
 
-          // let cartCount = $("#cart-count").html();
-          // cartCount = parseInt(cartCount) + count;
-          // $("#cart-count").html(cartCount);
-          // if (cartCount > 1) {
-          //   $("#table").load(" #table");
-          // $("#gross-total").load(" #gross-total");
-          // $("#cgst-total").load(" #cgst-total");
-          // $("#sgst-total").load(" #sgst-total");
-          // $("#discount-total").load(" #discount-total");
-          // $("#grand-total").load(" #grand-total");
-          // $("#total").load(" #total");
-          // } else {
-          //   location.reload()
-          // }
-        } else {
-          document.getElementById(productId).innerHTML = quantity + count;
-          let cartCount = $("#cart-count").html();
-          cartCount = parseInt(cartCount) + count;
-          $("#cart-count").html(cartCount);
-          $("#gross-total").load(" #gross-total");
-          $("#cgst-total").load(" #cgst-total");
-          $("#sgst-total").load(" #sgst-total");
-          $("#discount-total").load(" #discount-total");
-          $("#grand-total").load(" #grand-total");
-          $("#total").load(" #total");
-          location.reload()
+      function removeCartProduct(cartId, productId, quantity) {
+        try {
 
+          $.ajax({
+            url: '/remove-cart-product',
+            data: {
+              cart: cartId,
+              product: productId
+            },
+            method: 'post',
+            success: (response) => {
+              if (response.status) {
+                Swal.fire({
+                  toast: true,
+                  icon: 'success',
+                  title: "Item have been removed",
+                  animation: true,
+                  showConfirmButton: false,
+                  position: 'top-right',
+                  customClass: 'my',
+                  timerProgressBar: true,
+                  showDenyButton: false,
+                  showCancelButton: false,
+                  timer: 3000,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                });
+                $('#' + cartId).empty();
+                $("#gross-total").load(" #gross-total");
+                $("#cgst-total").load(" #cgst-total");
+                $("#sgst-total").load(" #sgst-total");
+                $("#discount-total").load(" #discount-total");
+                $("#grand-total").load(" #grand-total");
+                $("#total").load(" #total");
+                // $("#table").load(" #table");
+                location.reload()
+              } else {
+                alert("Remove Error")
+              }
+            }
+          })
+        } catch (error) {
+          console.log(error)
         }
       }
-    })
-  }
-
-  function removeCartProduct(cartId, productId, quantity) {
-    try {
-
-      $.ajax({
-        url: '/remove-cart-product',
-        data: {
-          cart: cartId,
-          product: productId
-        },
-        method: 'post',
-        success: (response) => {
-          if (response.status) {
-            Swal.fire({
-              toast: true,
-              icon: 'success',
-              title: "Item have been removed",
-              animation: true,
-              showConfirmButton: false,
-              position: 'top-right',
-              customClass: 'my',
-              timerProgressBar: true,
-              showDenyButton: false,
-              showCancelButton: false,
-              timer: 3000,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            });
-            $('#' + cartId).empty();
-            $("#gross-total").load(" #gross-total");
-            $("#cgst-total").load(" #cgst-total");
-            $("#sgst-total").load(" #sgst-total");
-            $("#discount-total").load(" #discount-total");
-            $("#grand-total").load(" #grand-total");
-            $("#total").load(" #total");
-            // $("#table").load(" #table");
-            location.reload()
-          } else {
-            alert("Remove Error")
-          }
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-</script>
+    </script>
