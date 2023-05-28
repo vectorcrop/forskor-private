@@ -62,88 +62,78 @@
               <label class="form-check-label" for="Cash paid ✔️">Online Payment</label>
             </div> }}
 
-<<<<<<< Updated upstream
-            {{#if shopStatus}}
-            <button class="btn btn-danger mt-3 w-100" type="submit">Order</button>
-            {{else}}
-            <button class="btn btn-danger mt-3 w-100" type="button" disabled>Shop Closed</button>
-            {{/if}}
+            <hr>
+
+            <h6>Bill & Other Informations</h6>
+            <!-- Invoice Table-->
+            <div class="invoice-table">
+              <div class="table-responsive">
+                <table class="table " style="border-color: #ebebeb00;">
+                  <thead class="table">
+                    <tr>
+                      <th>Title</th>
+                      <th>Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="color: black;"><b>Gross Total</b></td>
+                      <td id="gross-total" style="color: black;"><b>₹{{total}}</b></td>
+                    </tr>
+                    <tr>
+                      <td style="color: black;">CGST <font color="red">(2.5%)</font>
+                      </td>
+                      <td id="cgst-total" style="color:red;">+ ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="color: black;">SGST <font color="red">(2.5%)</font>
+                      </td>
+                      <td id="sgst-total" style="color:red;">+ ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="color: black;">Discount <font color="green">
+                          ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%)</font>
+                      </td>
+                      <td id="discount-total" style="color:green;">- ₹{{#getTotalDiscount
+                        total}}{{/getTotalDiscount}}
+                      </td>
+                    </tr>
+
+                  </tbody>
+                  <tfoot class="table-light">
+                    <tr>
+                      <td style="font-weight:bold;">Grand Total:</td>
+                      <td style="font-weight: bold; color:red;" id="grand-total">₹{{#getTotalWithGST
+                        total}}{{/getTotalWithGST}}</td>
+                    </tr>
+
+                  </tfoot>
+
+
+                </table>
+
+                {{#if shopStatus}}
+                <button class="btn btn-danger mt-3 w-100" type="submit">Confirm Order</button>
+                {{else}}
+                <button class="btn btn-danger mt-3 w-100" type="button" disabled>Shop Closed</button>
+                {{/if}}
+
+              </div>
+            </div>
+
+
           </form>
-=======
->>>>>>> Stashed changes
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="container">
-  <div class="card invoice-card shadow" style="margin-top: -69px;">
-    <div class="card-body">
-
-      <!-- Invoice Table-->
-      <div class="invoice-table">
-        <div class="table-responsive">
-          <table class="table " style="border-color: #ebebeb00;">
-            <thead class="table">
-              <tr>
-                <th>Title</th>
-                <th>Cost</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="color: black;"><b>Gross Total</b></td>
-                <td id="gross-total" style="color: black;"><b>₹{{total}}</b></td>
-              </tr>
-              <tr>
-                <td style="color: black;">CGST <font color="red">(2.5%)</font>
-                </td>
-                <td id="cgst-total" style="color:red;">+ ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}
-                </td>
-              </tr>
-              <tr>
-                <td style="color: black;">SGST <font color="red">(2.5%)</font>
-                </td>
-                <td id="sgst-total" style="color:red;">+ ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}
-                </td>
-              </tr>
-              <tr>
-                <td style="color: black;">Discount <font color="green">
-                    ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%)</font>
-                </td>
-                <td id="discount-total" style="color:green;">- ₹{{#getTotalDiscount
-                  total}}{{/getTotalDiscount}}
-                </td>
-              </tr>
-
-            </tbody>
-            <tfoot class="table-light">
-              <tr>
-                <td style="font-weight:bold;">Grand Total:</td>
-                <td style="font-weight: bold; color:red;" id="grand-total">₹{{#getTotalWithGST
-                  total}}{{/getTotalWithGST}}</td>
-              </tr>
-
-            </tfoot>
 
 
-          </table>
-
-
-          <button class="btn btn-danger mt-3 w-100" type="submit">Pay
-            ₹{{#getTotalWithGST
-            total}}{{/getTotalWithGST}}
-            &amp; Order</button>
-          </form>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br><br><br><br>
+<br>
 
 
 <script>
