@@ -53,3 +53,65 @@ Sweet Alert
    Category: 'Barbeque Starter'
 }
 ```
+
+
+<div class="page-content-wrapper pt-0" style="margin-top: -51px;">
+  <div class="container">
+    <div class="card invoice-card shadow">
+      <div class="card-body">
+
+        <!-- Invoice Table-->
+        <div class="invoice-table">
+          <div class="table-responsive">
+            <table class="table " style="border-color: #ebebeb00;">
+              <thead class="table">
+                <tr>
+                  <th>Description</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Gross Total</td>
+                  <td>₹{{total}}</td>
+                </tr>
+                <tr>
+                  <td>CGST (2.5%)</td>
+                  <td>₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}</td>
+                </tr>
+                <tr>
+                  <td>SGST (2.5%)</td>
+                  <td>₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}</td>
+                </tr>
+                <tr>
+                  <td>Discount ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%)</td>
+                  <td>₹{{#getTotalDiscount total}}{{/getTotalDiscount}}</td>
+                </tr>
+
+              </tbody>
+              <tfoot class="table-light">
+                <tr>
+                  <td style="font-weight:bold;">Grand Total:</td>
+                  <td style="font-weight: bold; color:red;">₹{{#getTotalWithGST
+                    total}}{{/getTotalWithGST}}</td>
+                </tr>
+
+              </tfoot>
+
+
+            </table>
+            <div class="row">
+              <div class="col">
+                <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{#getTotalWithGST
+                  total}}{{/getTotalWithGST}} &amp; Pay</a>
+              </div>
+              <div class="col">
+                <a class="btn btn-dark w-100" href="/menu">Add More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,12 @@
 {{#if cartProducts}}
 
-<div class="page-content-wrapper py-3">
+
+
+<div class="page-content-wrapper pt-4">
   <div class="container-lg">
     <!-- Cart Wrapper-->
     <div class="cart-wrapper-area">
-      <div class="cart-table card mb-3">
+      <div class="cart-table card ">
         <div class="table-responsive card-body">
           <table class="table mb-0 text-center" id="table">
             <thead>
@@ -42,6 +44,7 @@
           </table>
         </div>
         <div class="container">
+<<<<<<< Updated upstream
           <hr>
           <div
             style="display: flex; justify-content: center; align-items: end; flex-direction: column; padding-right: 10px;">
@@ -70,9 +73,71 @@
             </div>
             <div class="col">
               <a class="btn btn-dark w-100" href="/menu">Add More</a>
+=======
+          <div class="card invoice-card shadow">
+            <div class="card-body">
+
+              <!-- Invoice Table-->
+              <div class="invoice-table">
+                <div class="table-responsive">
+                  <table class="table " style="border-color: #ebebeb00;">
+                    <thead class="table">
+                      <tr>
+                        <th>Title</th>
+                        <th>Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="color: black;"><b>Gross Total</b></td>
+                        <td id="gross-total" style="color: black;"><b>₹{{total}}</b></td>
+                      </tr>
+                      <tr>
+                        <td style="color: black;">CGST <font color="red">(2.5%)</font>
+                        </td>
+                        <td id="cgst-total" style="color:red;">+ ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}</td>
+                      </tr>
+                      <tr>
+                        <td style="color: black;">SGST <font color="red">(2.5%)</font>
+                        </td>
+                        <td id="sgst-total" style="color:red;">+ ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}</td>
+                      </tr>
+                      <tr>
+                        <td style="color: black;">Discount <font color="green">
+                            ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%)</font>
+                        </td>
+                        <td id="discount-total" style="color:green;">- ₹{{#getTotalDiscount total}}{{/getTotalDiscount}}
+                        </td>
+                      </tr>
+
+                    </tbody>
+                    <tfoot class="table-light">
+                      <tr>
+                        <td style="font-weight:bold;">Grand Total:</td>
+                        <td style="font-weight: bold; color:red;" id="grand-total">₹{{#getTotalWithGST
+                          total}}{{/getTotalWithGST}}</td>
+                      </tr>
+
+                    </tfoot>
+
+
+                  </table>
+                  <div class="row">
+                    <div class="col">
+                      <a class="btn btn-danger w-100" href="/place-order" id="total">₹{{#getTotalWithGST
+                        total}}{{/getTotalWithGST}} &amp; Pay</a>
+                    </div>
+                    <div class="col">
+                      <a class="btn btn-dark w-100" href="/menu">Add More</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+>>>>>>> Stashed changes
             </div>
           </div>
         </div>
+        <br>
 
         {{!-- <div class="card-body border-top">
 
@@ -82,7 +147,11 @@
     </div>
   </div>
 </div>
-</div>
+<br>
+
+
+
+
 
 
 
@@ -177,6 +246,8 @@
           $("#discount-total").load(" #discount-total");
           $("#grand-total").load(" #grand-total");
           $("#total").load(" #total");
+          location.reload()
+
         }
       }
     })
