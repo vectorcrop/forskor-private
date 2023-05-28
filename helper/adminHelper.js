@@ -21,7 +21,7 @@ module.exports = {
             Name,
             Email,
             Password: encryptedPassword,
-            Role, 
+            Role,
             Status: "Active",
           })
           .then((data) => {
@@ -33,7 +33,7 @@ module.exports = {
     });
   },
 
-///------------------------ADMIN LOGIN-------------------------////
+  ///------------------------ADMIN LOGIN-------------------------////
   doSignin: (adminData) => {
     return new Promise(async (resolve, reject) => {
       const admin = await db
@@ -54,7 +54,7 @@ module.exports = {
     });
   },
 
-///------------------------ADMIN GET ID-------------------------////
+  ///------------------------ADMIN GET ID-------------------------////
   getAdminById: (adminId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -78,7 +78,68 @@ module.exports = {
       }
     });
   },
-///------------------------ADD ADMIN-------------------------////
+  getShopStatus: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const settings = await db
+          .get()
+          .collection(collections.SETTINGS_COLLECTION)
+          .findOne();
+        resolve({
+          shopStatus: settings ? settings.ShopStatus : "INACTIVE",
+        });
+      } catch (error) {
+        reject({
+          message: error.message || "Server Error",
+        });
+      }
+    });
+  },
+  changeShopStatus: (status) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const shopStatus = status === "ACTIVE" ? "ACTIVE" : "INACTIVE";
+        console.log(typeof status, status,shopStatus);
+        const settings = await db
+          .get()
+          .collection(collections.SETTINGS_COLLECTION)
+          .findOne();
+        if (settings) {
+          await db
+            .get()
+            .collection(collections.SETTINGS_COLLECTION)
+            .updateOne(
+              { _id: objectId(settings._id) },
+              {
+                $set: {
+                  ShopStatus: shopStatus,
+                },
+              }
+            );
+          console.log(
+            { _id: objectId(settings._id) },
+            {
+                ShopStatus: shopStatus,
+             
+            }
+          );
+        } else {
+          await db.get().collection(collections.SETTINGS_COLLECTION).insertOne({
+            ShopStatus: shopStatus,
+          });
+        }
+        resolve({
+          message: `Shop status changed to ${shopStatus}`,
+          shopStatus,
+        });
+      } catch (error) {
+        reject({
+          message: error.message || "Server Error",
+        });
+      }
+    });
+  },
+  ///------------------------ADD ADMIN-------------------------////
   addAdmin: (adminRole, adminData) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -193,7 +254,7 @@ module.exports = {
       }
     });
   },
-///------------------------CHANGE ADMIN PASSWORD-------------------------////
+  ///------------------------CHANGE ADMIN PASSWORD-------------------------////
   changeAdminPassword: (adminId, Role, Password) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -236,7 +297,7 @@ module.exports = {
       }
     });
   },
-///------------------------CHANGE ADMIN STATUS-------------------------////
+  ///------------------------CHANGE ADMIN STATUS-------------------------////
   changeAdminStatus: (adminId, Role, Status) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -282,7 +343,7 @@ module.exports = {
       }
     });
   },
-///------------------------GET ALL ADMINS-------------------------////
+  ///------------------------GET ALL ADMINS-------------------------////
   getAllAdmins: () => {
     return new Promise(async (resolve, reject) => {
       let admins = await db
@@ -307,7 +368,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-////------------------------GET ALL BANNERS-------------------------////
+  ////------------------------GET ALL BANNERS-------------------------////
   getAllBanner: () => {
     return new Promise(async (resolve, reject) => {
       let banners = await db
@@ -318,7 +379,7 @@ module.exports = {
       resolve(banners);
     });
   },
-////------------------------GET BANNER DETAILS-------------------------////
+  ////------------------------GET BANNER DETAILS-------------------------////
   getBannerDetails: (bannerId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -329,7 +390,7 @@ module.exports = {
         });
     });
   },
-////------------------------DELETE BANNER-------------------------////
+  ////------------------------DELETE BANNER-------------------------////
   deleteBanner: (bannerId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -341,7 +402,7 @@ module.exports = {
         });
     });
   },
-////------------------------UPDATE BANNER-------------------------////
+  ////------------------------UPDATE BANNER-------------------------////
   updateBanner: (bannerId, bannerDetails) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -361,7 +422,7 @@ module.exports = {
         });
     });
   },
-////------------------------DELETE ALL BANNER-------------------------////
+  ////------------------------DELETE ALL BANNER-------------------------////
   deleteAllBanner: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -386,7 +447,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-////------------------------GET ALL MAIN CATGEORY-------------------------////
+  ////------------------------GET ALL MAIN CATGEORY-------------------------////
   getAllMainCat: () => {
     return new Promise(async (resolve, reject) => {
       let maincat = await db
@@ -397,7 +458,7 @@ module.exports = {
       resolve(maincat);
     });
   },
-////------------------------GET MAIN CATGEORY DETAILS-------------------------////
+  ////------------------------GET MAIN CATGEORY DETAILS-------------------------////
   getMainCatDetails: (maincatId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -454,7 +515,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-////------------------------GET ALL CATGEORY-------------------------////
+  ////------------------------GET ALL CATGEORY-------------------------////
   getAllCategories: () => {
     return new Promise(async (resolve, reject) => {
       let category = await db
@@ -465,7 +526,7 @@ module.exports = {
       resolve(category);
     });
   },
-////------------------------GET CATGEORY DETAILS-------------------------////
+  ////------------------------GET CATGEORY DETAILS-------------------------////
   getCategoryDetails: (categoryId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -476,7 +537,7 @@ module.exports = {
         });
     });
   },
-////------------------------DELETE CATGEORY-------------------------////
+  ////------------------------DELETE CATGEORY-------------------------////
   deleteCategory: (categoryId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -488,7 +549,7 @@ module.exports = {
         });
     });
   },
-////------------------------UPDATE CATGEORY-------------------------////
+  ////------------------------UPDATE CATGEORY-------------------------////
   updateCategory: (categoryId, categoryDetails) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -506,7 +567,7 @@ module.exports = {
         });
     });
   },
-////------------------------DELETE ALL CATGEORY-------------------------////
+  ////------------------------DELETE ALL CATGEORY-------------------------////
   deleteAllCategory: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -531,7 +592,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-////------------------------GET ALL SUB CATGEORY-------------------------////
+  ////------------------------GET ALL SUB CATGEORY-------------------------////
   getAllSubCategories: () => {
     return new Promise(async (resolve, reject) => {
       let subcategory = await db
@@ -542,7 +603,7 @@ module.exports = {
       resolve(subcategory);
     });
   },
-////------------------------GET SUB CATGEORY DETAILS-------------------------////
+  ////------------------------GET SUB CATGEORY DETAILS-------------------------////
   getSubCategoryDetails: (subcategoryId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -553,7 +614,7 @@ module.exports = {
         });
     });
   },
-////------------------------DELETE SUB CATGEORY-------------------------////
+  ////------------------------DELETE SUB CATGEORY-------------------------////
   deleteSubCategory: (subcategoryId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -565,7 +626,7 @@ module.exports = {
         });
     });
   },
-////------------------------UPDATE SUB CATGEORY-------------------------////
+  ////------------------------UPDATE SUB CATGEORY-------------------------////
   updateSubCategory: (subcategoryId, subcategoryDetails) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -584,7 +645,7 @@ module.exports = {
         });
     });
   },
-////------------------------DELETE ALL SUB CATGEORY-------------------------////
+  ////------------------------DELETE ALL SUB CATGEORY-------------------------////
   deleteAllSubCategory: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -609,7 +670,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-///------------------------GET ALL PRODUCTS-------------------------///
+  ///------------------------GET ALL PRODUCTS-------------------------///
   getAllProducts: () => {
     return new Promise(async (resolve, reject) => {
       let products = await db
@@ -620,7 +681,7 @@ module.exports = {
       resolve(products);
     });
   },
-///------------------------GET PRODUCT DETAILS-------------------------///
+  ///------------------------GET PRODUCT DETAILS-------------------------///
   getProductDetails: (productId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -631,7 +692,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE PRODUCT-------------------------///
+  ///------------------------DELETE PRODUCT-------------------------///
   deleteProduct: (productId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -643,7 +704,7 @@ module.exports = {
         });
     });
   },
-///------------------------UPDATE PRODUCT-------------------------///
+  ///------------------------UPDATE PRODUCT-------------------------///
   updateProduct: (productId, productDetails) => {
     return new Promise((resolve, reject) => {
       console.log(productDetails.ParentCat);
@@ -668,7 +729,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE ALL PRODUCTS-------------------------///
+  ///------------------------DELETE ALL PRODUCTS-------------------------///
   deleteAllProducts: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -693,7 +754,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-///------------------------GET ALL COMBOS-------------------------///
+  ///------------------------GET ALL COMBOS-------------------------///
   getAllCombos: () => {
     return new Promise(async (resolve, reject) => {
       let combos = await db
@@ -704,7 +765,7 @@ module.exports = {
       resolve(combos);
     });
   },
-///------------------------GET COMBO DETAILS-------------------------///
+  ///------------------------GET COMBO DETAILS-------------------------///
   getComboDetails: (comboId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -715,7 +776,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE COMBO-------------------------///
+  ///------------------------DELETE COMBO-------------------------///
   deleteCombo: (comboId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -727,7 +788,7 @@ module.exports = {
         });
     });
   },
-///------------------------UPDATE COMBO-------------------------///
+  ///------------------------UPDATE COMBO-------------------------///
   updateCombo: (comboId, comboDetails) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -749,7 +810,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE ALL COMBOS-------------------------///
+  ///------------------------DELETE ALL COMBOS-------------------------///
   deleteAllCombos: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -774,7 +835,7 @@ module.exports = {
         callback(data.ops[0]._id);
       });
   },
-///------------------------GET ALL OFFERS-------------------------///
+  ///------------------------GET ALL OFFERS-------------------------///
   getAllOffers: () => {
     return new Promise(async (resolve, reject) => {
       let offers = await db
@@ -785,7 +846,7 @@ module.exports = {
       resolve(offers);
     });
   },
-///------------------------GET OFFER DETAILS-------------------------///
+  ///------------------------GET OFFER DETAILS-------------------------///
   getOfferDetails: (offerId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -796,7 +857,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE OFFER-------------------------///
+  ///------------------------DELETE OFFER-------------------------///
   deleteOffer: (offerId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -808,7 +869,7 @@ module.exports = {
         });
     });
   },
-///------------------------UPDATE OFFER-------------------------///
+  ///------------------------UPDATE OFFER-------------------------///
   updateOffer: (offerId, offerDetails) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -830,7 +891,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE ALL OFFERS-------------------------///
+  ///------------------------DELETE ALL OFFERS-------------------------///
   deleteAlloffer: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -853,7 +914,7 @@ module.exports = {
       resolve(users);
     });
   },
-///------------------------GET SINGLE USER-------------------------///
+  ///------------------------GET SINGLE USER-------------------------///
   getSingleUser: (userId) => {
     return new Promise(async (resolve, reject) => {
       let user = await db
@@ -863,7 +924,7 @@ module.exports = {
       resolve(user);
     });
   },
-///------------------------DELETE USER-------------------------///
+  ///------------------------DELETE USER-------------------------///
   removeUser: (userId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -874,7 +935,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE ADMIN-------------------------///
+  ///------------------------DELETE ADMIN-------------------------///
   removeAdmin: (adminId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -885,7 +946,7 @@ module.exports = {
         });
     });
   },
-///------------------------DELETE ALL USERS-------------------------///
+  ///------------------------DELETE ALL USERS-------------------------///
   removeAllUsers: () => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -908,7 +969,7 @@ module.exports = {
       resolve(orders);
     });
   },
-///------------------------GET ORDER BY STATUS-------------------------///
+  ///------------------------GET ORDER BY STATUS-------------------------///
   getOrdersByStatus: (status, sort = 1) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -926,7 +987,7 @@ module.exports = {
       }
     });
   },
-///------------------------CHANGE ORDER STATUS-------------------------///
+  ///------------------------CHANGE ORDER STATUS-------------------------///
   changeStatus: (status, orderId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -969,7 +1030,7 @@ module.exports = {
               },
             }
           );
-          const norder = await db
+        const norder = await db
           .get()
           .collection(collections.ORDER_COLLECTION)
           .findOne({ _id: objectId(orderId) });
@@ -985,7 +1046,7 @@ module.exports = {
       }
     });
   },
-///------------------------CANCEL ORDER-------------------------///
+  ///------------------------CANCEL ORDER-------------------------///
   cancelOrder: (orderId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -996,7 +1057,7 @@ module.exports = {
         });
     });
   },
-///------------------------CANCEL ALL ORDERS-------------------------///
+  ///------------------------CANCEL ALL ORDERS-------------------------///
   cancelAllOrders: () => {
     return new Promise((resolve, reject) => {
       db.get()

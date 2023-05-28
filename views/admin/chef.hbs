@@ -174,24 +174,31 @@
   const socket = io();
 
   socket.on("status-confirmed", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   })
   socket.on("status-cooking", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   })
   socket.on("status-packed", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   })
   socket.on("status-dispatched", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   })
   socket.on("status-dispatched", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   });
   socket.on("status-picked", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   });
   socket.on("status-cancelled", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   })
 </script>

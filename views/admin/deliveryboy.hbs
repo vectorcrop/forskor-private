@@ -69,13 +69,16 @@
   const socket = io();
 
   socket.on("status-dispatched", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   });
   socket.on("status-picked", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   });
   socket.on("status-delivered", (order) => {
-    addRow(order)
+    // addRow(order)
+    window.location.reload();
   })
 
 </script>

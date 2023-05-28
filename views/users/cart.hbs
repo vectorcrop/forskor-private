@@ -43,7 +43,8 @@
         </div>
         <div class="container">
           <hr>
-          <div style="display: flex; justify-content: center; align-items: end; flex-direction: column; padding-right: 10px;">
+          <div
+            style="display: flex; justify-content: center; align-items: end; flex-direction: column; padding-right: 10px;">
             <br>
             <h6 id="gross-total">GROSS TOTAL: ₹{{total}}</h6>
             <br>
@@ -51,15 +52,21 @@
             <br>
             <h6 id="sgst-total">SGST (2.5%): ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}</h6>
             <br>
-            <h6 id="discount-total">DISCOUNT ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%): ₹{{#getTotalDiscount total}}{{/getTotalDiscount}}</h6>
+            <h6 id="discount-total">DISCOUNT ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%):
+              ₹{{#getTotalDiscount total}}{{/getTotalDiscount}}</h6>
             <br>
-            <h6 id="grand-total">GRAND TOTAL: ₹<span style="color: red; font-weight: bold;">{{#getTotalWithGST total}}{{/getTotalWithGST}}</span></h6>
+            <h6 id="grand-total">GRAND TOTAL: ₹<span style="color: red; font-weight: bold;">{{#getTotalWithGST
+                total}}{{/getTotalWithGST}}</span></h6>
             <br>
           </div>
           <div class="row mb-4">
             <div class="col">
+              {{#if shopStatus}}
               <a class="btn btn-danger w-100 mb-0" href="/place-order" id="total">₹{{#getTotalWithGST
                 total}}{{/getTotalWithGST}} &amp; Pay</a>
+              {{else}}
+              <button class="btn btn-danger w-100 mb-0" disabled id="total">Shop Closed</button>
+              {{/if}}
             </div>
             <div class="col">
               <a class="btn btn-dark w-100" href="/menu">Add More</a>

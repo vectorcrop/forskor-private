@@ -13,6 +13,7 @@ var db = require("./config/connection");
 var session = require("express-session");
 const connectSocket = require("./socket/socket.io");
 const adminHelper = require("./helper/adminHelper");
+const { log } = require("console");
 var app = express();
 const { ADMIN_ID_KEY, USER_ID_KEY } = require("./config/constant").COOKIE_KEYS;
 const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT } =
@@ -126,6 +127,15 @@ app.engine(
           (total, item) => item.quantity * item.product.Price + total,
           0
         );
+      },
+      getStatusColor: (status) => {
+        return status ? "green" : "red";
+      },
+      getStatusBackgroundColor: (status) => {
+        return status ? "green" : "white";
+      },
+      getStatusChecked: (status) => {
+        return status ? checked : null;
       },
       getTotalWithCGST: (price) => {
         return (price * 2.5) / 100;

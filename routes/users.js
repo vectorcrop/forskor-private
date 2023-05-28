@@ -3,6 +3,7 @@ var express = require("express");
 var userHelper = require("../helper/userHelper");
 var router = express.Router();
 const { ObjectID } = require("mongodb");
+const adminHelper = require("../helper/adminHelper");
 const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
 const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT } =
   require("../config/constant").SETTINGS;
@@ -457,12 +458,14 @@ router.get("/cart", async function (req, res) {
   if (cartCount != 0) {
     total = await userHelper.getTotalAmount(userId);
   }
+  const shopStatusResp = await adminHelper.getShopStatus();
   res.render("users/cart", {
     admin: false,
     user,
     cartCount,
     cartProducts,
     total,
+    shopStatus: shopStatusResp.shopStatus === "ACTIVE",
   });
 });
 
@@ -518,11 +521,28 @@ router.get("/place-order", verifySignedIn, async (req, res) => {
   let userId = req.session.user._id;
   let cartCount = await userHelper.getCartCount(userId);
   let total = await userHelper.getTotalAmount(userId);
-  res.render("users/place-order", { admin: false, user, cartCount, total });
+  const shopStatusResp = await adminHelper.getShopStatus();
+  res.render("users/place-order", {
+    admin: false,
+    user,
+    cartCount,
+    total,
+    shopStatus: shopStatusResp.shopStatus === "ACTIVE",
+  });
 });
 
 router.post("/place-order", verifySignedIn, async (req, res) => {
   const user = req.session.user;
+
+  const shopStatusResp = await adminHelper.getShopStatus();
+
+  // Check cart is empty
+  if (shopStatusResp.shopStatus != "ACTIVE") {
+    return res.json({
+      success: false,
+      message: "Shop was closed",
+    });
+  }
 
   const cartCount = await userHelper.getCartCount(user._id);
 
@@ -541,7 +561,7 @@ router.post("/place-order", verifySignedIn, async (req, res) => {
     totalPrice -= (totalPrice * DISCOUNT_PERCENTAGE) / 100;
   }
   userHelper
-    .placeOrder(req.body, products,  Math.ceil(totalPrice) , user._id)
+    .placeOrder(req.body, products, Math.ceil(totalPrice), user._id)
     .then((orderId) => {
       req.io.emit("status-placed", orderId);
       if (req.body["payment-method"] === "COD") {
@@ -561,7 +581,6 @@ router.post("/place-order", verifySignedIn, async (req, res) => {
 
 // payment  verification
 router.post("/verify-payment", async (req, res) => {
-  console.log(req.body);
   userHelper
     .verifyPayment(req.body)
     .then(() => {

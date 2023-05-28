@@ -11,4 +11,5 @@ module.exports = {
   COMBO_COLLECTION: "combo-offers",
   OFFERS_COLLECTION: "offers",
   BANNER_COLLECTION: "banners",
+  SETTINGS_COLLECTION: "settings",
 };

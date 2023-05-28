@@ -73,6 +73,28 @@
                                         class="btn btn-danger">Cancel</a>
                                 </div>
                                 {{/ifeq}}
+                                {{#ifeq this.status "confirmed"}}
+                                <div>
+                                  {{!-- Cooking --}}
+                                  <a class="btn btn-primary"
+                                    href="/bigwig/change-status/?status=cooking&orderId={{this._id}}&origin=placed-orders">Cooking</a>
+
+                                  {{!-- Cancelled --}}
+                                  <a href="/bigwig/change-status/?status=cancelled&orderId={{this._id}}&origin=placed-orders"
+                                    onclick="return confirm('Are You Sure to Cancel This Order ?')" class="btn btn-danger">Cancel</a>
+                                </div>
+                                {{/ifeq}}
+
+                                {{#ifeq this.status "cooking"}}
+                                {{!-- Cooked --}}
+                                <a class="btn btn-primary" href="/bigwig/change-status/?status=packed&orderId={{this._id}}&origin=placed-orders">Cooked</a>
+                                {{/ifeq}}
+
+                                {{#ifeq this.status "packed"}}
+                                {{!-- Dispatched --}}
+                                <a class="btn btn-primary"
+                                  href="/bigwig/change-status/?status=dispatched&orderId={{this._id}}&origin=placed-orders">Dispatch</a>
+                                {{/ifeq}}
                             </td>
                         </tr>
                         {{/each}}
@@ -108,12 +130,65 @@
 </div>
 
 <script>
+    function showNotification(title,body) {
+      if (Notification.permission === 'granted') {
+        var notification = new Notification(title, {
+          body: body
+        });
+
+        var audio = new Audio('path/to/sound-file.mp3');
+        audio.play();
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(function(permission) {
+          if (permission === 'granted') {
+            var notification = new Notification(title, {
+              body: body
+            });
+
+            var audio = new Audio('path/to/sound-file.mp3');
+            audio.play();
+          }
+        });
+      }
+    }
+
     const socket = io();
 
     socket.on("status-placed", (orderId) => {
+        showNotification("Order Placed", "New order placed");
+        // addRow(order)
         window.location.reload();
     })
     socket.on("status-confirmed", (orderId) => {
+        // addRow(order)
+        window.location.reload();
+    })
+    socket.on("status-confirmed", (order) => {
+        // addRow(order)
+        window.location.reload();
+    })
+    socket.on("status-cooking", (order) => {
+        // addRow(order)
+        window.location.reload();
+    })
+    socket.on("status-packed", (order) => {
+        // addRow(order)
+        window.location.reload();
+    })
+    socket.on("status-dispatched", (order) => {
+        // addRow(order)
+        window.location.reload();
+    })
+    socket.on("status-dispatched", (order) => {
+        // addRow(order)
+        window.location.reload();
+    });
+    socket.on("status-picked", (order) => {
+        // addRow(order)
+        window.location.reload();
+    });
+    socket.on("status-cancelled", (order) => {
+        // addRow(order)
         window.location.reload();
     })
 </script>

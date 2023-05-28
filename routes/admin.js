@@ -112,47 +112,53 @@ router.get("/all-sub-category", function (req, res) {
 
 // admin home
 router.get("/", verifySignedIn, async (req, res, next) => {
-  const administator = req.session.admin;
-  if (administator.Role === "1" || administator.Role === "2") {
-    const response = await adminHelper.getOrdersByStatus(["placed"], 1);
-    return res.render("admin/home", {
-      layout: "layout3",
-      admin: true,
-      signUpErr: req.session.signUpErr,
-      administator,
-      placedOrdersCount: response.orders.length,
-      // productsCount: response.products.length,
-    });
+  try {
+    const administator = req.session.admin;
+    if (administator.Role === "1" || administator.Role === "2") {
+      const response = await adminHelper.getOrdersByStatus(["placed","confirmed", "cooking", "packed"], 1);
+      const shopStatusResp = await adminHelper.getShopStatus();
+      return res.render("admin/home", {
+        layout: "layout3",
+        admin: true,
+        signUpErr: req.session.signUpErr,
+        administator,
+        placedOrdersCount: response.orders.length,
+        shopStatus: shopStatusResp.shopStatus === "ACTIVE",
+        // productsCount: response.products.length,
+      });
+    }
+    if (administator.Role === "3") {
+      const response = await adminHelper.getOrdersByStatus(
+        ["confirmed", "cooking", "packed"],
+        1
+      );
+      return res.render("admin/chef", {
+        layout: "layout3",
+        admin: true,
+        signUpErr: req.session.signUpErr,
+        administator,
+        orders: response.orders,
+        cookingOrdersCount: response.orders.length,
+      });
+    }
+    if (administator.Role === "4") {
+      const response = await adminHelper.getOrdersByStatus(
+        ["dispatched", "picked"],
+        1
+      );
+      return res.render("admin/deliveryboy", {
+        layout: "layout3",
+        admin: true,
+        signUpErr: req.session.signUpErr,
+        administator,
+        orders: response.orders,
+        deliveryOrdersCount: response.orders.length,
+      });
+    }
+    res.redirect("/login");
+  } catch (error) {
+    console.log(error);
   }
-  if (administator.Role === "3") {
-    const response = await adminHelper.getOrdersByStatus(
-      ["confirmed", "cooking", "packed"],
-      1
-    );
-    return res.render("admin/chef", {
-      layout: "layout3",
-      admin: true,
-      signUpErr: req.session.signUpErr,
-      administator,
-      orders: response.orders,
-      cookingOrdersCount: response.orders.length,
-    });
-  }
-  if (administator.Role === "4") {
-    const response = await adminHelper.getOrdersByStatus(
-      ["dispatched", "picked"],
-      1
-    );
-    return res.render("admin/deliveryboy", {
-      layout: "layout3",
-      admin: true,
-      signUpErr: req.session.signUpErr,
-      administator,
-      orders: response.orders,
-      deliveryOrdersCount: response.orders.length,
-    });
-  }
-  res.redirect("/login");
 });
 
 // item view page
@@ -230,6 +236,15 @@ router.get("/all-admins", verifySignedIn, function (req, res) {
     });
     req.session.errorMsg = null;
     req.session.successMsg = null;
+  });
+});
+
+router.patch("/change-shop-status", verifySignedIn, async (req, res) => {
+  const shopStatusResp = await adminHelper.changeShopStatus(req.body.status);
+
+  res.json({
+    success: true,
+    shopStatus: shopStatusResp.shopStatus,
   });
 });
 
@@ -874,9 +889,7 @@ router.get("/all-orders", verifySignedIn, async function (req, res) {
 
 router.get("/placed-orders", verifySignedIn, async function (req, res) {
   const administator = req.session.admin;
-  adminHelper
-    .getOrdersByStatus(["placed"], 1)
-    .then((resp) => {
+  adminHelper.getOrdersByStatus(["placed","confirmed", "cooking", "packed"], 1).then((resp) => {
       res.render("admin/placed-orders", {
         layout: "layout3",
         admin: true,
