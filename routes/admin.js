@@ -39,6 +39,23 @@ router.get("/all-banner", verifySignedIn, function (req, res) {
   });
 });
 
+// Router For Report
+router.patch("/report", verifySignedIn, (req, res) => {
+  adminHelper.getAllOrdersReport(req.body.from, req.body.to).then((orders) => {
+    res.status(200).json({
+      success: true,
+      message: "Report generated",
+      data: orders,
+    });
+  }).catch((error)=> {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  });
+});
+
 // Router For Chef
 router.get("/chef", verifySignedIn, function (req, res) {
   let administator = req.session.admin;
@@ -115,7 +132,10 @@ router.get("/", verifySignedIn, async (req, res, next) => {
   try {
     const administator = req.session.admin;
     if (administator.Role === "1" || administator.Role === "2") {
-      const response = await adminHelper.getOrdersByStatus(["placed","confirmed", "cooking", "packed"], 1);
+      const response = await adminHelper.getOrdersByStatus(
+        ["placed", "confirmed", "cooking", "packed"],
+        1
+      );
       const shopStatusResp = await adminHelper.getShopStatus();
       return res.render("admin/home", {
         layout: "layout3",
@@ -889,7 +909,9 @@ router.get("/all-orders", verifySignedIn, async function (req, res) {
 
 router.get("/placed-orders", verifySignedIn, async function (req, res) {
   const administator = req.session.admin;
-  adminHelper.getOrdersByStatus(["placed","confirmed", "cooking", "packed"], 1).then((resp) => {
+  adminHelper
+    .getOrdersByStatus(["placed", "confirmed", "cooking", "packed"], 1)
+    .then((resp) => {
       res.render("admin/placed-orders", {
         layout: "layout3",
         admin: true,

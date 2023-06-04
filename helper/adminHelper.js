@@ -99,7 +99,7 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const shopStatus = status === "ACTIVE" ? "ACTIVE" : "INACTIVE";
-        console.log(typeof status, status,shopStatus);
+        console.log(typeof status, status, shopStatus);
         const settings = await db
           .get()
           .collection(collections.SETTINGS_COLLECTION)
@@ -119,8 +119,7 @@ module.exports = {
           console.log(
             { _id: objectId(settings._id) },
             {
-                ShopStatus: shopStatus,
-             
+              ShopStatus: shopStatus,
             }
           );
         } else {
@@ -967,6 +966,37 @@ module.exports = {
         .find()
         .toArray();
       resolve(orders);
+    });
+  },
+  parseDate: (dateString) => {
+    const [day, month, year] = dateString.split("-");
+    return new Date(`${year}-${month}-${day}`);
+  },
+  getAllOrdersReport: (from, to) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        // Convert 'from' and 'to' dates to compatible formats
+        const fromDate = new Date(parseDate(from));
+        fromDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
+        const toDate = new Date(parseDate(to));
+        toDate.setHours(23, 59, 59, 999); // Set time to 23:59:59.999
+
+        const orders = await db
+          .get()
+          .collection(collections.ORDER_COLLECTION)
+          .find({
+            createdAt: {
+              $gte: fromDate,
+              $lte: toDate,
+            },
+          })
+          .toArray();
+        resolve(orders);
+      } catch (error) {
+        reject({
+          message: error.message,
+        });
+      }
     });
   },
   ///------------------------GET ORDER BY STATUS-------------------------///
