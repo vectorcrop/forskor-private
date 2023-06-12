@@ -1,0 +1,88 @@
+<style>
+    .bg-primary {
+        background-color: #1787b8 !important;
+    }
+
+    label {
+        float: left;
+    }
+</style>
+
+
+<br><br><br>
+
+
+<div class="py-4">
+    <div class="container-lg">
+        <div class="card">
+            <div class="card-body text-center mb-3">
+                <h3 class="text-start text-primary mb-2">Reports</h3>
+                <hr class="mb-4">
+                <div class="row g-1">
+                    <div class="col-md-12">
+                        <div class="feature-card mx-auto text-center">
+                            <form action="/bigwig/single-report/" id="reportform">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="fromDate">From:</label>
+                                            <input type="date" class="form-control" id="fromDate" name="fromDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="toDate">To:</label>
+                                            <input type="date" class="form-control" id="toDate" name="toDate">
+                                        </div>
+                                    </div>
+                                </div>
+                                <a id="dailybtn">
+                                    <button type="button" class="admin-btn btn btn-labeled btn-outline-dark w-100 ">
+                                        <span class="btn-label"><i
+                                                class="fa fa-sticky-note-o"></i></span>Reports</button>
+                                </a>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function changeShopStatus() {
+        var checkbox = document.getElementById("switchCheckChecked");
+        $.ajax({
+            url: '/bigwig/change-shop-status',
+            data: {
+                status: checkbox.checked ? "ACTIVE" : "INACTIVE",
+            },
+            method: 'patch',
+            success: (response) => {
+            }
+        })
+    }
+    document.getElementById("switchCheckChecked").addEventListener("change", () => {
+        const checkbox = document.getElementById("switchCheckChecked");
+        const shopstatus = document.getElementById("shop-status");
+        if (checkbox.checked) {
+            checkbox.style.backgroundColor = "green";
+            shopstatus.style.color = "green";  // Set color to green when checkbox is checked
+        } else {
+            checkbox.style.backgroundColor = "white";
+            checkbox.style.color = "red";
+            shopstatus.style.color = "red";    // Set color to red when checkbox is unchecked
+        }
+    });
+
+    function dailyRep() {
+        var btn = document.getElementById("dailybtn")
+        console.log("Hello Shabeer")
+
+    }
+</script>

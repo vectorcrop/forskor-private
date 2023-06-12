@@ -14,10 +14,12 @@
         <div class="card-body p-5">
           <div class="form-check form-switch" id="shop-switch"
             style="display: flex;justify-content: end;align-items: center;padding-right: 30px;">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" {{#if shopStatus}}checked{{/if}}
-              onchange="changeShopStatus()" style="width: 47px;height: 25px;border: 1px solid #205e54;margin: 0; background-color: {{#getStatusBackgroundColor shopStatus}}{{/getStatusBackgroundColor}};" />
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" {{#if
+              shopStatus}}checked{{/if}} onchange="changeShopStatus()"
+              style="width: 47px;height: 25px;border: 1px solid #205e54;margin: 0; background-color: {{#getStatusBackgroundColor shopStatus}}{{/getStatusBackgroundColor}};" />
             <label class="form-check-label" id="shop-status" for="switchCheckChecked"
-              style="font-size: 1.5rem; font-weight: 800;padding-left: 10px; color: {{#getStatusColor shopStatus}}{{/getStatusColor}};">Shop Status</label>
+              style="font-size: 1.5rem; font-weight: 800;padding-left: 10px; color: {{#getStatusColor shopStatus}}{{/getStatusColor}};">Shop
+              Status</label>
           </div>
           <i class="fa fa-shopping-cart fa-5x" style="color: black;"></i>
           <div class="download-invoice text-end"><a class="btn btn-lg btn-success w-25"
@@ -140,6 +142,30 @@
 </div> --}}
 
 
+
+
+<div class="py-4">
+  <div class="container-lg">
+    <div class="card">
+      <div class="card-body text-center mb-3">
+        <h3 class="text-start text-primary mb-2">Reports</h3>
+        <hr class="mb-4">
+        <div class="row g-1">
+          <div class="col-md-2">
+            <div class="feature-card mx-auto text-center">
+              <a href="/bigwig/reports">
+                <button type="button" class="admin-btn btn btn-labeled btn-outline-dark ">
+                  <span class="btn-label"><i class="fa fa-sticky-note-o"></i></span>Reports</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!----------Site Settings------->
 
 <div class="py-4">
@@ -215,7 +241,7 @@
       }
     })
   }
-  document.getElementById("switchCheckChecked").addEventListener("change",() => {
+  document.getElementById("switchCheckChecked").addEventListener("change", () => {
     const checkbox = document.getElementById("switchCheckChecked");
     const shopstatus = document.getElementById("shop-status");
     if (checkbox.checked) {

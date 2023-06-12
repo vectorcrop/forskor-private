@@ -39,21 +39,47 @@ router.get("/all-banner", verifySignedIn, function (req, res) {
   });
 });
 
+// Router For reports
+router.get("/reports", verifySignedIn, function (req, res) {
+  let administator = req.session.admin;
+  res.render("admin/reports", {
+    layout: "layout3",
+    admin: true,
+    signUpErr: req.session.signUpErr,
+    administator,
+  });
+});
+
+// Router For single-report
+router.get("/single-report", verifySignedIn, function (req, res) {
+  console.log(req.body);
+  let administator = req.session.admin;
+  res.render("admin/single-report", {
+    layout: "layout3",
+    admin: true,
+    signUpErr: req.session.signUpErr,
+    administator,
+  });
+});
+
 // Router For Report
 router.patch("/report", verifySignedIn, (req, res) => {
-  adminHelper.getAllOrdersReport(req.body.from, req.body.to).then((orders) => {
-    res.status(200).json({
-      success: true,
-      message: "Report generated",
-      data: orders,
+  adminHelper
+    .getAllOrdersReport(req.body.from, req.body.to)
+    .then((orders) => {
+      res.status(200).json({
+        success: true,
+        message: "Report generated",
+        data: orders,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+        data: null,
+      });
     });
-  }).catch((error)=> {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      data: null,
-    });
-  });
 });
 
 // Router For Chef
