@@ -52,7 +52,7 @@ router.get("/reports", verifySignedIn, function (req, res) {
 
 // Router For single-report
 router.get("/single-report", verifySignedIn, function (req, res) {
-  console.log(req.body);
+  console.log(req.body,"alaviGETT");
   let administator = req.session.admin;
   res.render("admin/single-report", {
     layout: "layout3",
@@ -61,8 +61,34 @@ router.get("/single-report", verifySignedIn, function (req, res) {
     administator,
   });
 });
+// post report router for dates input from report page
+router.post("/single-report", verifySignedIn, function (req, res) {
+  adminHelper
+  .getAllOrdersReport(req.body.from, req.body.to)
+  .then((orders) => {
+    // after discount total sales is calculating
+    let totalSales= orders.reduce(function(accumulator, order){return accumulator + order.totalPrice} , 0);
+    
+    let administator = req.session.admin;
+    res.render("admin/single-report",{
+      layout: "layout3",
+      admin: true,
+      administator,
+      orders,
+      totalSales
+    })
+  })
+  .catch((error) => {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  })
+});
 
-// Router For Report
+
+// Router For Report (NOT USED)
 router.patch("/report", verifySignedIn, (req, res) => {
   adminHelper
     .getAllOrdersReport(req.body.from, req.body.to)

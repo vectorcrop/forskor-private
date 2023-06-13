@@ -5,7 +5,10 @@ var router = express.Router();
 const { ObjectID } = require("mongodb");
 const adminHelper = require("../helper/adminHelper");
 const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
-const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT } =
+const COOKIE_OPTION ={ secure: true,httpOnly: true,sameSite: "strict",expires: new Date( 
+  new Date().getTime() + 365*24*60*60*1000
+),}
+const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE } =
   require("../config/constant").SETTINGS;
 
 ///------------------THIS IS USER SIDE---------------------------///
@@ -110,7 +113,7 @@ router.get("/menu", async (req, res, next) => {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId);
+    res.cookie(GUEST_ID_KEY, userId, COOKIE_OPTION);
   }
 
   let cartCount = 0;
@@ -142,7 +145,7 @@ router.get("/menu/:Name", async (req, res, next) => {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId);
+    res.cookie(GUEST_ID_KEY, userId,COOKIE_OPTION);
   }
 
   let cartCount = 0;
@@ -174,7 +177,7 @@ router.get("/home", async function (req, res, next) {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId);
+    res.cookie(GUEST_ID_KEY, userId,COOKIE_OPTION);
   }
 
   const user = req.session.user;
@@ -256,16 +259,7 @@ router.post("/signup", async function (req, res) {
     .then(async (response) => {
       req.session.signedIn = true;
       req.session.user = response.user;
-      res.cookie(USER_ID_KEY, response.user._id, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "strict",
-      });
-      res.cookie(USER_ID_KEY, response.user._id, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "strict",
-      });
+      res.cookie(USER_ID_KEY, response.user._id, COOKIE_OPTION);
       if (req.cookies[GUEST_ID_KEY]) {
         await userHelper.addGuestCartItemsToUserCart(
           req.cookies[GUEST_ID_KEY],
@@ -323,11 +317,7 @@ router.post("/signin", function (req, res) {
     .then(async (response) => {
       req.session.signedIn = true;
       req.session.user = response.user;
-      res.cookie(USER_ID_KEY, response.user._id, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "strict",
-      });
+      res.cookie(USER_ID_KEY, response.user._id, COOKIE_OPTION);
       if (req.cookies[GUEST_ID_KEY]) {
         await userHelper.addGuestCartItemsToUserCart(
           req.cookies[GUEST_ID_KEY],
@@ -409,11 +399,7 @@ router.post("/verify-otp", (req, res, next) => {
     .then(async ({ message, user }) => {
       req.session.signedIn = true;
       req.session.user = user;
-      res.cookie(USER_ID_KEY, user._id, {
-        secure: true,
-        httpOnly: true,
-        sameSite: "strict",
-      });
+      res.cookie(USER_ID_KEY, user._id, COOKIE_OPTION);
       if (req.cookies[GUEST_ID_KEY]) {
         await userHelper.addGuestCartItemsToUserCart(
           req.cookies[GUEST_ID_KEY],
@@ -449,7 +435,7 @@ router.get("/cart", async function (req, res) {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId);
+    res.cookie(GUEST_ID_KEY, userId ,COOKIE_OPTION);
   }
   const user = req.session.user;
   const cartCount = await userHelper.getCartCount(userId);
@@ -466,6 +452,9 @@ router.get("/cart", async function (req, res) {
     cartProducts,
     total,
     shopStatus: shopStatusResp.shopStatus === "ACTIVE",
+    CGST_PERCENTAGE,
+    SGST_PERCENTAGE,
+    PARCEL_CHARGE_PERCENTAGE
   });
 });
 
@@ -477,7 +466,7 @@ router.get("/add-to-cart/:id", function (req, res) {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId);
+    res.cookie(GUEST_ID_KEY, userId,COOKIE_OPTION);
   }
 
   const productId = req.params.id;
@@ -556,10 +545,20 @@ router.post("/place-order", verifySignedIn, async (req, res) => {
 
   const products = await userHelper.getCartProductList(user._id);
   let totalPrice = await userHelper.getTotalAmount(user._id);
-  totalPrice += (totalPrice * 5) / 100;
+  req.body.price = totalPrice;
+  req.body.CGST  = (totalPrice * CGST_PERCENTAGE) /  100;
+  req.body.SGST  = (totalPrice * SGST_PERCENTAGE ) / 100;
+  req.body.GST   =  req.body.CGST + req.body.SGST;
+  req.body.parcelCharge = (totalPrice * PARCEL_CHARGE_PERCENTAGE) / 100;
+  req.body.discount = 0;
+ 
+  totalPrice += req.body.parcelCharge + req.body.GST // gst 5%+ parcel 5%
+  
   if (totalPrice >= DISCOUNT_TOTAL_LIMIT) {
-    totalPrice -= (totalPrice * DISCOUNT_PERCENTAGE) / 100;
+    req.body.discount =  (req.body.price *DISCOUNT_PERCENTAGE) / 100;
+    totalPrice -= req.body.discount;
   }
+  
   userHelper
     .placeOrder(req.body, products, Math.ceil(totalPrice), user._id)
     .then((orderId) => {

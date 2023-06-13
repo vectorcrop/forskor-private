@@ -16,7 +16,7 @@ const adminHelper = require("./helper/adminHelper");
 const { log } = require("console");
 var app = express();
 const { ADMIN_ID_KEY, USER_ID_KEY } = require("./config/constant").COOKIE_KEYS;
-const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT } =
+const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE } =
   require("./config/constant").SETTINGS;
 
 // Socket Config
@@ -138,26 +138,35 @@ app.engine(
         return status ? checked : null;
       },
       getTotalWithCGST: (price) => {
-        return (price * 2.5) / 100;
+        return (price * CGST_PERCENTAGE) / 100;
       },
       getTotalWithSGST: (price) => {
-        return (price * 2.5) / 100;
+        return (price * SGST_PERCENTAGE) / 100;
+      },
+      getParcelCharge:(price)=>{
+        return(price * PARCEL_CHARGE_PERCENTAGE) /100;
+      },
+      getGstAmt:(price)=>{
+        return(price * (CGST_PERCENTAGE + SGST_PERCENTAGE ))/100;
       },
       getDiscountPercentage: () => {
         return DISCOUNT_PERCENTAGE;
       },
       getTotalDiscount: (price) => {
-        let total = price + (price * 5) / 100;
+        let total = price + (price * (CGST_PERCENTAGE + SGST_PERCENTAGE + PARCEL_CHARGE_PERCENTAGE )) / 100;
         if (total >= DISCOUNT_TOTAL_LIMIT) {
-          return (total * DISCOUNT_PERCENTAGE) / 100;
+          return ( price * DISCOUNT_PERCENTAGE) / 100;
         } else {
           return 0;
         }
       },
       getTotalWithGST: (price) => {
-        let total = price + (price * 5) / 100;
+        let total = price + (price * (CGST_PERCENTAGE + SGST_PERCENTAGE + PARCEL_CHARGE_PERCENTAGE )) / 100;
+
+         console.log(CGST_PERCENTAGE,SGST_PERCENTAGE,PARCEL_CHARGE_PERCENTAGE , DISCOUNT_TOTAL_LIMIT,"----444" )
+        // if discount avilable
         if (total >= DISCOUNT_TOTAL_LIMIT) {
-          return Math.ceil(total - (total * DISCOUNT_PERCENTAGE) / 100);
+          return Math.ceil(total - ( price * DISCOUNT_PERCENTAGE) / 100);
         } else {
           return Math.ceil(total);
         }
@@ -176,7 +185,7 @@ app.use(
     secret: "Key",
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 5 * 1000 },
+    cookie: { maxAge: 365*24*60*60*1000 },
   })
 );
 

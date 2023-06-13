@@ -21,26 +21,27 @@
                 <div class="row g-1">
                     <div class="col-md-12">
                         <div class="feature-card mx-auto text-center">
-                            <form action="/bigwig/single-report/" id="reportform">
+                            {{!-- dates form for report generation and action to "/single-report/" --}}
+                            <form action="/bigwig/single-report/" enctype="multipart/form-data" method="POST">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="fromDate">From:</label>
-                                            <input type="date" class="form-control" id="fromDate" name="fromDate">
+                                            <input type="date" class="form-control" id="fromDate" name="from">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="toDate">To:</label>
-                                            <input type="date" class="form-control" id="toDate" name="toDate">
+                                            <input type="date" class="form-control"  id="toDate" name="to">
                                         </div>
                                     </div>
                                 </div>
-                                <a id="dailybtn">
-                                    <button type="button" class="admin-btn btn btn-labeled btn-outline-dark w-100 ">
-                                        <span class="btn-label"><i
-                                                class="fa fa-sticky-note-o"></i></span>Reports</button>
-                                </a>
+                                    <button type="submit" class="admin-btn btn btn-labeled btn-outline-dark w-100 ">
+                                        <span class="btn-label">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </span>Reports
+                                    </button>
                             </form>
 
 
@@ -55,34 +56,13 @@
 
 
 <script>
-    function changeShopStatus() {
-        var checkbox = document.getElementById("switchCheckChecked");
-        $.ajax({
-            url: '/bigwig/change-shop-status',
-            data: {
-                status: checkbox.checked ? "ACTIVE" : "INACTIVE",
-            },
-            method: 'patch',
-            success: (response) => {
-            }
-        })
-    }
-    document.getElementById("switchCheckChecked").addEventListener("change", () => {
-        const checkbox = document.getElementById("switchCheckChecked");
-        const shopstatus = document.getElementById("shop-status");
-        if (checkbox.checked) {
-            checkbox.style.backgroundColor = "green";
-            shopstatus.style.color = "green";  // Set color to green when checkbox is checked
-        } else {
-            checkbox.style.backgroundColor = "white";
-            checkbox.style.color = "red";
-            shopstatus.style.color = "red";    // Set color to red when checkbox is unchecked
-        }
-    });
+    //get current date
+    var today= new Date();
 
-    function dailyRep() {
-        var btn = document.getElementById("dailybtn")
-        console.log("Hello Shabeer")
+    var formatedDate= today.toISOString().substr(0,10);
 
-    }
+    document.getElementById("fromDate").value=formatedDate;
+     document.getElementById("toDate").value=formatedDate;
+
+
 </script>

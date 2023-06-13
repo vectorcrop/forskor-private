@@ -975,10 +975,15 @@ module.exports = {
   getAllOrdersReport: (from, to) => {
     return new Promise(async (resolve, reject) => {
       try {
-        // Convert 'from' and 'to' dates to compatible formats
-        const fromDate = new Date(parseDate(from));
+        //* Convert 'from' and 'to' dates to compatible formats*//
+        //note for gokul---------------------------------------///////
+        //parsedate to this.parseDate is also not working          //
+        //const fromDate = new Date(module.exports.parseDate(from)//
+        // no need to convert in this senariao                 ////
+        //----------------------------------------------------////
+        const fromDate = new Date(from); 
         fromDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
-        const toDate = new Date(parseDate(to));
+        const toDate = new Date(to);                                                  
         toDate.setHours(23, 59, 59, 999); // Set time to 23:59:59.999
 
         const orders = await db

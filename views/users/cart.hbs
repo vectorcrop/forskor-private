@@ -93,18 +93,20 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="color: black;"><b>Gross Total</b></td>
+                        <td style="color: black;"><b>Sub Total</b></td>
                         <td id="gross-total" style="color: black;"><b>₹{{total}}</b></td>
                       </tr>
                       <tr>
-                        <td style="color: black;">CGST <font color="red">(2.5%)</font>
+                        <td style="color: black;">Parcel Charge<font color="red"></font>
                         </td>
-                        <td id="cgst-total" style="color:red;">+ ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}</td>
+                        <td id="parcel-charge" style="color:red;">+ ₹{{#getParcelCharge total}}{{/getParcelCharge}}</td>
+                        {{!-- <td id="cgst-total" style="color:red;">+ ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}</td> --}}
                       </tr>
                       <tr>
-                        <td style="color: black;">SGST <font color="red">(2.5%)</font>
+                        <td style="color: black;">GST <font color="red">(5%)</font>
                         </td>
-                        <td id="sgst-total" style="color:red;">+ ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}</td>
+                        <td id="gstAmt" style="color:red;">+ ₹{{#getGstAmt total}}{{/getGstAmt}}</td>
+                        {{!-- <td id="sgst-total" style="color:red;">+ ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}</td> --}}
                       </tr>
                       <tr>
                         <td style="color: black;">Discount <font color="green">
