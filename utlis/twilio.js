@@ -3,7 +3,7 @@ const { TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN, TWILLIO_SERVICE_ID } =
   require("../config/constant").TWILLIO;
 
 // for twilio error supress for local use pls comment below line:
-const client = require("twilio")(TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN);
+// const client = require("twilio")(TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN);
 
 const setErrorMessage = (message, code) => {
   let error = { message };

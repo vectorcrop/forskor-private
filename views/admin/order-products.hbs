@@ -51,7 +51,11 @@
                   <td>{{this.product.Name}}</td>
                   <td>₹{{this.product.Offer}}</td>
                   <td>{{this.quantity}}</td>
+                  {{#ifeq this.status "cancelled"}}
+                    <td><font color="#E74C3C">{{this.status}}</font></td>
+                  {{else}}
                   <td>{{this.status}}</td>
+                  {{/ifeq}}
                   <td>₹{{this.price}}</td>
                 </tr>
                 {{/each}}
