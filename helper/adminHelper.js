@@ -994,6 +994,7 @@ module.exports = {
               $gte: fromDate,
               $lte: toDate,
             },
+           // status:'delivered'
           })
           .toArray();
         resolve(orders);
