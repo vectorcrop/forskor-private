@@ -1,60 +1,110 @@
-<div class="page-content-wrapper py-3">
-  <div class="container">
+<div class='page-content-wrapper py-3'>
+  <div class='container'>
     <!-- Checkout Wrapper-->
-    <div class="checkout-wrapper-area">
-      <div class="card">
-        <div class="card-body checkout-form">
-          <h6 class="mb-3">Enter your billing details</h6>
-          <form id="checkout-form">
+    <div class='checkout-wrapper-area'>
+      <div class='card'>
+        <div class='card-body checkout-form'>
+          <h6 class='mb-3'>Enter your billing details</h6>
+          <form id='checkout-form'>
 
             <div>
-              <div class="form-group">
-                <label class="mb-2">Type</label>
+              <div class='form-group'>
+                <label class='mb-2'>Type</label>
 
-                <select class="form-select" id="type" name="type" aria-label="Default select example">
-                  <option value="delivery">Delivery</option>
-                  <option value="pickup">Pick up</option>
+                <select
+                  class='form-select'
+                  id='type'
+                  name='type'
+                  aria-label='Default select example'
+                >
+                  <option value='delivery'>Delivery</option>
+                  <option value='pickup'>Pick up</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label class="mb-2">Name</label>
-                <input class="form-control mb-3" type="text" name="name" id="Name"
-                  value="{{user.firstName}} {{user.lastName}}" placeholder="{{user.firstName}} {{user.lastName}}"
-                  required />
+              <div class='form-group'>
+                <label class='mb-2'>Name</label>
+                <input
+                  class='form-control mb-3'
+                  type='text'
+                  name='name'
+                  id='Name'
+                  value='{{user.firstName}} {{user.lastName}}'
+                  placeholder='{{user.firstName}} {{user.lastName}}'
+                  required
+                />
               </div>
-              <div class="form-group">
-                <label class="mb-2">Mobile</label>
-                <input class="form-control mb-3" type="text" name="phone" id="phone" value="{{user.phone}}"
-                  placeholder="{{user.phone}}" required />
+              <div class='form-group'>
+                <label class='mb-2'>Mobile</label>
+                <input
+                  class='form-control mb-3'
+                  type='text'
+                  name='phone'
+                  id='phone'
+                  value='{{user.phone}}'
+                  placeholder='{{user.phone}}'
+                  required
+                />
               </div>
-              <div class="form-group">
-                <label class="mb-2">Place</label>
+              <div class='form-group'>
+                <label class='mb-2'>Place</label>
 
-                <select class="form-select" id="place" name="place" aria-label="Default select example">
-                  <option value="{{user.place}}" selected>{{user.place}}</option>
-                  <option value="Kammanahalli">Kammanahalli</option>
-                  <option value="Forskor City">Forskor City</option>
-                  <option value="Near Wipro">Near Wipro</option>
+                <select
+                  class='form-select'
+                  id='place'
+                  name='place'
+                  aria-label='Default select example'
+                >
+                  <option
+                    value='{{user.place}}'
+                    selected
+                  >{{user.place}}</option>
+                  <option value='Kammanahalli'>Kammanahalli</option>
+                  <option value='Muthanallur'>Muthanallur</option>
+                  <option value='Sarjapur'>Sarjapur</option>
+                  <option value='Sarjapur Attibele Road'>Sarjapur Attibele Road</option>
+                  <option value='Carmeralam'>Carmeralam</option>
+                  <option value='Domasandra'>Domasandra</option>
                 </select>
               </div>
 
-              <div class="form-group">
-                <label class="mb-2">Pincode</label>
-                <input class="form-control mb-3" type="text" name="pincode" id="pincode" value="{{user.pincode}}"
-                  placeholder="{{user.pincode}}" required />
+              <div class='form-group'>
+                <label class='mb-2'>Pincode</label>
+                <input
+                  class='form-control mb-3'
+                  type='text'
+                  name='pincode'
+                  id='pincode'
+                  value='{{user.pincode}}'
+                  placeholder='{{user.pincode}}'
+                  required
+                />
               </div>
 
-              <div class="form-group">
-                <label class="mb-2">Address</label>
-                <input class="form-control mb-3" type="text" name="address" id="address" value="{{user.address}}"
-                  placeholder="{{user.address}}" required />
+              <div class='form-group'>
+                <label class='mb-2'>Address</label>
+                <input
+                  class='form-control mb-3'
+                  type='text'
+                  name='address'
+                  id='address'
+                  value='{{user.address}}'
+                  placeholder='{{user.address}}'
+                  required
+                />
               </div>
-              <input type="text" name="userId" value="{{user._id}}" hidden />
+              <input type='text' name='userId' value='{{user._id}}' hidden />
             </div>
 
-            <div class="form-check mb-2">
-              <input class="form-check-input" type="radio" name="payment-method" id="COD" value="COD" checked />
-              <label class="form-check-label" for="COD">Cash on delivery</label>
+            <div class='form-check mb-2'>
+              <input
+                class='form-check-input'
+                type='radio'
+                name='payment-method'
+                id='COD'
+                value='COD'
+                checked
+              />
+              <label class='form-check-label' for='COD'>Cash on delivery</label>
             </div>
 
             {{! <div class="form-check mb-2">
@@ -62,14 +112,14 @@
               <label class="form-check-label" for="Cash paid ✔️">Online Payment</label>
             </div> }}
 
-            <hr>
+            <hr />
 
             <h6>Bill & Other Informations</h6>
             <!-- Invoice Table-->
-            <div class="invoice-table">
-              <div class="table-responsive">
-                <table class="table " style="border-color: #ebebeb00;">
-                  <thead class="table">
+            <div class='invoice-table'>
+              <div class='table-responsive'>
+                <table class='table' style='border-color: #ebebeb00;'>
+                  <thead class='table'>
                     <tr>
                       <th>Title</th>
                       <th>Cost</th>
@@ -77,52 +127,69 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td style="color: black;"><b>Gross Total</b></td>
-                      <td id="gross-total" style="color: black;"><b>₹{{total}}</b></td>
+                      <td style='color: black;'><b>Gross Total</b></td>
+                      <td id='gross-total' style='color: black;'><b
+                        >₹{{total}}</b></td>
                     </tr>
                     <tr>
-                      <td style="color: black;">CGST <font color="red">(2.5%)</font>
+                      <td style='color: black;'>CGST
+                        <font color='red'>(2.5%)</font>
                       </td>
-                      <td id="cgst-total" style="color:red;">+ ₹{{#getTotalWithCGST total}}{{/getTotalWithCGST}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="color: black;">SGST <font color="red">(2.5%)</font>
-                      </td>
-                      <td id="sgst-total" style="color:red;">+ ₹{{#getTotalWithSGST total}}{{/getTotalWithSGST}}
+                      <td id='cgst-total' style='color:red;'>+ ₹{{#getTotalWithCGST
+                          total
+                        }}{{/getTotalWithCGST}}
                       </td>
                     </tr>
                     <tr>
-                      <td style="color: black;">Discount <font color="green">
-                          ({{#getDiscountPercentage}}{{/getDiscountPercentage}}%)</font>
+                      <td style='color: black;'>SGST
+                        <font color='red'>(2.5%)</font>
                       </td>
-                      <td id="discount-total" style="color:green;">- ₹{{#getTotalDiscount
-                        total}}{{/getTotalDiscount}}
+                      <td id='sgst-total' style='color:red;'>+ ₹{{#getTotalWithSGST
+                          total
+                        }}{{/getTotalWithSGST}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style='color: black;'>Discount
+                        <font color='green'>
+                          ({{#getDiscountPercentage
+                          }}{{/getDiscountPercentage}}%)</font>
+                      </td>
+                      <td id='discount-total' style='color:green;'>- ₹{{#getTotalDiscount
+                          total
+                        }}{{/getTotalDiscount}}
                       </td>
                     </tr>
 
                   </tbody>
-                  <tfoot class="table-light">
+                  <tfoot class='table-light'>
                     <tr>
-                      <td style="font-weight:bold;">Grand Total:</td>
-                      <td style="font-weight: bold; color:red;" id="grand-total">₹{{#getTotalWithGST
-                        total}}{{/getTotalWithGST}}</td>
+                      <td style='font-weight:bold;'>Grand Total:</td>
+                      <td
+                        style='font-weight: bold; color:red;'
+                        id='grand-total'
+                      >₹{{#getTotalWithGST total}}{{/getTotalWithGST}}</td>
                     </tr>
 
                   </tfoot>
 
-
                 </table>
 
                 {{#if shopStatus}}
-                <button class="btn btn-danger mt-3 w-100" type="submit">Confirm Order</button>
+                  <button
+                    class='btn btn-danger mt-3 w-100'
+                    type='submit'
+                  >Confirm Order</button>
                 {{else}}
-                <button class="btn btn-danger mt-3 w-100" type="button" disabled>Shop Closed</button>
+                  <button
+                    class='btn btn-danger mt-3 w-100'
+                    type='button'
+                    disabled
+                  >Shop Closed</button>
                 {{/if}}
 
               </div>
             </div>
-
 
           </form>
         </div>
@@ -131,50 +198,18 @@
   </div>
 </div>
 
-
-
-<br>
-
+<br />
 
 <script>
-  $("#checkout-form").submit((e) => {
-    e.preventDefault();
-    console.log(document.getElementById("address").value.trim().length)
-    if (document.getElementById("address").value.trim().length <= 0) {
-      alert("Please provide address");
-      return;
-    }
-    $.ajax({
-      url: '/place-order',
-      method: 'post',
-      data: $("#checkout-form").serialize(),
-      success: (response) => {
-        if (response.success) {
-          location.href =
-            '/order-placed'
-        } else {
-          alert(response.message);
-          window.location = '/home';
-          //     razorpayPayment(response)
-        }
-      }
-    })
-  })
-  function verifyPayment(payment, order) {
-    $.ajax({
-      url: '/verify-payment',
-      data: {
-        payment,
-        order
-      },
-      method: 'post',
-      success: (response) => {
-        if (response.status) {
-          location.href = '/order-placed'
-        } else {
-          alert("Payment failed")
-        }
-      }
-    })
-  }
+  $("#checkout-form").submit((e) => { e.preventDefault();
+  console.log(document.getElementById("address").value.trim().length) if
+  (document.getElementById("address").value.trim().length <= 0) { alert("Please
+  provide address"); return; } $.ajax({ url: '/place-order', method: 'post',
+  data: $("#checkout-form").serialize(), success: (response) => { if
+  (response.success) { location.href = '/order-placed' } else {
+  alert(response.message); window.location = '/home'; //
+  razorpayPayment(response) } } }) }) function verifyPayment(payment, order) {
+  $.ajax({ url: '/verify-payment', data: { payment, order }, method: 'post',
+  success: (response) => { if (response.status) { location.href =
+  '/order-placed' } else { alert("Payment failed") } } }) }
 </script>
