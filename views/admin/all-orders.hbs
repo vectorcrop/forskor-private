@@ -225,46 +225,61 @@
     }, 3000);
   }
 
-  function playNotificationSound() {
+  // function playNotificationSound() {
+  //   var audio = new Audio('/audio/NewOrderNotification1.mp3');
+  //   audio.play();
+  //   setTimeout(function () {
+  //     audio.pause();
+  //   }, 3000);
+  // }
+
+  function showNotification(title, body) {
+    if (Notification.permission === 'granted') {
+      var notification = new Notification(title, {
+        body: body
+      });
+
       var audio = new Audio('/audio/NewOrderNotification1.mp3');
       audio.play();
-      setTimeout(function () {
-        audio.pause();
-      }, 3000);
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === 'granted') {
+          var notification = new Notification(title, {
+            body: body
+          });
+
+          var audio = new Audio('/audio/NewOrderNotification1.mp3');
+          audio.play();
+        }
+      });
+    }
   }
 
   const socket = io();
 
   socket.on("status-placed", (order) => {
-    playNotificationSound();
+    showNotification("Order Placed", "New order arrived");
     addRow(order)
   })
   socket.on("status-confirmed", (order) => {
-    playNotificationSound();
     addRow(order)
   })
   socket.on("status-cooking", (order) => {
-    playNotificationSound();
     addRow(order)
   })
   socket.on("status-packed", (order) => {
-    playNotificationSound();
     addRow(order)
   })
   socket.on("status-dispatched", (order) => {
-    playNotificationSound();
     addRow(order)
   })
   socket.on("status-picked", (order) => {
-    playNotificationSound();
     addRow(order)
   });
   socket.on("status-delivered", (order) => {
-    playNotificationSound();
     addRow(order)
   })
   socket.on("status-cancelled", (order) => {
-    playNotificationSound();
     addRow(order)
   })
 </script>

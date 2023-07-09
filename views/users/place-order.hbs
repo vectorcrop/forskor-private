@@ -11,53 +11,27 @@
               <div class='form-group'>
                 <label class='mb-2'>Type</label>
 
-                <select
-                  class='form-select'
-                  id='type'
-                  name='type'
-                  aria-label='Default select example'
-                >
+                <select class='form-select' id='type' name='type' aria-label='Default select example'>
                   <option value='delivery'>Delivery</option>
                   <option value='pickup'>Pick up</option>
                 </select>
               </div>
               <div class='form-group'>
                 <label class='mb-2'>Name</label>
-                <input
-                  class='form-control mb-3'
-                  type='text'
-                  name='name'
-                  id='Name'
-                  value='{{user.firstName}} {{user.lastName}}'
-                  placeholder='{{user.firstName}} {{user.lastName}}'
-                  required
-                />
+                <input class='form-control mb-3' type='text' name='name' id='Name'
+                  value='{{user.firstName}} {{user.lastName}}' placeholder='{{user.firstName}} {{user.lastName}}'
+                  required />
               </div>
               <div class='form-group'>
                 <label class='mb-2'>Mobile</label>
-                <input
-                  class='form-control mb-3'
-                  type='text'
-                  name='phone'
-                  id='phone'
-                  value='{{user.phone}}'
-                  placeholder='{{user.phone}}'
-                  required
-                />
+                <input class='form-control mb-3' type='text' name='phone' id='phone' value='{{user.phone}}'
+                  placeholder='{{user.phone}}' required />
               </div>
               <div class='form-group'>
                 <label class='mb-2'>Place</label>
 
-                <select
-                  class='form-select'
-                  id='place'
-                  name='place'
-                  aria-label='Default select example'
-                >
-                  <option
-                    value='{{user.place}}'
-                    selected
-                  >{{user.place}}</option>
+                <select class='form-select' id='place' name='place' aria-label='Default select example'>
+                  <option value='{{user.place}}' selected>{{user.place}}</option>
                   <option value='Kammanahalli'>Kammanahalli</option>
                   <option value='Muthanallur'>Muthanallur</option>
                   <option value='Sarjapur'>Sarjapur</option>
@@ -69,41 +43,20 @@
 
               <div class='form-group'>
                 <label class='mb-2'>Pincode</label>
-                <input
-                  class='form-control mb-3'
-                  type='text'
-                  name='pincode'
-                  id='pincode'
-                  value='{{user.pincode}}'
-                  placeholder='{{user.pincode}}'
-                  required
-                />
+                <input class='form-control mb-3' type='text' name='pincode' id='pincode' value='{{user.pincode}}'
+                  placeholder='{{user.pincode}}' required />
               </div>
 
               <div class='form-group'>
                 <label class='mb-2'>Address</label>
-                <input
-                  class='form-control mb-3'
-                  type='text'
-                  name='address'
-                  id='address'
-                  value='{{user.address}}'
-                  placeholder='{{user.address}}'
-                  required
-                />
+                <input class='form-control mb-3' type='text' name='address' id='address' value='{{user.address}}'
+                  placeholder='{{user.address}}' required />
               </div>
               <input type='text' name='userId' value='{{user._id}}' hidden />
             </div>
 
             <div class='form-check mb-2'>
-              <input
-                class='form-check-input'
-                type='radio'
-                name='payment-method'
-                id='COD'
-                value='COD'
-                checked
-              />
+              <input class='form-check-input' type='radio' name='payment-method' id='COD' value='COD' checked />
               <label class='form-check-label' for='COD'>Cash on delivery</label>
             </div>
 
@@ -128,15 +81,14 @@
                   <tbody>
                     <tr>
                       <td style='color: black;'><b>Gross Total</b></td>
-                      <td id='gross-total' style='color: black;'><b
-                        >₹{{total}}</b></td>
+                      <td id='gross-total' style='color: black;'><b>₹{{total}}</b></td>
                     </tr>
                     <tr>
                       <td style='color: black;'>CGST
                         <font color='red'>(2.5%)</font>
                       </td>
                       <td id='cgst-total' style='color:red;'>+ ₹{{#getTotalWithCGST
-                          total
+                        total
                         }}{{/getTotalWithCGST}}
                       </td>
                     </tr>
@@ -145,7 +97,7 @@
                         <font color='red'>(2.5%)</font>
                       </td>
                       <td id='sgst-total' style='color:red;'>+ ₹{{#getTotalWithSGST
-                          total
+                        total
                         }}{{/getTotalWithSGST}}
                       </td>
                     </tr>
@@ -156,7 +108,7 @@
                           }}{{/getDiscountPercentage}}%)</font>
                       </td>
                       <td id='discount-total' style='color:green;'>- ₹{{#getTotalDiscount
-                          total
+                        total
                         }}{{/getTotalDiscount}}
                       </td>
                     </tr>
@@ -165,10 +117,8 @@
                   <tfoot class='table-light'>
                     <tr>
                       <td style='font-weight:bold;'>Grand Total:</td>
-                      <td
-                        style='font-weight: bold; color:red;'
-                        id='grand-total'
-                      >₹{{#getTotalWithGST total}}{{/getTotalWithGST}}</td>
+                      <td style='font-weight: bold; color:red;' id='grand-total'>₹{{#getTotalWithGST
+                        total}}{{/getTotalWithGST}}</td>
                     </tr>
 
                   </tfoot>
@@ -176,16 +126,9 @@
                 </table>
 
                 {{#if shopStatus}}
-                  <button
-                    class='btn btn-danger mt-3 w-100'
-                    type='submit'
-                  >Confirm Order</button>
+                <button class='btn btn-danger mt-3 w-100' type='submit'>Confirm Order</button>
                 {{else}}
-                  <button
-                    class='btn btn-danger mt-3 w-100'
-                    type='button'
-                    disabled
-                  >Shop Closed</button>
+                <button class='btn btn-danger mt-3 w-100' type='button' disabled>Shop Closed</button>
                 {{/if}}
 
               </div>
@@ -201,15 +144,42 @@
 <br />
 
 <script>
-  $("#checkout-form").submit((e) => { e.preventDefault();
-  console.log(document.getElementById("address").value.trim().length) if
-  (document.getElementById("address").value.trim().length <= 0) { alert("Please
-  provide address"); return; } $.ajax({ url: '/place-order', method: 'post',
-  data: $("#checkout-form").serialize(), success: (response) => { if
-  (response.success) { location.href = '/order-placed' } else {
-  alert(response.message); window.location = '/home'; //
-  razorpayPayment(response) } } }) }) function verifyPayment(payment, order) {
-  $.ajax({ url: '/verify-payment', data: { payment, order }, method: 'post',
-  success: (response) => { if (response.status) { location.href =
-  '/order-placed' } else { alert("Payment failed") } } }) }
+  $("#checkout-form").submit((e) => {
+    e.preventDefault();
+    console.log(document.getElementById("address").value.trim().length);
+    if (document.getElementById("address").value.trim().length <= 0) {
+      alert("Please provide address ");
+      return;
+    };
+    $.ajax({
+      url: '/place-order', method: 'post',
+      data: $("#checkout-form").serialize(), success: (response) => {
+        if (response.success) {
+          location.href = '/order-placed'
+        } else {
+          alert(response.message);
+          window.location = '/home'; //
+          razorpayPayment(response)
+        }
+      }
+    })
+  })
+  function verifyPayment(payment, order) {
+    $.ajax({
+      url: '/verify-payment',
+      data: {
+        payment,
+        order
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          location.href =
+            '/order-placed'
+        } else {
+          alert("Payment failed")
+        }
+      }
+    })
+  }
 </script>
