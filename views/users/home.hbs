@@ -420,7 +420,9 @@
                     href="/single-product/:{{this._id}}">{{#getTitleCase this.Name}}{{/getTitleCase}}</a>
                   <!-- Product Price-->
 
-                  <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p>
+                   <!--  <p class="sale-price">₹{{this.Offer}}<span>₹{{this.Price}}</span></p> -->
+                  <p class="sale-price">₹{{this.Price}}</p>
+
 
                   <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
                     Add to Bag

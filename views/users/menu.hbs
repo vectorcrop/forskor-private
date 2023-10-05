@@ -123,9 +123,9 @@
                         class="blog-title d-block mb-3 text-dark" href="/single-product/:{{this._id}}">{{#getTitleCase
                         this.Name}}{{/getTitleCase}}</a>
                       <p class="sale-price" style="font-size: 1.25rem;line-height:1;color: #0134d4;font-weight: 500;">
-                        ₹{{this.Offer}}<span
-                          style="font-size: 1rem;margin-left: 0.25rem; text-decoration: line-through; color: #ea4c62;">₹{{this.Price}}</span>
+                        ₹{{this.Price}}
                       </p>
+                      <!-- <p class="sale-price" style="font-size: 1.25rem;line-height:1;color: #0134d4;font-weight: 500;">₹{{this.Offer}}<span style="font-size: 1rem;margin-left: 0.25rem; text-decoration: line-through; color: #ea4c62;">₹{{this.Price}}</span> </p> -->
                       <div id="{{this._id}}">
                         {{#ifeq this.CartCount 0}}
                         <button class="btn btn-primary btn-sm" onclick=" addToCart('{{this._id}}')">
