@@ -16,7 +16,7 @@ const adminHelper = require("./helper/adminHelper");
 const { log } = require("console");
 var app = express();
 const { ADMIN_ID_KEY, USER_ID_KEY } = require("./config/constant").COOKIE_KEYS;
-const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE } =
+const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE,DISCOUNT_MAXIMUM_AMOUNT} =
   require("./config/constant").SETTINGS;
 
 // Socket Config
@@ -152,25 +152,48 @@ app.engine(
       getDiscountPercentage: () => {
         return DISCOUNT_PERCENTAGE;
       },
-      getTotalDiscount: (price) => {
-        let total = price + (price * (CGST_PERCENTAGE + SGST_PERCENTAGE + PARCEL_CHARGE_PERCENTAGE )) / 100;
+      getTotalDiscount : (price) => {
+        let total = price;
+        //let total = price + (price * (CGST_PERCENTAGE + SGST_PERCENTAGE + PARCEL_CHARGE_PERCENTAGE )) / 100;
+      
+        // Check if the total exceeds the discount limit
         if (total >= DISCOUNT_TOTAL_LIMIT) {
-          return ( price * DISCOUNT_PERCENTAGE) / 100;
+          // Calculate the discount based on the percentage
+          let discount = (price * DISCOUNT_PERCENTAGE) / 100;
+          
+          // Check if the discount exceeds the maximum discount
+          if (discount > DISCOUNT_MAXIMUM_AMOUNT) {
+            return DISCOUNT_MAXIMUM_AMOUNT;
+          } else {
+            return discount;
+          }
         } else {
-          return 0;
+          // If the total doesn't exceed the discount limit, return 0 or the maximum discount if zero
+          return total > 0 ? 0 : DISCOUNT_MAXIMUM_AMOUNT;
         }
-      },
+      }, 
       getTotalWithGST: (price) => {
         let total = price + (price * (CGST_PERCENTAGE + SGST_PERCENTAGE + PARCEL_CHARGE_PERCENTAGE )) / 100;
 
-         console.log(CGST_PERCENTAGE,SGST_PERCENTAGE,PARCEL_CHARGE_PERCENTAGE , DISCOUNT_TOTAL_LIMIT,"----444" )
+         // console.log(CGST_PERCENTAGE,SGST_PERCENTAGE,PARCEL_CHARGE_PERCENTAGE , DISCOUNT_TOTAL_LIMIT, total,"444" )
         // if discount avilable
-        if (total >= DISCOUNT_TOTAL_LIMIT) {
+        if (price >= DISCOUNT_TOTAL_LIMIT) {
           return Math.ceil(total - ( price * DISCOUNT_PERCENTAGE) / 100);
         } else {
           return Math.ceil(total);
         }
       },
+      // getTotalWithGST: (price) => {
+      //   let total = price + (price * (CGST_PERCENTAGE + SGST_PERCENTAGE + PARCEL_CHARGE_PERCENTAGE )) / 100;
+
+      //    console.log(CGST_PERCENTAGE,SGST_PERCENTAGE,PARCEL_CHARGE_PERCENTAGE , DISCOUNT_TOTAL_LIMIT,"----444" )
+      //   // if discount avilable
+      //   if (total >= DISCOUNT_TOTAL_LIMIT) {
+      //     return Math.ceil(total - ( price * DISCOUNT_PERCENTAGE) / 100);
+      //   } else {
+      //     return Math.ceil(total);
+      //   }
+      // },
     },
   })
 );

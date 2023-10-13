@@ -6,11 +6,12 @@ const state = {
 };
 
 module.exports.connect = function (done) {
+  const urlOffline = "mongodb://127.0.0.1:27017/";
   const url =
     "mongodb+srv://forskor:forskor.com001@forskor.ljmwdha.mongodb.net/?retryWrites=true&w=majority";
   const dbname = "forskor";
 
-  mongoClient.connect(url, { useUnifiedTopology: true }, (err, data) => {
+  mongoClient.connect(urlOffline, { useUnifiedTopology: true }, (err, data) => {
     if (err) {
       return done(err);
     }
