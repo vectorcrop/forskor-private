@@ -1,0 +1,68 @@
+<style>
+    .bg-primary {
+        background-color: #1787b8 !important;
+    }
+
+    label {
+        float: left;
+    }
+</style>
+
+
+<br><br><br>
+
+
+<div class="py-4">
+    <div class="container-lg">
+        <div class="card">
+            <div class="card-body text-center mb-3">
+                <h3 class="text-start text-primary mb-2">Reports (gst & discount )</h3>
+                <hr class="mb-4">
+                <div class="row g-1">
+                    <div class="col-md-12">
+                        <div class="feature-card mx-auto text-center">
+                            {{!-- dates form for report generation and action to "/single-report/" --}}
+                            <form action="/bigwig/gst-report/" enctype="multipart/form-data" method="POST">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="fromDate">From:</label>
+                                            <input type="date" class="form-control" id="fromDate" name="from">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="toDate">To:</label>
+                                            <input type="date" class="form-control"  id="toDate" name="to">
+                                        </div>
+                                    </div>
+                                </div>
+                                    <button type="submit" class="admin-btn btn btn-labeled btn-outline-dark w-100 ">
+                                        <span class="btn-label">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </span>Reports
+                                    </button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    //get current date
+    var today= new Date();
+
+    var formatedDate= today.toISOString().substr(0,10);
+
+    document.getElementById("fromDate").value=formatedDate;
+     document.getElementById("toDate").value=formatedDate;
+
+
+</script>

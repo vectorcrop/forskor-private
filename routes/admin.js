@@ -48,13 +48,34 @@ router.get("/reports", verifySignedIn, function (req, res) {
     signUpErr: req.session.signUpErr,
     administator,
   });
-});
+});  
+// only gst first layout
+router.get("/reports-gst", verifySignedIn, function (req, res) {
+  let administator = req.session.admin;
+  res.render("admin/reports-gst", {
+    layout: "layout3",
+    admin: true,
+    signUpErr: req.session.signUpErr,
+    administator,
+  });
+}); 
 
 // Router For single-report
 router.get("/single-report", verifySignedIn, function (req, res) {
   console.log(req.body,"alaviGETT");
   let administator = req.session.admin;
   res.render("admin/single-report", {
+    layout: "layout3",
+    admin: true,
+    signUpErr: req.session.signUpErr,
+    administator,
+  });
+});
+//gst not used
+router.get("/gst-report", verifySignedIn, function (req, res) {
+  console.log(req.body,"alaviGETT");
+  let administator = req.session.admin;
+  res.render("admin/gst-report", {
     layout: "layout3",
     admin: true,
     signUpErr: req.session.signUpErr,
@@ -71,6 +92,31 @@ router.post("/single-report", verifySignedIn, function (req, res) {
     
     let administator = req.session.admin;
     res.render("admin/single-report",{
+      layout: "layout3",
+      admin: true,
+      administator,
+      orders,
+      totalSales
+    })
+  })
+  .catch((error) => {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  })
+});
+ //gst-report
+router.post("/gst-report", verifySignedIn, function (req, res) {
+  adminHelper
+  .getAllOrdersGstReport(req.body.from, req.body.to)
+  .then((orders) => {
+    // after discount total sales is calculating
+    let totalSales= orders.reduce(function(accumulator, order){return accumulator + order.totalPrice} , 0);
+    
+    let administator = req.session.admin;
+    res.render("admin/gst-report",{
       layout: "layout3",
       admin: true,
       administator,

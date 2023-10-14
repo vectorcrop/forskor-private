@@ -8,7 +8,7 @@ const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
 const COOKIE_OPTION ={ secure: true,httpOnly: true,sameSite: "strict",expires: new Date( 
   new Date().getTime() + 365*24*60*60*1000
 ),}
-const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE } =
+const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, DISCOUNT_MAXIMUM_AMOUNT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE } =
   require("../config/constant").SETTINGS;
 
 ///------------------THIS IS USER SIDE---------------------------///
@@ -554,8 +554,11 @@ router.post("/place-order", verifySignedIn, async (req, res) => {
  
   totalPrice += req.body.parcelCharge + req.body.GST // gst 5%+ parcel 5%
   
-  if (totalPrice >= DISCOUNT_TOTAL_LIMIT) {
-    req.body.discount =  (req.body.price *DISCOUNT_PERCENTAGE) / 100;
+  if (req.body.price >= DISCOUNT_TOTAL_LIMIT) {
+    const calculatedDiscount = (req.body.price * DISCOUNT_PERCENTAGE) / 100;
+    
+    req.body.discount = calculatedDiscount > DISCOUNT_MAXIMUM_AMOUNT ? DISCOUNT_MAXIMUM_AMOUNT : calculatedDiscount;
+   // req.body.discount =  (req.body.price *DISCOUNT_PERCENTAGE) / 100;
     totalPrice -= req.body.discount;
   }
   

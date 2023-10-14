@@ -13,6 +13,7 @@
 
 $(document).ready(function () {
     $('#dataTable').DataTable({
+        "scrollX": true,
         destroy: true,
         lengthMenu: [
             [-1],

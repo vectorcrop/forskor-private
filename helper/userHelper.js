@@ -812,6 +812,12 @@ module.exports = {
           userId: objectId(order.userId),
           paymentMethod: order["payment-method"],
           products,
+          cgst:order.CGST,
+          sgst:order.SGST,
+          gst:order.GST,
+          parcelCharge:order.parcelCharge,
+          discount: order.discount,
+          netTotal:(total+order.CGST + order.SGST+ order.parcelCharge) - order.discount,
           totalPrice: total,
           totalReductionPrice: 0,
           totalOrderPrice: total - 0,
@@ -820,7 +826,7 @@ module.exports = {
           createdAt: new Date(),
         };
 
-        console.log("ORDER->", orderObject);
+        // console.log("ORDER->", orderObject);
 
         const lastOrder = await db
           .get()
