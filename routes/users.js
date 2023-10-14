@@ -649,6 +649,7 @@ router.get(
     req.session.orderCancSucc = null;
   }
 );
+// to do more offer
 
 // cancel item
 router.get("/cancel-order/:id", verifySignedIn, function (req, res) {
