@@ -1,4 +1,4 @@
-// Description: Twilio OTP verification
+// Description: Twilio OTP verification offline just
 const { TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN, TWILLIO_SERVICE_ID } =
   require("../config/constant").TWILLIO;
 
