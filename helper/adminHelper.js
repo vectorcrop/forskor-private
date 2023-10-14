@@ -1006,7 +1006,7 @@ module.exports = {
     });
   },
   //gst report
-  getAllOrdersGstReport: (from, to) => {
+  getAllOrdersGstReport: (from, to) => { // alreport
     return new Promise(async (resolve, reject) => {
       try {
         //* Convert 'from' and 'to' dates to compatible formats*//
