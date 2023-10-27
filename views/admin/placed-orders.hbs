@@ -161,7 +161,7 @@
                 body: body
             });
 
-            var audio = new Audio('/audio/NewOrderNotification1.mp3');
+            var audio = new Audio('../audio/NewOrderNotification1.mp3');
             audio.play();
         } else if (Notification.permission !== 'denied') {
             Notification.requestPermission().then(function (permission) {

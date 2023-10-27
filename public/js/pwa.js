@@ -21,3 +21,16 @@ $(document).ready(function () {
         ],
     });
 });
+$(document).ready(function () {
+    $('#dataTableOrder').DataTable({
+        "scrollX": true,
+        order: [[0, 'desc']],
+        destroy: true,
+        lengthMenu: [
+            [-1],
+            ["All"]
+        ],
+    });
+});
+
+

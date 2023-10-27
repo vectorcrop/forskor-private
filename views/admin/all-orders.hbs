@@ -5,10 +5,10 @@
     </center>
     <a href="/bigwig" class="btn btn-primary mb-3 mt-3">Back to main</a>
     <a href="/bigwig/all-orders" class="btn btn-info mb-3 mt-3">Refresh</a>
-
+ 
     <div class="card">
       <div class="card-body p-3">
-        <table class="data-table w-100 min-mw-100" id="dataTable">
+        <table class="data-table w-100 min-mw-100" id="dataTableOrder">
           <thead>
             <tr>
               <th>Order ID</th>
@@ -159,81 +159,11 @@
 
 <script>
 
-  function showNotification() {
-    // Create the notification container
-    var notification = document.createElement('div');
-    notification.className = 'toast toast-autohide custom-toast-1 toast-success home-page-toast';
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'assertive');
-    notification.setAttribute('aria-atomic', 'true');
-    notification.setAttribute('data-bs-delay', '3000');
-    notification.setAttribute('data-bs-autohide', 'true');
 
-    // Create the notification body
-    var toastBody = document.createElement('div');
-    toastBody.className = 'toast-body';
 
-    // Add the success icon
-    var successIcon = document.createElement('svg');
-    successIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    successIcon.setAttribute('width', '30');
-    successIcon.setAttribute('height', '30');
-    successIcon.setAttribute('fill', 'currentColor');
-    successIcon.setAttribute('class', 'bi bi-check2-circle');
-    successIcon.setAttribute('viewBox', '0 0 16 16');
 
-    var successPath1 = document.createElement('path');
-    successPath1.setAttribute('d', 'M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z');
 
-    var successPath2 = document.createElement('path');
-    successPath2.setAttribute('d', 'M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z');
-
-    successIcon.appendChild(successPath1);
-    successIcon.appendChild(successPath2);
-
-    // Add the text content
-    var toastText = document.createElement('div');
-    toastText.className = 'toast-text ms-3 me-2';
-
-    var message = document.createElement('p');
-    message.className = 'mb-1 text-white';
-    message.textContent = 'New Order Arrived';
-
-    var closeButton = document.createElement('button');
-    closeButton.className = 'btn btn-close btn-close-white position-relative p-1 ms-auto';
-    closeButton.setAttribute('type', 'button');
-    closeButton.setAttribute('data-bs-dismiss', 'toast');
-    closeButton.setAttribute('aria-label', 'Close');
-
-    toastText.appendChild(message);
-
-    toastBody.appendChild(successIcon);
-    toastBody.appendChild(toastText);
-    toastBody.appendChild(closeButton);
-
-    notification.appendChild(toastBody);
-
-    // Add the notification to the document body
-    document.body.appendChild(notification);
-
-    // Play the notification sound
-    playNotificationSound();
-
-    // Remove the notification after 3 seconds
-    setTimeout(function () {
-      notification.remove();
-    }, 3000);
-  }
-
-  // function playNotificationSound() {
-  //   var audio = new Audio('/audio/NewOrderNotification1.mp3');
-  //   audio.play();
-  //   setTimeout(function () {
-  //     audio.pause();
-  //   }, 3000);
-  // }
-
-  function showNotification(title, body) {
+ /* function showNotification(title, body) {
     if (Notification.permission === 'granted') {
       var notification = new Notification(title, {
         body: body
@@ -253,13 +183,16 @@
         }
       });
     }
-  }
+  }*/
 
   const socket = io();
 
+
   socket.on("status-placed", (order) => {
-    showNotification("Order Placed", "New order arrived");
+    var refreshButton = document.querySelector('a[href="/bigwig/all-orders"].btn.btn-info.mb-3.mt-3');
+    showNotification("Order Placed", "New order arrived",refreshButton);
     addRow(order)
+    
   })
   socket.on("status-confirmed", (order) => {
     addRow(order)

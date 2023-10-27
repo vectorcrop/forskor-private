@@ -59,10 +59,10 @@ router.get("/reports-gst", verifySignedIn, function (req, res) {
     administator,
   });
 }); 
-// success
+//
 // Router For single-report
 router.get("/single-report", verifySignedIn, function (req, res) {
-  console.log(req.body,"alaviGETT");
+  // console.log(req.body,"alaviGETT");
   let administator = req.session.admin;
   res.render("admin/single-report", {
     layout: "layout3",
@@ -73,7 +73,7 @@ router.get("/single-report", verifySignedIn, function (req, res) {
 });
 //gst not used
 router.get("/gst-report", verifySignedIn, function (req, res) {
-  console.log(req.body,"alaviGETT");
+  // console.log(req.body,"alaviGETT");
   let administator = req.session.admin;
   res.render("admin/gst-report", {
     layout: "layout3",
@@ -412,7 +412,7 @@ router.get("/edit-admin/:id", verifySignedIn, function (req, res) {
 
 // edit admin details
 router.post("/edit-admin/:id", verifySignedIn, function (req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   adminHelper
     .editAdmin(req.params.id, req.session.admin.Role, req.body)
     .then((response) => {
@@ -477,7 +477,7 @@ router.get("/add-banner", verifySignedIn, async function (req, res) {
     administator,
     banners,
   });
-  console.log(administator.Role);
+  // console.log(administator.Role);
 });
 
 // add banner validation
@@ -488,7 +488,7 @@ router.post("/add-banner", function (req, res) {
       if (!err) {
         res.redirect("/bigwig/all-banner");
       } else {
-        console.log(err);
+        // console.log(err);
       }
     });
   });
@@ -499,7 +499,7 @@ router.get("/edit-banner/:id", verifySignedIn, async function (req, res) {
   let administator = req.session.admin;
   let bannerId = req.params.id;
   let banner = await adminHelper.getBannerDetails(bannerId);
-  console.log(banner);
+  // console.log(banner);
   res.render("admin/edit-banner", {
     // layout: "layout3",
     admin: true,
@@ -559,7 +559,7 @@ router.post("/add-offer", function (req, res) {
       if (!err) {
         res.redirect("/bigwig/all-offers");
       } else {
-        console.log(err);
+        // console.log(err);
       }
     });
   });
@@ -713,7 +713,7 @@ router.get("/edit-product/:id", verifySignedIn, async function (req, res) {
   let productId = req.params.id;
   let product = await adminHelper.getProductDetails(productId);
   category = await adminHelper.getAllCategories();
-  console.log(product);
+  // console.log(product);
   res.render("admin/edit-product", {
     // layout: "layout3",
     admin: true,
@@ -784,7 +784,7 @@ router.get("/edit-maincat/:id", verifySignedIn, async function (req, res) {
   let administator = req.session.admin;
   let maincatId = req.params.id;
   let maincat = await adminHelper.getMainCatDetails(maincatId);
-  console.log(maincat);
+  // console.log(maincat);
   res.render("admin/edit-maincat", {
     // layout: "layout3",
     admin: true,
@@ -837,7 +837,7 @@ router.get("/edit-category/:id", verifySignedIn, async function (req, res) {
   let administator = req.session.admin;
   let categoryId = req.params.id;
   let category = await adminHelper.getCategoryDetails(categoryId);
-  console.log(category);
+  // console.log(category);
   res.render("admin/edit-category", {
     // layout: "layout3",
     admin: true,
@@ -912,7 +912,7 @@ router.get("/edit-sub-category/:id", verifySignedIn, async function (req, res) {
   let administator = req.session.admin;
   let subcategoryId = req.params.id;
   let subcategory = await adminHelper.getSubCategoryDetails(subcategoryId);
-  console.log(subcategory);
+  // console.log(subcategory);
   res.render("admin/edit-category", {
     // layout: "layout3",
     admin: true,
@@ -996,7 +996,7 @@ router.get("/remove-all-users", verifySignedIn, function (req, res) {
 router.get("/all-orders", verifySignedIn, async function (req, res) {
   const administator = req.session.admin;
   const orders = await adminHelper.getAllOrders();
-  console.log(orders);
+  // console.log(orders);
   res.render("admin/all-orders", {
     layout: "layout3",
     admin: true,

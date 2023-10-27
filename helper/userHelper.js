@@ -5,6 +5,10 @@ const objectId = require("mongodb").ObjectID;
 const moment = require("moment");
 const { verifyOtp, sentOtp } = require("../utlis/twilio");
 const { search } = require("../routes/users");
+//io by me
+const { server } = require("../app");
+const io = require('socket.io')(server); // Use the same http server instance
+
 
 // const Razorpay = require("razorpay");
 
@@ -83,7 +87,7 @@ module.exports = {
           ).quantity
         : 0;
 
-      console.log(products);
+      // console.log(products);
       resolve(products);
     });
   },
@@ -126,7 +130,8 @@ module.exports = {
       let products = await db
         .get()
         .collection(collections.PRODUCTS_COLLECTION)
-        .find({ ParentCat: cat })
+        .find({ ParentCat: cat,
+          Visibility:"Show"})
         .toArray();
       let updatedProducts = await Promise.all(
         products.map(async (product) => {
@@ -207,7 +212,7 @@ module.exports = {
           .collection(collections.USERS_COLLECTION)
           .findOne({ $or: [{ phone }, { email }] });
 
-        console.log(user);
+        // console.log(user);
 
         if (user) {
           return reject({
@@ -255,10 +260,10 @@ module.exports = {
           .collection(collections.USERS_COLLECTION)
           .findOne({ email: email });
 
-        console.log(user, email, password);
+        // console.log(user, email, password);
         if (user) {
           const status = await bcrypt.compare(password, user.password);
-          console.log(status);
+          // console.log(status);
           if (status) {
             return resolve({
               user,
@@ -769,7 +774,7 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(cart);
+      // console.log(cart);
       resolve(cart);
     });
   },
@@ -777,7 +782,7 @@ module.exports = {
   placeOrder: (order, products, total) => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log("Orderr->", order, products, total);
+        // console.log("Orderr->", order, products, total);
 
         // if (!order || products.length <= 0 || !total) {
         //   return resolve({
@@ -847,6 +852,8 @@ module.exports = {
           .collection(collections.ORDER_COLLECTION)
           .insertOne({ ...orderObject })
           .then((response) => {
+            //io by me
+            io.emit('new-order');
             db.get()
               .collection(collections.CART_COLLECTION)
               .removeOne({ user: objectId(order.userId) });

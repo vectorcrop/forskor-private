@@ -37,16 +37,29 @@
 <!-- Top Products-->
 <div class="top-products-area" style="margin-bottom: 4.5rem;">
   <div class="container ">
-    <div class="row g-3">
+   <div class="row g-3">
       {{#each response}}
         <!-- Single Top Product Card-->
-             <div class="col-6 col-sm-4 col-md-3 single-image-gallery {{this.Type}}">
+  
+            {{#ifeq this.Visibility "Hide"}}
+            <div class="col-6 col-sm-4 col-md-3 single-image-gallery {{this.Type}}">
+              <div class="card position-relative shadow-sm"><a href="/single-product/:{{this._id}}"><img class="card-img-top" src="/images/product-images/{{this._id}}.png" style="filter: grayscale(100%);" alt=""></a><span class="badge bg-warning text-dark position-absolute card-badge">{{this.Type}}</span>
+                <div class="card-body"> <a class="product-title d-block text-truncate" href="/single-product/:{{this._id}}" style="font-size: 1.125rem;color: #1f0757;margin-top: 0.75rem;font-weight: 500;margin-bottom: 0.25rem;">{{#getTitleCase this.Name}}{{/getTitleCase}}</a>
+                <p class="sale-price" style="font-size: 1.25rem;line-height: 1;color: #0134d4;font-weight: 500;">₹{{this.Offer}}<span style="font-size: 1rem;margin-left: 0.25rem;text-decoration: line-through;color: #ea4c62;">₹{{this.Price}}</span></p>
+                <button class="btn btn-primary btn-sm disabled">
+                    Add to Bag
+                  </button>
+                {{else}} 
+              <div class="col-6 col-sm-4 col-md-3 single-image-gallery {{this.Type}}">
               <div class="card position-relative shadow-sm"><a href="/single-product/:{{this._id}}"><img class="card-img-top" src="/images/product-images/{{this._id}}.png" alt=""></a><span class="badge bg-warning text-dark position-absolute card-badge">{{this.Type}}</span>
                 <div class="card-body"> <a class="product-title d-block text-truncate" href="/single-product/:{{this._id}}" style="font-size: 1.125rem;color: #1f0757;margin-top: 0.75rem;font-weight: 500;margin-bottom: 0.25rem;">{{#getTitleCase this.Name}}{{/getTitleCase}}</a>
                 <p class="sale-price" style="font-size: 1.25rem;line-height: 1;color: #0134d4;font-weight: 500;">₹{{this.Offer}}<span style="font-size: 1rem;margin-left: 0.25rem;text-decoration: line-through;color: #ea4c62;">₹{{this.Price}}</span></p>
                 <button class="btn btn-primary btn-sm" onclick="addToCart('{{this._id}}')">
                     Add to Bag
-                  </button></div>
+                  </button>
+
+                {{/ifeq}}
+                </div>
               </div>
             </div>
       {{/each}}

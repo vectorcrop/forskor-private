@@ -77,7 +77,7 @@ router.get("/single-product/:id", async (req, res, next) => {
     .getSingleProductsWithCartCount(req.params.id.replace(":", ""), userId)
     .then((response) => {
       var product = response[0];
-      console.log(response[0].Name);
+      // console.log(response[0].Name);
       res.render("users/single-product", {
         admin: false,
         back: true,
@@ -123,7 +123,7 @@ router.get("/menu", async (req, res, next) => {
     cartCount = await userHelper.getCartCount(userId);
   }
   products = await userHelper.getAllProductsWithCartCount(userId);
-  console.log(products);
+  // console.log(products);
   maincat = await userHelper.getAllMainCat();
   category = await userHelper.getAllCategories();
   res.render("users/menu", {
@@ -155,7 +155,7 @@ router.get("/menu/:Name", async (req, res, next) => {
     cartCount = await userHelper.getCartCount(req.session.user._id);
   }
   products = await userHelper.getAllProductsWithCartCount(userId);
-  console.log(products);
+  // console.log(products);
   category = await userHelper.getAllCategories();
   maincat = await userHelper.getAllMainCat();
   res.render("users/menu", {
@@ -722,6 +722,7 @@ router.post("/search-result", async function (req, res) {
 
 // custom cat filter
 router.get("/menus", async (req, res, next) => {
+  console.log("$$$$$$$$$$$$$$$in menus $$$$$$$$$$$$$$$$$$$$$")
   let userId = req.session.signedIn
     ? req.session.user._id
     : req.cookies[GUEST_ID_KEY];
@@ -733,7 +734,7 @@ router.get("/menus", async (req, res, next) => {
     cartCount = await userHelper.getCartCount(req.session.user._id);
   }
   category = await userHelper.getAllCategories();
-  console.log(req.query.category);
+  // console.log(req.query.category);
   products = await userHelper.getSelectedProductWithCartCount(
     req.query.category,
     userId

@@ -99,7 +99,6 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const shopStatus = status === "ACTIVE" ? "ACTIVE" : "INACTIVE";
-        console.log(typeof status, status, shopStatus);
         const settings = await db
           .get()
           .collection(collections.SETTINGS_COLLECTION)
@@ -229,8 +228,6 @@ module.exports = {
             ? { Password: await bcrypt.hash(Password, 10) }
             : {};
 
-        console.log("Query ->", query);
-
         await db
           .get()
           .collection(collections.ADMIN_COLLECTION)
@@ -358,12 +355,12 @@ module.exports = {
   ////-------------------BANNER------------------------------------///
 
   addBanner: (banner, callback) => {
-    console.log(banner);
+    // console.log(banner);
     db.get()
       .collection(collections.BANNER_COLLECTION)
       .insertOne(banner)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         callback(data.ops[0]._id);
       });
   },
@@ -396,7 +393,6 @@ module.exports = {
         .collection(collections.BANNER_COLLECTION)
         .removeOne({ _id: objectId(bannerId) })
         .then((response) => {
-          console.log(response);
           resolve(response);
         });
     });
@@ -504,13 +500,12 @@ module.exports = {
   ////-------------------CATGEORY------------------------------------///
 
   addCategories: (category, callback) => {
-    console.log(category);
+    
     // category.Price = parseInt(category.Price);
     db.get()
       .collection(collections.CAT_COLLECTION)
       .insertOne(category)
       .then((data) => {
-        console.log(data);
         callback(data.ops[0]._id);
       });
   },
@@ -581,13 +576,12 @@ module.exports = {
   ////-------------------SUB-CATGEORY------------------------------------///
 
   addSubCategories: (subcategory, callback) => {
-    console.log(subcategory);
+
     // subcategory.Price = parseInt(subcategory.Price);
     db.get()
       .collection(collections.SUB_CAT_COLLECTION)
       .insertOne(subcategory)
       .then((data) => {
-        console.log(data);
         callback(data.ops[0]._id);
       });
   },
@@ -659,13 +653,13 @@ module.exports = {
   ///-------------ITEMS-------------------------------------///
 
   addProduct: (product, callback) => {
-    console.log(product);
+    // console.log(product);
     product.Price = parseInt(product.Price);
     db.get()
       .collection(collections.PRODUCTS_COLLECTION)
       .insertOne(product)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         callback(data.ops[0]._id);
       });
   },
@@ -698,7 +692,7 @@ module.exports = {
         .collection(collections.PRODUCTS_COLLECTION)
         .removeOne({ _id: objectId(productId) })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           resolve(response);
         });
     });
@@ -706,7 +700,7 @@ module.exports = {
   ///------------------------UPDATE PRODUCT-------------------------///
   updateProduct: (productId, productDetails) => {
     return new Promise((resolve, reject) => {
-      console.log(productDetails.ParentCat);
+      // console.log(productDetails.ParentCat);
       db.get()
         .collection(collections.PRODUCTS_COLLECTION)
         .updateOne(
@@ -743,13 +737,13 @@ module.exports = {
   ///-------------COMBO OFFERS-------------------------------------///
 
   addCombo: (combo, callback) => {
-    console.log(combo);
+    // console.log(combo);
     combo.Price = parseInt(combo.Price);
     db.get()
       .collection(collections.COMBO_COLLECTION)
       .insertOne(combo)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         callback(data.ops[0]._id);
       });
   },
@@ -782,7 +776,7 @@ module.exports = {
         .collection(collections.COMBO_COLLECTION)
         .removeOne({ _id: objectId(comboId) })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           resolve(response);
         });
     });
@@ -1141,7 +1135,7 @@ module.exports = {
 
   ////----------------SEARCH--------------------------////
   searchProduct: (details) => {
-    console.log(details);
+    // console.log(details);
     return new Promise(async (resolve, reject) => {
       db.get()
         .collection(collections.PRODUCTS_COLLECTION)

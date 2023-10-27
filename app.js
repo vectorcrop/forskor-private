@@ -44,7 +44,7 @@ app.engine(
         return index;
       },
       getDay: function (date) {
-        console.log(date);
+        // console.log(date);
         return date.split("|")[0];
       },
       getDate: function (date) {

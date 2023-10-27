@@ -1,4 +1,6 @@
 const addRow = (order) => {
+  console.log("i am in index")
+  alert("pls refresh ")
   addRow;
 
   `<tr role="row" class="odd">
@@ -133,11 +135,37 @@ function showAudioNotification() {
   document.body.appendChild(notification);
 
   // Create an audio element and play the notification sound
-  var audio = new Audio('audio/NewOrderNotification1.mp3');
+  var audio = new Audio('../audio/NewOrderNotification1.mp3');
   audio.play();
 
   // Remove the notification after 3 seconds
   setTimeout(function () {
     notification.remove();
   }, 3000);
+}
+function showNotification(title, body,refreshButton) {
+  if (Notification.permission === 'granted') {
+    var notification = new Notification(title, {
+      body: body
+    });
+
+    var audio = new Audio('../audio/NewOrderNotification1.mp3');
+    audio.play();
+    if (refreshButton) {
+      refreshButton.click();
+    }
+
+  
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission().then(function (permission) {
+      if (permission === 'granted') {
+        var notification = new Notification(title, {
+          body: body
+        });
+
+        var audio = new Audio('/audio/NewOrderNotification1.mp3');
+        audio.play();
+      }
+    });
+  }
 }

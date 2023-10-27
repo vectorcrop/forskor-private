@@ -9,6 +9,13 @@ const connectSocket = (server) => {
   io = new Server(server);
 
   io.on("connection", (socket) => {
+ 
+    //io by me
+     // Listen for new order events and broadcast them to connected clients
+  socket.on('new-order', () => {
+    console.log( "new order*************** is joined to room");
+    socket.broadcast.emit('order-added');
+  });
 
     // Join a room in socket
     socket.on("subscribe", (subscribeId) => {
