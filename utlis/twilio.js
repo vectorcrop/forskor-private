@@ -3,7 +3,7 @@ const { TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN, TWILLIO_SERVICE_ID } =
   require("../config/constant").TWILLIO;
 
 // for twilio error supress for local / offline  use pls comment below line:
-  const client = require("twilio")(TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN);
+//  const client = require("twilio")(TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN);
 
 const setErrorMessage = (message, code) => {
   let error = { message };
@@ -43,12 +43,13 @@ module.exports = {
           resolve({
             success: true,
             message: `OTP sended to ********${String(mobile).slice(-2)} number`,
-            sid: verification.sid,
+            sid: verification.sid, 
             mobile,
           });
         })
         .catch((error) => {
           const { message } = setErrorMessage(error.message, error.code);
+         console.log("%%%%%%%%%%%%%%%%%%%%%%%%%",error)
           reject({ success: false, message: `${message}` });
         });
     });
