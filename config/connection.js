@@ -6,7 +6,7 @@ const state = {
 
 module.exports.connect = function (done) {
   // const url = "mongodb+srv://thevectorcrop:msb.com001@vc-projects.jdlpp5l.mongodb.net/?retryWrites=true&w=majority";
-  const url = "mongodb+srv://forskor:forskor.com001@cluster0.sqsz8eo.mongodb.net/?retryWrites=true&w=majority";
+  const url = "mongodb+srv://thevectorcrop:msb.com002@mycms.dvf8n7l.mongodb.net/?retryWrites=true&w=majority";
 
   const dbname = "forskor";
 
