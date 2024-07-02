@@ -6,7 +6,7 @@ const state = {
 };
 
 module.exports.connect = function (done) {
-  const urlOffline = "mongodb://127.0.0.1:27017/";
+  // const urlOffline = "mongodb://127.0.0.1:27017/";
   const url =
     "mongodb+srv://forskor:forskor.com001@cluster0.sqsz8eo.mongodb.net/?retryWrites=true&w=majority";
   const dbname = "forskor";
