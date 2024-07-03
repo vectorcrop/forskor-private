@@ -5,9 +5,11 @@ var router = express.Router();
 const { ObjectID } = require("mongodb");
 const adminHelper = require("../helper/adminHelper");
 const { GUEST_ID_KEY, USER_ID_KEY } = require("../config/constant").COOKIE_KEYS;
-const COOKIE_OPTION ={ secure: true,httpOnly: true,sameSite: "strict",expires: new Date( 
-  new Date().getTime() + 365*24*60*60*1000
-),}
+const COOKIE_OPTION = {
+  secure: true, httpOnly: true, sameSite: "strict", expires: new Date(
+    new Date().getTime() + 365 * 24 * 60 * 60 * 1000
+  ),
+}
 const { DISCOUNT_PERCENTAGE, DISCOUNT_TOTAL_LIMIT, DISCOUNT_MAXIMUM_AMOUNT, CGST_PERCENTAGE, SGST_PERCENTAGE, PARCEL_CHARGE_PERCENTAGE } =
   require("../config/constant").SETTINGS;
 
@@ -61,6 +63,31 @@ router.get("/fav", verifySignedIn, async (req, res, next) => {
   let cartCount = await userHelper.getCartCount(userId);
   res.render("users/fav", { admin: false, user, cartCount });
 });
+
+// shipping page
+router.get("/shipping", async (req, res, next) => {
+  let user = req.session.user;
+  res.render("users/shipping", { admin: false, user });
+});
+
+// cancellation page
+router.get("/cancellation", async (req, res, next) => {
+  let user = req.session.user;
+  res.render("users/cancellation", { admin: false, user });
+});
+
+// terms&condition page
+router.get("/terms&condition", async (req, res, next) => {
+  let user = req.session.user;
+  res.render("users/terms&condition", { admin: false, user });
+});
+
+// policy page
+router.get("/policy", async (req, res, next) => {
+  let user = req.session.user;
+  res.render("users/policy", { admin: false, user });
+});
+
 
 //single product
 router.get("/single-product/:id", async (req, res, next) => {
@@ -145,7 +172,7 @@ router.get("/menu/:Name", async (req, res, next) => {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId,COOKIE_OPTION);
+    res.cookie(GUEST_ID_KEY, userId, COOKIE_OPTION);
   }
 
   let cartCount = 0;
@@ -177,7 +204,7 @@ router.get("/home", async function (req, res, next) {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId,COOKIE_OPTION);
+    res.cookie(GUEST_ID_KEY, userId, COOKIE_OPTION);
   }
 
   const user = req.session.user;
@@ -435,7 +462,7 @@ router.get("/cart", async function (req, res) {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId ,COOKIE_OPTION);
+    res.cookie(GUEST_ID_KEY, userId, COOKIE_OPTION);
   }
   const user = req.session.user;
   const cartCount = await userHelper.getCartCount(userId);
@@ -466,7 +493,7 @@ router.get("/add-to-cart/:id", function (req, res) {
 
   if (!req.session.signedIn && !req.cookies[GUEST_ID_KEY]) {
     userId = new ObjectID().toString();
-    res.cookie(GUEST_ID_KEY, userId,COOKIE_OPTION);
+    res.cookie(GUEST_ID_KEY, userId, COOKIE_OPTION);
   }
 
   const productId = req.params.id;
@@ -546,22 +573,22 @@ router.post("/place-order", verifySignedIn, async (req, res) => {
   const products = await userHelper.getCartProductList(user._id);
   let totalPrice = await userHelper.getTotalAmount(user._id);
   req.body.price = totalPrice;
-  req.body.CGST  = (totalPrice * CGST_PERCENTAGE) /  100;
-  req.body.SGST  = (totalPrice * SGST_PERCENTAGE ) / 100;
-  req.body.GST   =  req.body.CGST + req.body.SGST;
+  req.body.CGST = (totalPrice * CGST_PERCENTAGE) / 100;
+  req.body.SGST = (totalPrice * SGST_PERCENTAGE) / 100;
+  req.body.GST = req.body.CGST + req.body.SGST;
   req.body.parcelCharge = (totalPrice * PARCEL_CHARGE_PERCENTAGE) / 100;
   req.body.discount = 0;
- 
+
   totalPrice += req.body.parcelCharge + req.body.GST // gst 5%+ parcel 5%
-  
+
   if (req.body.price >= DISCOUNT_TOTAL_LIMIT) {
     const calculatedDiscount = (req.body.price * DISCOUNT_PERCENTAGE) / 100;
-    
+
     req.body.discount = calculatedDiscount > DISCOUNT_MAXIMUM_AMOUNT ? DISCOUNT_MAXIMUM_AMOUNT : calculatedDiscount;
-   // req.body.discount =  (req.body.price *DISCOUNT_PERCENTAGE) / 100;
+    // req.body.discount =  (req.body.price *DISCOUNT_PERCENTAGE) / 100;
     totalPrice -= req.body.discount;
   }
-  
+
   userHelper
     .placeOrder(req.body, products, Math.ceil(totalPrice), user._id)
     .then((orderId) => {
