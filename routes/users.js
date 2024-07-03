@@ -64,6 +64,13 @@ router.get("/fav", verifySignedIn, async (req, res, next) => {
   res.render("users/fav", { admin: false, user, cartCount });
 });
 
+// Contact us page
+router.get("/contact", async (req, res, next) => {
+  let user = req.session.user;
+  res.render("users/contact", { admin: false, user });
+});
+
+
 // shipping page
 router.get("/shipping", async (req, res, next) => {
   let user = req.session.user;
